@@ -1,4 +1,5 @@
 
+import pkgutil
 from wsgiref.util import request_uri
 from xml.etree.ElementInclude import include
 from django.shortcuts import render, redirect
@@ -146,7 +147,8 @@ def lead_update(request, pk):
 
     context = {
         'form': LeadsForm(),
-        "lead": lead
+        "lead": lead,
+        "subproducts" : subproducts
     }
 
     return render(request, "account/lead_update.html", context)
@@ -155,7 +157,7 @@ def lead_update(request, pk):
 def lead_delete(request, pk):
     lead = Leads.objects.get(id=pk)
     lead.delete()
-    return redirect('account:list_leads')
+    return redirect('list_leads')
 
 
 
