@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block other_css %}
-<link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+<link href="{% static 'material_2_pro_assets/css/sb-admin-2.min.css' %}" rel="stylesheet">
 {% endblock other_css %}
 
 {% block title %}List Lead{% endblock title %}
@@ -20,13 +20,12 @@
         <h1 class="text-[#e91e63] text-3xl title-font font-medium mb-4">{{lead.prefix}}.{{lead.name}}</h1>
         <div class="flex mb-4 ">
           <a class="flex-grow  border-b-2  py-0 border-[#e91e63]  text-[#e91e63] py-0 px-1">Description</a>
-          <a href=href="{% url 'account:lead-update' lead.pk %}" class="flex-grow border-b-2 py-0 border-gray-300  text-[#e91e63]  text-center py-0 px-1">Salaried(Applicant)</a>
 
         </div>
 
         <div class="ms-auto py-3 px-1 my-4 mt-lg-0 mt-4">
           <div class="ms-auto my-auto">
-            <a href="{% url 'account:list_leads' %}" class="btn bg-gradient-primary btn-sm mb-0">
+            <a href="{% url 'list_leads' %}" class="btn bg-gradient-primary btn-sm mb-0">
 
 
 
