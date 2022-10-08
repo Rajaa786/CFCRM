@@ -5,7 +5,7 @@ from .views import VerificationView
 from django.conf.urls.static import static
 from django.conf import settings
 
-app_name = "accounts"
+app_name = "account"
 
 
 urlpatterns = [

@@ -96,6 +96,25 @@ class Leads(models.Model):
         return f"{self.name}"
 
 
+class LoanApplication(models.Model):
+    lead_id = models.ForeignKey(Leads, on_delete=models.CASCADE)
+    websiteUrl = models.CharField(max_length=254, null=True, blank=True)
+    coApplicantWebsiteUrl = models.CharField(
+        max_length=254, null=True, blank=True)
+    loan = models.CharField(max_length=124)
+    loanCustomerType = models.CharField(max_length=50, null=True, blank=True)
+    loanCustomerCoApplicantType = models.CharField(
+        max_length=50, null=True, blank=True)
+    remark = models.TextField()
+
+
+class LoanDocuments(models.Model):
+    loanApplication = models.ForeignKey(
+        LoanApplication, on_delete=models.CASCADE)
+    documentName = models.CharField(max_length=124)
+    document = models.FileField(blank=True, max_length=200)
+
+
 class AdditionalDetails(models.Model):
     cust_name = models.CharField(max_length=25)
     is_diff = models.BooleanField(blank=True)
