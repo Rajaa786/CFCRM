@@ -19,7 +19,7 @@ urlpatterns = [
     path('<int:pk>/delete/', views.lead_delete, name="lead-delete"),
     path('moreinfo/<int:pk>/', views.lead_moreinfo, name="lead-moreinfo"),
 
-    path('newLeadview.html', views.list_leads, name="list_leads"),
+    path('list-leads', views.list_leads, name="list_leads"),
 
     #     path('list_lead_edit/<int:id>', views.list_lead_edit, name="list_lead_edit"),
 
