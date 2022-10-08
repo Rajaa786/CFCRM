@@ -41,6 +41,8 @@ from stronghold.decorators import public
 '''
 NEW VIEWS
 '''
+
+
 def view_leads(request):
     leads = Leads.objects.all()
     context = {
@@ -148,7 +150,7 @@ def lead_update(request, pk):
     context = {
         'form': LeadsForm(),
         "lead": lead,
-        "subproducts" : subproducts
+        "subproducts": subproducts
     }
 
     return render(request, "account/lead_update.html", context)
@@ -160,8 +162,6 @@ def lead_delete(request, pk):
     return redirect('list_leads')
 
 
-
-
 @login_required()
 def base_dashboard(request):
     context = {
@@ -170,7 +170,7 @@ def base_dashboard(request):
     return render(request, 'account/base.html', context)
 
 
-@login_required (redirect_field_name='login', login_url='login')
+@login_required(redirect_field_name='login', login_url='login')
 def register(request):
     if request.method == 'POST':
         fname = request.POST['fname']
@@ -409,12 +409,13 @@ def add_leads(request):
                 instance.save()
                 if instance.product.product == 'Personal Loan':
                     return redirect('additionaldetails', instance.pk)
-                else :
+                else:
                     return redirect('base_dashboard')
     context = {
         'form': LeadsForm()
     }
     return render(request, 'account/add_leads.html', context=context)
+
 
 def upload_documents(request, id):
     lead = Leads.objects.get(pk=id)
@@ -1171,9 +1172,9 @@ def additionaldetails(request, id):
         if add_form.is_valid():
             add_instance = add_form.save(commit=False)
             add_instance.lead_id = lead
-            tmp =handle_applicant_additional_details(
-              request , current_additional_details.count(), add_instance , id)
-            if tmp :
+            tmp = handle_applicant_additional_details(
+                request, current_additional_details.count(), add_instance, id)
+            if tmp:
                 return tmp
             if current_additional_details.filter(lead_id__name=add_instance.lead_id.name).first():
                 add_instance.pk = current_additional_details.filter(
@@ -1182,9 +1183,9 @@ def additionaldetails(request, id):
                     request, f"Additional Details of {add_instance.applicant_type}  updated successfully ")
                 add_instance.save()
 
-                if 'next' in request.POST :
+                if 'next' in request.POST:
                     return redirect('base_dashboard')
-                
+
                 elif 'save' in request.POST and lead.product.product == 'Personal Loan':
                     return redirect('salaried', id, add_instance.pk)
                 else:
@@ -2296,7 +2297,7 @@ def salaried(request, lead_id, additionaldetails_id):
 
 def check_eligibility(request, id):
 
-    return render(request , 'account/eligibility.html')
+    return render(request, 'account/eligibility.html')
 
 
 def selfemployed(request):
@@ -2668,14 +2669,13 @@ def support(request):
     return render(request, 'account/support.html', context=context)
 
 
-def handle_applicant_additional_details(request , additional_details_count, additional_details_instance , id):
+def handle_applicant_additional_details(request, additional_details_count, additional_details_instance, id):
     tmp = None
 
     if 'Salaried' not in additional_details_instance.cust_type.cust_type:
         messages.error(
             request, "Rejected. Applicant must be salaried.")
         tmp = redirect('additionaldetails', id)
-        
 
     if additional_details_count < 1:
         if additional_details_instance.inc_holder is False:
