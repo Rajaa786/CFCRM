@@ -73,7 +73,7 @@ def lead_update(request, pk):
         if 'cancel' in request.POST:
             form = LeadsForm(request.POST, instance=lead)
             if user.role == "Admin":
-                return redirect('base_dashboard')
+                return redirect('account:base_dashboard')
             elif user.role == "Referral Partner":
                 return redirect('base')
         if 'save' in request.POST:
@@ -340,12 +340,12 @@ def login(request):
 
             auth.login(request, user)
             if user.role == "Admin":
-                return redirect('base_dashboard')
+                return redirect('account:base_dashboard')
             elif user.role == "Referral Partner":
                 return redirect('base')
         else:
             messages.info(request, 'Invalid Username or Password')
-            return redirect('login')
+            return redirect('account:login')
 
     else:
         return render(request, 'account/login.html')
