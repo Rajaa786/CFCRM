@@ -6,16 +6,18 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+from json import load
 import os
 from pathlib import Path
 import django_heroku
 from django.contrib.messages import constants as messages
 # https://alicecampkin.medium.com/how-to-set-up-environment-variables-in-django-f3c4db78c55f
 import environ
+from dotenv import load_dotenv
 # Initialise environment variables
 # env = environ.Env()
 # environ.Env.read_env()
-
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = BASE_DIR / 'templates'
@@ -29,7 +31,8 @@ MEDIA_DIR = BASE_DIR / 'media'
 # SECRET_KEY = env('SECRET_KEY')
 # print("There", os.environ.get('SECRET_KEY'))
 # SECRET_KEY = os.environ.get("SECRET_KEY")
-SECRET_KEY = "abcdefghijklmn"
+#SECRET_KEY = "abcdefghijklmn"
+SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -101,17 +104,17 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         # 'NAME': 'creativefinserve$leadgen',
         # 'NAME': os.environ.get('DATABASES_NAME'),
-        'NAME': 'django-test',
+        'NAME': os.getenv('DATABASES_NAME'),
         # 'USER': 'creativefinserve',
         # 'USER': os.environ.get('DATABASES_USER'),
-        'USER': 'root',
+        'USER': os.getenv('DATABASES_USER'),
         # 'PASSWORD': '_HP@B99_',
-        'PASSWORD': '',
+        'PASSWORD': os.getenv('DATABASES_PASS'),
         # 'HOST': 'creativefinservecrm.mysql.pythonanywhere-services.com',
         # 'HOST': os.environ.get('DATABASES_HOST'),
-        'HOST': 'localhost',
+        'HOST': os.getenv('DATABASES_HOST'),
         # 'PORT': os.environ.get('DATABASES_PORT'),
-        'PORT': 3306,
+        'PORT': os.getenv('DATABASES_PORT'),
     }
 }
 
@@ -159,7 +162,7 @@ STATICFILES_DIRS = [STATIC_DIR]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = [MEDIA_DIR]
+MEDIA_ROOT = MEDIA_DIR
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
