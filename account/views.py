@@ -1,9 +1,6 @@
-
-import pkgutil
-from wsgiref.util import request_uri
-from xml.etree.ElementInclude import include
 from django.shortcuts import render, redirect
 from django.views.generic import DeleteView
+
 from django.views import View
 from django.core import serializers
 from .forms import *
@@ -34,13 +31,22 @@ from django.utils.datastructures import MultiValueDictKeyError
 #     return BaseUserManager().make_random_password(size)
 from leadgenerator.settings import EMAIL_HOST_USER
 from HomeLoan.models import *
-from django.core.files.storage import FileSystemStorage
 from stronghold.decorators import public
 
 
 '''
 NEW VIEWS
 '''
+
+
+def lead_moreinfo(request, pk):
+    moreinfo = AdditionalDetails.objects.all()
+    context = {
+        "moreinfo": moreinfo
+    }
+    return render(request, 'account/salaried.html', context)
+
+
 def view_leads(request):
     leads = Leads.objects.all()
     context = {
@@ -147,8 +153,7 @@ def lead_update(request, pk):
 
     context = {
         'form': LeadsForm(),
-        "lead": lead,
-        "subproducts" : subproducts
+        "lead": lead
     }
 
     return render(request, "account/lead_update.html", context)
@@ -157,9 +162,9 @@ def lead_update(request, pk):
 def lead_delete(request, pk):
     lead = Leads.objects.get(id=pk)
     lead.delete()
-    return redirect('list_leads')
+    return redirect('account:list_leads')
 
-
+    #-------------------------------------------------------------#
 
 
 @login_required()
@@ -170,7 +175,7 @@ def base_dashboard(request):
     return render(request, 'account/base.html', context)
 
 
-@login_required (redirect_field_name='login', login_url='login')
+# @login_required (redirect_field_name='login', login_url='login')
 def register(request):
     if request.method == 'POST':
         fname = request.POST['fname']
@@ -178,7 +183,7 @@ def register(request):
         phone = request.POST['phone']
         alt_phone = request.POST['alt_phone']
         designation = request.POST['designation']
-        if(designation == "Other"):
+        if (designation == "Other"):
             designation = request.POST['other']
         address = request.POST['address']
         role = "Referral Partner"
@@ -386,437 +391,27 @@ def add_leads(request):
                 return redirect('base')
         if 'save' in request.POST:
             if user.role == "Admin":
-                form = LeadsForm(request.POST, request.FILES)
-                files = request.FILES.getlist('upload_documents')
+                form = LeadsForm(request.POST)
                 if form.is_valid():
-                    for f in files:
-                        print(f)
-                        # handle_uploaded_file(f)
                     instance = form.save(commit=False)
                     print(instance)
-                    instance.added_by = request.user.username
-                    instance.save()
                 else:
                     print(form.errors)
-                return redirect('base_dashboard')
+                return redirect("{% url 'account:newLeadview.html' lead.pk %}")
             elif user.role == "Referral Partner":
                 return redirect('base')
         if 'next' in request.POST:
-            form = LeadsForm(request.POST, request.FILES)
+            form = LeadsForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
                 instance.added_by = request.user.username
                 instance.save()
-                if instance.product.product == 'Personal Loan':
-                    return redirect('additionaldetails', instance.pk)
-                else :
-                    return redirect('base_dashboard')
+                # additionaldetails/20
+                return redirect("/account/newLeadview.html")
     context = {
         'form': LeadsForm()
     }
     return render(request, 'account/add_leads.html', context=context)
-
-def upload_documents(request, id):
-    lead = Leads.objects.get(pk=id)
-    if 'skip' in request.POST:
-        return redirect(f"additionaldetails", id)
-
-    if request.method == 'POST':
-        loanSelector = request.POST.get('loanTypeSelector')
-
-        websiteUrl = None
-        if(request.POST.get('websiteUrl') != ""):
-            websiteUrl = request.POST.get('websiteUrl')
-
-        coApplicantWebsiteUrl = None
-        if(request.POST.get('websiteUrl2') != ""):
-            coApplicantWebsiteUrl = request.POST.get('websiteUrl2')
-
-        loanCustomerType = "-"
-        if(request.POST.get('inlineRadioOptions') != ""):
-            if(request.POST.get('inlineRadioOptions') == "option1"):
-                loanCustomerType = "Salaried"
-            elif(request.POST.get('inlineRadioOptions') == "option2"):
-                loanCustomerType = "Self Employed"
-
-        loanCustomerCoApplicantType = "-"
-        if(request.POST.get('inlineRadioOptions2') != ""):
-            if(request.POST.get('inlineRadioOptions2') == "option1"):
-                loanCustomerCoApplicantType = "Salaried"
-            elif(request.POST.get('inlineRadioOptions2') == "option2"):
-                loanCustomerCoApplicantType = "Self Employed"
-
-        remark = ""
-        if(request.POST.get('remark') != ""):
-            remark = request.POST.get('remark')
-        loanApplication = LoanApplication(
-            websiteUrl=websiteUrl,
-            coApplicantWebsiteUrl=coApplicantWebsiteUrl,
-            loan=loanSelector,
-            loanCustomerType=loanCustomerType,
-            loanCustomerCoApplicantType=loanCustomerCoApplicantType,
-            remark=remark,
-        )
-        loanApplication.lead_id = lead
-        loanApplication.save()
-
-        if(request.FILES.get('1stMonthPaySlip') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="1st Month Pay Slip",
-                document=request.FILES.get('1stMonthPaySlip'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('2ndMonthPaySlip') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="2nd Month Pay Slip",
-                document=request.FILES.get('2ndMonthPaySlip'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('3rdMonthPaySlip') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="3rd Month Pay Slip",
-                document=request.FILES.get('3rdMonthPaySlip'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('1stYearFormNo16') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="1st Year Form No 16",
-                document=request.FILES.get('1stYearFormNo16'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('2ndYearFormNo16') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="2nd Year Form No 16",
-                document=request.FILES.get('2ndYearFormNo16'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('last1stYearITR') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Last 1st Year ITR",
-                document=request.FILES.get('last1stYearITR'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('last2ndYearITR') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Last 2nd Year ITR",
-                document=request.FILES.get('last2ndYearITR'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('last3rdYearITR') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Last 3rd Year ITR",
-                document=request.FILES.get('last3rdYearITR'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('leaseAgreement') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Lease Agreement",
-                document=request.FILES.get('leaseAgreement'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('rcBookCopy') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="RC Book Copy",
-                document=request.FILES.get('rcBookCopy'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('carInsuranceCopy') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Car Insurance Copy",
-                document=request.FILES.get('carInsuranceCopy'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('projectDetials') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Project Detials",
-                document=request.FILES.get('projectDetials'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('companyProfile') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Company Profile",
-                document=request.FILES.get('companyProfile'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('existingLoanSanctionLetter') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Existing Loan Sanction Letter",
-                document=request.FILES.get('existingLoanSanctionLetter'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('degreeCertificate') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Degree Certificate",
-                document=request.FILES.get('degreeCertificate'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('practiceCertificate') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Practice Certificate",
-                document=request.FILES.get('practiceCertificate'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('provisionalITR') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Provisional ITR",
-                document=request.FILES.get('provisionalITR'),
-            )
-            loanDocument.save()
-
-        # Co-Applicant Files
-
-        if(request.FILES.get('1stMonthPaySlip1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="1st Month Pay Slip Co-Applicant",
-                document=request.FILES.get('1stMonthPaySlip1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('2ndMonthPaySlip1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="2nd Month Pay Slip Co-Applicant",
-                document=request.FILES.get('2ndMonthPaySlip1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('3rdMonthPaySlip1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="3rd Month Pay Slip Co-Applicant",
-                document=request.FILES.get('3rdMonthPaySlip1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('1stYearFormNo161') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="1st Year Form No 16 Co-Applicant",
-                document=request.FILES.get('1stYearFormNo161'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('2ndYearFormNo161') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="2nd Year Form No 16 Co-Applicant",
-                document=request.FILES.get('2ndYearFormNo161'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('last1stYearITR1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Last 1st Year ITR Co-Applicant",
-                document=request.FILES.get('last1stYearITR1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('last2ndYearITR1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Last 2nd Year ITR Co-Applicant",
-                document=request.FILES.get('last2ndYearITR1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('last3rdYearITR1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Last 3rd Year ITR Co-Applicant",
-                document=request.FILES.get('last3rdYearITR1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('leaseAgreement1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Lease Agreement Co-Applicant",
-                document=request.FILES.get('leaseAgreement1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('rcBookCopy1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="RC Book Copy Co-Applicant",
-                document=request.FILES.get('rcBookCopy1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('carInsuranceCopy1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Car Insurance Copy Co-Applicant",
-                document=request.FILES.get('carInsuranceCopy1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('projectDetials1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Project Detials Co-Applicant",
-                document=request.FILES.get('projectDetials1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('companyProfile1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Company Profile Co-Applicant",
-                document=request.FILES.get('companyProfile1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('existingLoanSanctionLetter1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Existing Loan Sanction Letter Co-Applicant",
-                document=request.FILES.get('existingLoanSanctionLetter1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('degreeCertificate1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Degree Certificate Co-Applicant",
-                document=request.FILES.get('degreeCertificate1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('practiceCertificate1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Practice Certificate Co-Applicant",
-                document=request.FILES.get('practiceCertificate1'),
-            )
-            loanDocument.save()
-
-        if(request.FILES.get('provisionalITR1') != None):
-
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Provisional ITR Co-Applicant",
-                document=request.FILES.get('provisionalITR1'),
-            )
-            loanDocument.save()
-
-        i = 0
-        while(request.FILES.get('moreDoc'+str(i)) != None):
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Other Document",
-                document=request.FILES.get('moreDoc'+str(i)),
-            )
-            loanDocument.save()
-
-            i = i+1
-
-        i = 0
-        while(request.FILES.get('2moreDoc'+str(i)) != None):
-            loanDocument = LoanDocuments(
-                loanApplication=loanApplication,
-                documentName="Other Document",
-                document=request.FILES.get('2moreDoc'+str(i)),
-            )
-            loanDocument.save()
-
-            i = i+1
-
-        if (request.POST.get('numberOfExistingLoan') != None) and (request.POST.get('numberOfExistingLoan') != ""):
-
-            numberOfExistingLoan = request.POST.get('numberOfExistingLoan')
-            numberOfExistingLoan = int(numberOfExistingLoan)
-
-            for i in range(numberOfExistingLoan):
-
-                stri = str(i)
-
-                existingLoanDetails = SalExistingLoanDetails(
-                    loanApplication=loanApplication,
-                    bankName=request.POST.get(stri+'BankName'),
-                    service=request.POST.get(stri+'Service'),
-                    loanAmount=request.POST.get(stri+'LoanAmount'),
-                    emi=request.POST.get(stri+'Emi'),
-                    rateOfInterest=request.POST.get(stri+'RateOfInterest'),
-                    emiStartDate=request.POST.get(stri+'EmiStartDate'),
-                    emiEndDate=request.POST.get(stri+'EmiEndDate'),
-                )
-                existingLoanDetails.save()
-        return redirect(f"additionaldetails", id)
-
-    context = {
-        "lead_id": id,
-        "lead": lead,
-    }
-    return render(request, 'account/documents_upload.html', context=context)
 
 
 def getcities(request):
@@ -992,76 +587,6 @@ def list_leads(request):
     listleads = Leads.objects.filter(pk__in=ids).order_by(preserved)
     # return render(request, 'music/songs.html',  {'song': song})
     return render(request, 'account/newLeadview.html', {'listleads': listleads})
-    return render(request, 'account/list_leads.html', {'listleads': listleads})
-
-
-def list_lead_del(request, id):
-    if request.method == 'POST':
-        lead = Leads.objects.filter(pk=id)
-        lead.delete()
-        return redirect('list_leads')
-
-    return redirect('list_leads')
-
-
-def list_lead_edit(request, id):
-    user = request.user
-    if request.method == 'POST':
-        if 'cancel' in request.POST:
-            if user.role == "Admin":
-                return redirect('dashboard')
-            elif user.role == "Referral Partner":
-                return redirect('base')
-        name = request.POST['name']
-        ref = request.POST['ref']
-        #username   = request.POST['username']
-        email = request.POST['email']
-        #password1  = request.POST['password1']
-        #password2  = request.POST['password2']
-        product = request.POST['pdt']
-        sub_product = request.POST['subpdt']
-        loan_amt = request.POST['amt']
-        address = request.POST['address']
-        phone = request.POST['phone']
-        alt_phone = request.POST['alt_phone']
-        city = request.POST['city']
-        state = request.POST['state']
-        pincode = request.POST['pincode']
-        country = request.POST['country']
-        added_by = request.user.id
-        Leads.objects.filter(pk=id).update(name=name, phone=phone, alt_phone=alt_phone, email=email, reference=ref, product=product,
-                                           sub_product=sub_product, loan_amt=loan_amt, address=address, pincode=pincode, country=country, state=state, city=city, added_by=added_by)
-
-    lead = Leads.objects.filter(pk=id)[0]
-    products = Product.objects.all()
-    subproducts = SubProduct.objects.all()
-    subproductdict = dict()
-    for subproduct in subproducts:
-        if subproduct.product.id in subproductdict:
-            subproductdict[subproduct.product.id].append({
-                'id': subproduct.id,
-                'sub_product': subproduct.sub_product,
-                # 'effective_date'  : subproduct.effective_date,
-                # 'ineffective_date': subproduct.ineffective_date
-            })
-        else:
-            subproductdict[subproduct.product.id] = []
-            subproductdict[subproduct.product.id].append({
-                'id': subproduct.id,
-                'sub_product': subproduct.sub_product,
-                # 'effective_date'  : subproduct.effective_date,
-                # 'ineffective_date': subproduct.ineffective_date
-            })
-    # print(json.dumps(subproductdict))
-
-    context = {
-        'products': products,
-        'subproducts': json.dumps(subproductdict),
-        'lead': lead,
-        'cities': City.objects.all(),
-        'states': State.objects.all(),
-    }
-    return render(request, 'account/list_lead_edit.html', context=context)
 
 
 # def list_lead_del(request, id):
@@ -1158,58 +683,40 @@ def terms(request):
         raise Http404()
 
 
-def is_ajax(request):
-    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
-
-
 def additionaldetails(request, id):
     lead = Leads.objects.get(pk=id)
     applicant_type_form = TempForm()
     current_additional_details = AdditionalDetails.objects.filter(lead_id=lead)
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax:
         add_form = AdditionalDetailsForm(request.POST)
         if add_form.is_valid():
             add_instance = add_form.save(commit=False)
             add_instance.lead_id = lead
-            tmp =handle_applicant_additional_details(
-              request , current_additional_details.count(), add_instance , id)
-            if tmp :
-                return tmp
-            if current_additional_details.filter(lead_id__name=add_instance.lead_id.name).first():
+            if current_additional_details.filter(applicant_type=add_instance.applicant_type).first():
                 add_instance.pk = current_additional_details.filter(
-                    lead_id__name=add_instance.lead_id.name).first().pk
+                    applicant_type=add_instance.applicant_type).first().pk
                 messages.success(
                     request, f"Additional Details of {add_instance.applicant_type}  updated successfully ")
                 add_instance.save()
-
-                if 'next' in request.POST :
+                if 'next' in request.POST:
                     return redirect('base_dashboard')
-                
-                elif 'save' in request.POST and lead.product.product == 'Personal Loan':
-                    return redirect('salaried', id, add_instance.pk)
                 else:
                     return redirect('additionaldetails', id)
-
             else:
                 messages.success(
                     request, f"Additional Details of {add_instance.applicant_type} added successfully ")
                 add_instance.save()
-
                 if 'next' in request.POST:
                     return redirect('base_dashboard')
-
-                elif 'save' in request.POST and lead.product.product == 'Personal Loan':
-                    return redirect('salaried', id,  add_instance.pk)
                 else:
                     return redirect('additionaldetails', id)
-
         else:
             messages.error(request, add_form.errors)
     else:
         add_form = AdditionalDetailsForm()
 
     # return redirect(f"additionaldetails/{lead.pk}") # additionaldetails/20
-    return render(request, 'account/Additional_Details.html', context={'applicant_type_form': applicant_type_form, 'lead_id': id, "applicants": current_additional_details, 'number_of_applicants': current_additional_details.count()})
+    return render(request, 'account/Additional_Details.html', context={'applicant_type_form': applicant_type_form, 'lead_id': id, "applicants": current_additional_details})
 
 
 def delapplicant(request, id):
@@ -1312,9 +819,9 @@ def housewife(request, id):
         moratorium_taken = request.POST.getlist('moratorium_taken')
         applicant_type = request.POST.getlist('applicant_type')
 
-        if(bank_name != []):
-            for(a, b, c, d, e, f, g, h, i, j, k, l, m) in zip(bank_name, product, loan_amts, emi, roi, tenure, emi_start_date, emi_end_date,
-                                                              outstanding_paid, outstanding_amt, any_bounce, moratorium_taken, applicant_type):
+        if (bank_name != []):
+            for (a, b, c, d, e, f, g, h, i, j, k, l, m) in zip(bank_name, product, loan_amts, emi, roi, tenure, emi_start_date, emi_end_date,
+                                                               outstanding_paid, outstanding_amt, any_bounce, moratorium_taken, applicant_type):
 
                 loan_det = HousewifeExistingLoanDetails(bank_name=a, product=b, loan_amt=c, emi=d, roi=e, tenure=f, emi_start_date=g,
                                                         emi_end_date=h, outstanding_paid=i, outstanding_amt=j, any_bounce=k,
@@ -1331,9 +838,9 @@ def housewife(request, id):
         pay_delay_year = request.POST.getlist('pay_delay_year')
         moratorium_taken = request.POST.getlist('moratorium_taken')
 
-        if(bank_name != []):
-            for(a, b, c, d, e, f, g, h) in zip(bank_name, credit_limit, limit_utilized, min_due,
-                                               card_age, pay_delay, pay_delay_year, moratorium_taken):
+        if (bank_name != []):
+            for (a, b, c, d, e, f, g, h) in zip(bank_name, credit_limit, limit_utilized, min_due,
+                                                card_age, pay_delay, pay_delay_year, moratorium_taken):
 
                 card_det = HousewifeExistingCardDetails(bank_name=a, credit_limit=b, limit_utilized=c,
                                                         min_due=d, card_age=e, pay_delay=f, pay_delay_year=g, moratorium_taken=h, add_det_id=add)
@@ -1408,24 +915,7 @@ def housewife(request, id):
 def property_type_1(request, id):
     form = PropertyDetailsType1Form()
     if request.method == 'POST':
-        if 'next' in request.POST:
-            form = PropertyDetailsType1Form(request.POST)
-            if form.is_valid():
-                form_instance = form.save(commit=False)
-                form_instance.lead_id = Leads.objects.get(pk=id)
-                form_instance.save()
-                messages.success(
-                    request, "Property Details Updated Successfully !")
-                return redirect('add_applicant_additional_details', id)
-        else:
-            messages.error(request, form.errors)
-            return redirect(f"/account/property_type_1/{id}")
-    return render(request, 'account/property_type_1.html', context={"form": form, "lead_id": id})
-
-
-def property_type_v(request, id):
-    if request.method == "POST":
-        form = PropertyDetailsType1Form(request.POST)
+        form = PropertyDetailsType1Form(request.POST or None)
         if form.is_valid():
             form_instance = form.save(commit=False)
             form_instance.lead_id = Leads.objects.get(pk=id)
@@ -1436,12 +926,7 @@ def property_type_v(request, id):
         else:
             messages.error(request, form.errors)
             return redirect(f"/account/property_type_1/{id}")
-
-    context = {
-        'form': PropertyDetailsType1Form(),
-        'lead_id': id
-    }
-    return render(request, 'account/property_type_1.html', context)
+    return render(request, 'account/property_type_1.html', context={"form": form, "lead_id": id})
 
 
 def property_type_2(request, id):
@@ -1511,9 +996,7 @@ def add_applicant_additional_details(request, id):
 
 def add_individual_details(request, id):
     add_instance = AdditionalDetails.objects.get(pk=id)
-    print("here", add_instance)
     customer_type = add_instance.cust_type
-    print(customer_type)
     if customer_type == CustomerType.objects.filter(cust_type='Salaried').first():
         return redirect(f"/account/salaried/{id}")
     return render(request, 'base/base.html')
@@ -1539,170 +1022,169 @@ def property_details(request, id):
             elif lead.sub_product.sub_product == 'Ready Possession Buying From Seller':
                 form = PropType4Form()
                 return render(request, 'account/property_type_4.html', context={"form": form, "lead_id": id})
-        return render(request, "account/add_property_details.html", context={"lead_id": id})
+        # return render(request,"account/add_property_details.html",context = {"lead_id":id})
+    # if request.method == 'POST':
+    #     user = request.user
+    #     lead = Leads.objects.filter(lead_id = id).first()
 
-    if request.method == 'POST':
-        user = request.user
-        lead = Leads.objects.filter(lead_id=id).first()
+    #     if 'cancel' in request.POST:
+    #         if user.role == "Admin":
+    #             return redirect('dashboard')
+    #         elif user.role == "Referral Partner":
+    #             return redirect('base')
 
-        if 'cancel' in request.POST:
-            if user.role == "Admin":
-                return redirect('dashboard')
-            elif user.role == "Referral Partner":
-                return redirect('base')
+    #     prop_type = request.POST['prop_type']
+    #     prop_det = PropertyDetails(prop_type = prop_type, lead_id = lead)
+    #     prop_det.save()
 
-        prop_type = request.POST['prop_type']
-        prop_det = PropertyDetails(prop_type=prop_type, lead_id=lead)
-        prop_det.save()
+    #     if prop_type == "Underconstruction and Buying From Builder" or prop_type == "Underconstruction and Buying From Seller" or prop_type == "Ready Possession and Buying From Builder":
+    #         builder_name = request.POST['builder_name']
+    #         proj_name = request.POST['proj_name']
+    #         apf_num = request.POST['apf_num']
+    #         apf_approved_lender = request.POST['apf_approved_lender']
+    #         const_stage = request.POST['const_stage']
+    #         per_complete = request.POST['per_complete']
+    #         possession_date = request.POST['possession_date']
+    #         total_floors = request.POST['total_floors']
+    #         buy_floor = request.POST['buy_floor']
+    #         slabs_done = request.POST['slabs_done']
+    #         agreement_val = request.POST['agreement_val']
+    #         market_val = request.POST['market_val']
+    #         prop_loc = request.POST['prop_loc']
+    #         prop_city = request.POST['prop_city']
+    #         prop_state = request.POST['prop_state']
+    #         prop_in = request.POST['prop_in']
+    #         cc_rec = request.POST['cc_rec']
+    #         cc_rec_upto = request.POST['cc_rec_upto']
+    #         municipal_approved = request.POST['municipal_approved']
+    #         area_size = request.POST['area_size']
+    #         area_in = request.POST['area_in']
+    #         area_type = request.POST['area_type']
+    #         room_type = request.POST['room_type']
+    #         agreement_type = request.POST['agreement_type']
+    #         pay_till_date = request.POST['pay_till_date']
+    #         stamp_duty = request.POST['stamp_duty']
+    #         stamp_duty_amt = request.POST['stamp_duty_amt']
+    #         cost_sheet = request.POST['cost_sheet']
+    #         cost_sheet_amt = request.POST['cost_sheet_amt']
 
-        if prop_type == "Underconstruction and Buying From Builder" or prop_type == "Underconstruction and Buying From Seller" or prop_type == "Ready Possession and Buying From Builder":
-            builder_name = request.POST['builder_name']
-            proj_name = request.POST['proj_name']
-            apf_num = request.POST['apf_num']
-            apf_approved_lender = request.POST['apf_approved_lender']
-            const_stage = request.POST['const_stage']
-            per_complete = request.POST['per_complete']
-            possession_date = request.POST['possession_date']
-            total_floors = request.POST['total_floors']
-            buy_floor = request.POST['buy_floor']
-            slabs_done = request.POST['slabs_done']
-            agreement_val = request.POST['agreement_val']
-            market_val = request.POST['market_val']
-            prop_loc = request.POST['prop_loc']
-            prop_city = request.POST['prop_city']
-            prop_state = request.POST['prop_state']
-            prop_in = request.POST['prop_in']
-            cc_rec = request.POST['cc_rec']
-            cc_rec_upto = request.POST['cc_rec_upto']
-            municipal_approved = request.POST['municipal_approved']
-            area_size = request.POST['area_size']
-            area_in = request.POST['area_in']
-            area_type = request.POST['area_type']
-            room_type = request.POST['room_type']
-            agreement_type = request.POST['agreement_type']
-            pay_till_date = request.POST['pay_till_date']
-            stamp_duty = request.POST['stamp_duty']
-            stamp_duty_amt = request.POST['stamp_duty_amt']
-            cost_sheet = request.POST['cost_sheet']
-            cost_sheet_amt = request.POST['cost_sheet_amt']
+    #         prop_det_1 = PropType1(
+    #             builder_name = builder_name,
+    #             proj_name = proj_name,
+    #             apf_num = apf_num,
+    #             apf_approved_lender = apf_approved_lender,
+    #             const_stage = const_stage,
+    #             per_complete = per_complete,
+    #             possession_date = possession_date,
+    #             total_floors = total_floors,
+    #             buy_floor = buy_floor,
+    #             slabs_done = slabs_done,
+    #             agreement_val = agreement_val,
+    #             market_val = market_val,
+    #             prop_loc = prop_loc,
+    #             prop_city = prop_city,
+    #             prop_state = prop_state,
+    #             prop_in = prop_in,
+    #             cc_rec = cc_rec,
+    #             cc_rec_upto = cc_rec_upto,
+    #             municipal_approved = municipal_approved,
+    #             area_size = area_size,
+    #             area_in = area_in,
+    #             area_type = area_type,
+    #             room_type = room_type,
+    #             agreement_type = agreement_type,
+    #             pay_till_date = pay_till_date,
+    #             stamp_duty = stamp_duty,
+    #             stamp_duty_amt = stamp_duty_amt,
+    #             cost_sheet = cost_sheet,
+    #             cost_sheet_amt = cost_sheet_amt,
+    #             prop_det_id = prop_det
+    #         )
+    #         prop_det_1.save()
 
-            prop_det_1 = PropType1(
-                builder_name=builder_name,
-                proj_name=proj_name,
-                apf_num=apf_num,
-                apf_approved_lender=apf_approved_lender,
-                const_stage=const_stage,
-                per_complete=per_complete,
-                possession_date=possession_date,
-                total_floors=total_floors,
-                buy_floor=buy_floor,
-                slabs_done=slabs_done,
-                agreement_val=agreement_val,
-                market_val=market_val,
-                prop_loc=prop_loc,
-                prop_city=prop_city,
-                prop_state=prop_state,
-                prop_in=prop_in,
-                cc_rec=cc_rec,
-                cc_rec_upto=cc_rec_upto,
-                municipal_approved=municipal_approved,
-                area_size=area_size,
-                area_in=area_in,
-                area_type=area_type,
-                room_type=room_type,
-                agreement_type=agreement_type,
-                pay_till_date=pay_till_date,
-                stamp_duty=stamp_duty,
-                stamp_duty_amt=stamp_duty_amt,
-                cost_sheet=cost_sheet,
-                cost_sheet_amt=cost_sheet_amt,
-                prop_det_id=prop_det
-            )
-            prop_det_1.save()
+    #     if prop_type == "Resale and Buying From Seller":
+    #         project_name = request.POST['project_name']
+    #         finance_approved_by = request.POST['finance_approved_by']
+    #         building_age = request.POST['building_age']
+    #         agree_val = request.POST['agree_val']
+    #         mkt_val = request.POST['mkt_val']
+    #         property_loc = request.POST['property_loc']
+    #         property_city = request.POST['property_city']
+    #         property_state = request.POST['property_state']
+    #         cc_available = request.POST['cc_available']
+    #         oc_available = request.POST['oc_available']
+    #         mun_approved = request.POST['mun_approved']
+    #         areasize = request.POST['areasize']
+    #         areain = request.POST['areain']
+    #         areatype = request.POST['areatype']
+    #         property_type = request.POST['property_type']
+    #         agree_type = request.POST['agree_type']
+    #         stp_duty = request.POST['stp_duty']
+    #         stp_amt = request.POST['stp_amt']
+    #         reg_amt = request.POST['reg_amt']
+    #         prev_agree_available = request.POST['prev_agree_available']
+    #         dup_available_or_notice = request.POST['dup_available_or_notice']
+    #         reg_prev_agreement = request.POST['reg_prev_agreement']
+    #         con_area = request.POST['con_area']
+    #         payment_till_date = request.POST['payment_till_date']
 
-        if prop_type == "Resale and Buying From Seller":
-            project_name = request.POST['project_name']
-            finance_approved_by = request.POST['finance_approved_by']
-            building_age = request.POST['building_age']
-            agree_val = request.POST['agree_val']
-            mkt_val = request.POST['mkt_val']
-            property_loc = request.POST['property_loc']
-            property_city = request.POST['property_city']
-            property_state = request.POST['property_state']
-            cc_available = request.POST['cc_available']
-            oc_available = request.POST['oc_available']
-            mun_approved = request.POST['mun_approved']
-            areasize = request.POST['areasize']
-            areain = request.POST['areain']
-            areatype = request.POST['areatype']
-            property_type = request.POST['property_type']
-            agree_type = request.POST['agree_type']
-            stp_duty = request.POST['stp_duty']
-            stp_amt = request.POST['stp_amt']
-            reg_amt = request.POST['reg_amt']
-            prev_agree_available = request.POST['prev_agree_available']
-            dup_available_or_notice = request.POST['dup_available_or_notice']
-            reg_prev_agreement = request.POST['reg_prev_agreement']
-            con_area = request.POST['con_area']
-            payment_till_date = request.POST['payment_till_date']
+    #         prop_det_2 = PropType2(
+    #             project_name = project_name,
+    #             finance_approved_by = finance_approved_by,
+    #             building_age = building_age,
+    #             agreement_val = agree_val,
+    #             market_val = mkt_val,
+    #             prop_loc = property_loc,
+    #             property_city = property_city,
+    #             property_state = property_state,
+    #             cc_available = cc_available,
+    #             oc_available = oc_available,
+    #             mun_approved = mun_approved,
+    #             areasize = areasize,
+    #             areain = areain,
+    #             areatype = areatype,
+    #             room_type = property_type,
+    #             agree_type = agree_type,
+    #             stp_duty = stp_duty,
+    #             stp_amt = stp_amt,
+    #             reg_amt = reg_amt,
+    #             prev_agree_available = prev_agree_available,
+    #             dup_available_or_notice = dup_available_or_notice,
+    #             reg_prev_agreement = reg_prev_agreement,
+    #             con_area = con_area,
+    #             payment_till_date = payment_till_date,
+    #             prop_det_id = prop_det
+    #         )
+    #         prop_det_2.save()
 
-            prop_det_2 = PropType2(
-                project_name=project_name,
-                finance_approved_by=finance_approved_by,
-                building_age=building_age,
-                agreement_val=agree_val,
-                market_val=mkt_val,
-                prop_loc=property_loc,
-                property_city=property_city,
-                property_state=property_state,
-                cc_available=cc_available,
-                oc_available=oc_available,
-                mun_approved=mun_approved,
-                areasize=areasize,
-                areain=areain,
-                areatype=areatype,
-                room_type=property_type,
-                agree_type=agree_type,
-                stp_duty=stp_duty,
-                stp_amt=stp_amt,
-                reg_amt=reg_amt,
-                prev_agree_available=prev_agree_available,
-                dup_available_or_notice=dup_available_or_notice,
-                reg_prev_agreement=reg_prev_agreement,
-                con_area=con_area,
-                payment_till_date=payment_till_date,
-                prop_det_id=prop_det
-            )
-            prop_det_2.save()
+    #     if prop_type == "Balance Transfer" or prop_type == "Balance Transfer Top Up":
+    #         bnk_name = request.POST['bnk_name']
+    #         prod_services = request.POST['prod_services']
+    #         loan_amt = request.POST['loan_amt']
+    #         emi = request.POST['emi']
+    #         outstanding_amt = request.POST['outstanding_amt']
+    #         tenure = request.POST['tenure']
+    #         foreclosure = request.POST['foreclosure']
+    #         lod = request.POST['lod']
 
-        if prop_type == "Balance Transfer" or prop_type == "Balance Transfer Top Up":
-            bnk_name = request.POST['bnk_name']
-            prod_services = request.POST['prod_services']
-            loan_amt = request.POST['loan_amt']
-            emi = request.POST['emi']
-            outstanding_amt = request.POST['outstanding_amt']
-            tenure = request.POST['tenure']
-            foreclosure = request.POST['foreclosure']
-            lod = request.POST['lod']
+    #         prop_det3 = PropType3(bnk_name=bnk_name,prod_services=prod_services,loan_amt=loan_amt,emi=emi,outstanding_amt=outstanding_amt,
+    #                               tenure=tenure,foreclosure=foreclosure,lod=lod,prop_det_id=prop_det)
+    #         prop_det3.save()
 
-            prop_det3 = PropType3(bnk_name=bnk_name, prod_services=prod_services, loan_amt=loan_amt, emi=emi, outstanding_amt=outstanding_amt,
-                                  tenure=tenure, foreclosure=foreclosure, lod=lod, prop_det_id=prop_det)
-            prop_det3.save()
+    #     if 'save' in request.POST:
+    #         if user.role == "Admin":
+    #             return redirect('/account/dashboard')
 
-        if 'save' in request.POST:
-            if user.role == "Admin":
-                return redirect('/account/dashboard')
+    #         elif user.role == "Referral Partner":
+    #             return redirect('/account/base')
 
-            elif user.role == "Referral Partner":
-                return redirect('/account/base')
+    #     if 'next' in request.POST:
+    #         return redirect(f"/account/homeloan/eligibility/{lead.lead_id}")
 
-        if 'next' in request.POST:
-            return redirect(f"/account/homeloan/eligibility/{lead.lead_id}")
-
-    lead = Leads.objects.filter(lead_id=id).first()
-    propertyins = PropertyIn.objects.all()
-    agreementtypes = AgreementType.objects.all()
-    return render(request, 'account/Property Details.html', {'propertyins': propertyins, 'agreementtypes': agreementtypes, 'lead': lead})
+    # lead = Leads.objects.filter(lead_id = id).first()
+    # propertyins = PropertyIn.objects.all()
+    # agreementtypes = AgreementType.objects.all()
+    # return render(request, 'account/Property Details.html', {'propertyins':propertyins, 'agreementtypes':agreementtypes, 'lead':lead})
 
 
 def retired(request, id):
@@ -1765,9 +1247,9 @@ def retired(request, id):
         moratorium_taken = request.POST.getlist('moratorium_taken')
         applicant_type = request.POST.getlist('applicant_type')
 
-        if(bank_name != []):
-            for(a, b, c, d, e, f, g, h, i, j, k, l, m) in zip(bank_name, product, loan_amt, emi, roi, tenure, emi_start_date, emi_end_date,
-                                                              outstanding_paid, outstanding_amt, any_bounce, moratorium_taken, applicant_type):
+        if (bank_name != []):
+            for (a, b, c, d, e, f, g, h, i, j, k, l, m) in zip(bank_name, product, loan_amt, emi, roi, tenure, emi_start_date, emi_end_date,
+                                                               outstanding_paid, outstanding_amt, any_bounce, moratorium_taken, applicant_type):
 
                 ret_loan_det = RetiredExistingLoanDetails(bank_name=a, product=b, loan_amt=c, emi=d, roi=e, tenure=f, emi_start_date=g,
                                                           emi_end_date=h, outstanding_paid=i, outstanding_amt=j, any_bounce=k,
@@ -1784,9 +1266,9 @@ def retired(request, id):
         pay_delay_year = request.POST.getlist('pay_delay_year')
         moratorium_taken = request.POST.getlist('moratorium_taken')
 
-        if(bank_name != []):
-            for(a, b, c, d, e, f, g, h) in zip(bank_name, credit_limit, limit_utilized, min_due,
-                                               card_age, pay_delay, pay_delay_year, moratorium_taken):
+        if (bank_name != []):
+            for (a, b, c, d, e, f, g, h) in zip(bank_name, credit_limit, limit_utilized, min_due,
+                                                card_age, pay_delay, pay_delay_year, moratorium_taken):
 
                 ret_card_det = RetiredExistingCardDetails(bank_name=a, credit_limit=b, limit_utilized=c,
                                                           min_due=d, card_age=e, pay_delay=f, pay_delay_year=g, moratorium_taken=h, add_det_id=add)
@@ -1868,41 +1350,16 @@ def retired(request, id):
     return render(request, 'account/retired.html', {'applicanttypes': applicanttypes, 'products': products, 'nationalities': nationalities, 'cust': cust})
 
 
-check_salaried_details_form_list = {
-    'personal_details': False,
-    'income_details': False,
-    'other_incomes': False,
-    'additional_other_incomes': False,
-    'company_details': False,
-    'residence_details': False,
-    'existing_loan_details': False,
-    'existing_card_details': False,
-    'additional_details': False,
-    'investment': False,
-}
-
-
-def salaried(request, lead_id, additionaldetails_id):
+def salaried(request, id):
     if request.method == 'POST':
-        print(request.POST)
         if 'cancel' in request.POST:
             return redirect('base_dashboard')
-
-        if 'next' in request.POST:
-            for key in check_salaried_details_form_list:
-                if check_salaried_details_form_list[key] == False:
-                    pass
-                    # messages.info(
-                    #     request, "Please add every details to proceed.")
-                    # return redirect('salaried', lead_id, additionaldetails_id)
-            return redirect('account_eligibility', lead_id)
-
         if 'personal_details' in request.POST:
             form = SalPersonalDetailsForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
                 instance.additional_details_id = AdditionalDetails.objects.get(
-                    pk=additionaldetails_id)
+                    pk=id)
                 instance.save()
                 messages.success(
                     request, '"Personal Details" Saved Successfully')
@@ -1914,8 +1371,7 @@ def salaried(request, lead_id, additionaldetails_id):
             form = SalIncomeDetailsForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
-                instance.addi_details_id = AdditionalDetails.objects.get(
-                    pk=additionaldetails_id)
+                instance.addi_details_id = AdditionalDetails.objects.get(pk=id)
                 instance.save()
                 messages.success(
                     request, '"Income Details" Saved Successfully')
@@ -1927,8 +1383,7 @@ def salaried(request, lead_id, additionaldetails_id):
             form = SalOtherIncomesForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
-                instance.addi_details_id = AdditionalDetails.objects.get(
-                    pk=additionaldetails_id)
+                instance.addi_details_id = AdditionalDetails.objects.get(pk=id)
                 instance.save()
                 messages.success(
                     request, '"Other Incomes Details" Saved Successfully')
@@ -1940,8 +1395,7 @@ def salaried(request, lead_id, additionaldetails_id):
             form = SalAdditionalOtherIncomesForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
-                instance.addi_details_id = AdditionalDetails.objects.get(
-                    pk=additionaldetails_id)
+                instance.addi_details_id = AdditionalDetails.objects.get(pk=id)
                 instance.save()
                 messages.success(
                     request, '"Other than Income Mentioned Above Details" Saved Successfully')
@@ -1953,8 +1407,7 @@ def salaried(request, lead_id, additionaldetails_id):
             form = SalCompanyDetailsForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
-                instance.addi_details_id = AdditionalDetails.objects.get(
-                    pk=additionaldetails_id)
+                instance.addi_details_id = AdditionalDetails.objects.get(pk=id)
                 instance.save()
                 messages.success(
                     request, '"Company Details" Saved Successfully')
@@ -1966,8 +1419,7 @@ def salaried(request, lead_id, additionaldetails_id):
             form = SalResidenceDetailsForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
-                instance.addi_details_id = AdditionalDetails.objects.get(
-                    pk=additionaldetails_id)
+                instance.addi_details_id = AdditionalDetails.objects.get(pk=id)
                 instance.save()
                 messages.success(
                     request, '"Residence Details" Saved Successfully')
@@ -1979,8 +1431,7 @@ def salaried(request, lead_id, additionaldetails_id):
             form = SalExistingLoanDetailsForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
-                instance.addi_details_id = AdditionalDetails.objects.get(
-                    pk=additionaldetails_id)
+                instance.addi_details_id = AdditionalDetails.objects.get(pk=id)
                 instance.save()
                 messages.success(
                     request, '"Existing Loan Details" Saved Successfully')
@@ -1992,8 +1443,7 @@ def salaried(request, lead_id, additionaldetails_id):
             form = SalExistingCreditCardForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
-                instance.addi_details_id = AdditionalDetails.objects.get(
-                    pk=additionaldetails_id)
+                instance.addi_details_id = AdditionalDetails.objects.get(pk=id)
                 instance.save()
                 messages.success(
                     request, '"Existing Card Details" Saved Successfully')
@@ -2005,8 +1455,7 @@ def salaried(request, lead_id, additionaldetails_id):
             form = SalAdditionalDetailsForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
-                instance.addi_details_id = AdditionalDetails.objects.get(
-                    pk=additionaldetails_id)
+                instance.addi_details_id = AdditionalDetails.objects.get(pk=id)
                 instance.save()
                 messages.success(
                     request, '"Additional Details" Saved Successfully')
@@ -2018,8 +1467,7 @@ def salaried(request, lead_id, additionaldetails_id):
             form = SalInvestmentsForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
-                instance.addi_details_id = AdditionalDetails.objects.get(
-                    pk=additionaldetails_id)
+                instance.addi_details_id = AdditionalDetails.objects.get(pk=id)
                 instance.save()
                 messages.success(
                     request, '"Investment Details" Saved Successfully')
@@ -2027,17 +1475,13 @@ def salaried(request, lead_id, additionaldetails_id):
             else:
                 messages.error(request, form.errors)
                 return redirect('salaried', id)
-
-    additional_details_instance = AdditionalDetails.objects.get(
-        pk=additionaldetails_id)
+    additional_details_instance = AdditionalDetails.objects.get(pk=id)
     # qualifications_list = []
     # for qualification_instance in Qualification.objects.all():
     #     qualifications_list.append({qualification_instance.qualification:qualification_instance.is_degree})
 
     context = {
-        "additionaldetails_id": additionaldetails_id,
-        "lead_id": lead_id,
-
+        "id": id,
         "name": additional_details_instance.cust_name,
         "applicant_type": additional_details_instance.applicant_type,
         "personal_details_form": SalPersonalDetailsForm(),
@@ -2053,8 +1497,6 @@ def salaried(request, lead_id, additionaldetails_id):
         "additional_details_form": SalAdditionalDetailsForm(),
         "investment_form": SalInvestmentsForm(),
     }
-
-    print("Reached Here")
     return render(request, 'account/salaried.html', context)
 
     # if request.method == 'POST':
@@ -2236,7 +1678,7 @@ def salaried(request, lead_id, additionaldetails_id):
     #     loan_enq_det = request.POST['loan_enq_det']
 
     #     if inw_cheque_return != "":
-    #         sal_additional_det = SalAdditional Details(inw_cheque_return=inw_cheque_return, loan_enq_disburse=loanInquiry, loan_enq_det=loan_enq_det, add_det_id=add)
+    #         sal_additional_det = SalAdditionalDetails(inw_cheque_return=inw_cheque_return, loan_enq_disburse=loanInquiry, loan_enq_det=loan_enq_det, add_det_id=add)
     #         sal_additional_det.save()
 
     #     investments_u_have = request.POST['investments_u_have']
@@ -2292,11 +1734,6 @@ def salaried(request, lead_id, additionaldetails_id):
 
     #         else:
     #             return redirect(f"/account/property_details/{add.lead_id.lead_id}")
-
-
-def check_eligibility(request, id):
-
-    return render(request , 'account/eligibility.html')
 
 
 def selfemployed(request):
@@ -2369,9 +1806,9 @@ def student(request, id):
         moratorium_taken = request.POST.getlist('moratorium_taken')
         applicant_type = request.POST.getlist('applicant_type')
 
-        if(bank_name != []):
-            for(a, b, c, d, e, f, g, h, i, j, k, l, m) in zip(bank_name, product, loan_amt, emi, roi, tenure, emi_start_date, emi_end_date,
-                                                              outstanding_paid, outstanding_amt, any_bounce, moratorium_taken, applicant_type):
+        if (bank_name != []):
+            for (a, b, c, d, e, f, g, h, i, j, k, l, m) in zip(bank_name, product, loan_amt, emi, roi, tenure, emi_start_date, emi_end_date,
+                                                               outstanding_paid, outstanding_amt, any_bounce, moratorium_taken, applicant_type):
 
                 loan_det = StudentExistingLoanDetails(bank_name=a, product=b, loan_amt=c, emi=d, roi=e, tenure=f, emi_start_date=g,
                                                       emi_end_date=h, outstanding_paid=i, outstanding_amt=j, any_bounce=k,
@@ -2388,9 +1825,9 @@ def student(request, id):
         pay_delay_year = request.POST.getlist('pay_delay_year')
         moratorium_taken = request.POST.getlist('moratorium_taken')
 
-        if(bank_name != []):
-            for(a, b, c, d, e, f, g, h) in zip(bank_name, credit_limit, limit_utilized, min_due,
-                                               card_age, pay_delay, pay_delay_year, moratorium_taken):
+        if (bank_name != []):
+            for (a, b, c, d, e, f, g, h) in zip(bank_name, credit_limit, limit_utilized, min_due,
+                                                card_age, pay_delay, pay_delay_year, moratorium_taken):
 
                 card_det = StudentExistingCardDetails(bank_name=a, credit_limit=b, limit_utilized=c,
                                                       min_due=d, card_age=e, pay_delay=f, pay_delay_year=g, moratorium_taken=h, add_det_id=add)
@@ -2482,7 +1919,7 @@ def register2(request):
         phone = request.POST['phone']
         alt_phone = request.POST['alt_phone']
         designation = request.POST['designation']
-        if(designation == "Other"):
+        if (designation == "Other"):
             designation = request.POST['other']
         address = request.POST['address']
         role = "Referral Partner"
@@ -2666,21 +2103,3 @@ def training(request):
 def support(request):
     context = {}
     return render(request, 'account/support.html', context=context)
-
-
-def handle_applicant_additional_details(request , additional_details_count, additional_details_instance , id):
-    tmp = None
-
-    if 'Salaried' not in additional_details_instance.cust_type.cust_type:
-        messages.error(
-            request, "Rejected. Applicant must be salaried.")
-        tmp = redirect('additionaldetails', id)
-        
-
-    if additional_details_count < 1:
-        if additional_details_instance.inc_holder is False:
-            messages.error(
-                request, "Rejected. First applicant should be a income holder.")
-            tmp = redirect('additionaldetails', id)
-
-    return tmp

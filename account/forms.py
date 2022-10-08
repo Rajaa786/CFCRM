@@ -7,6 +7,7 @@ from django.forms.widgets import EmailInput, NumberInput, TextInput
 from .models import *
 from django.db.models import Q
 
+
 class LeadsForm(ModelForm):
     class Meta:
         model = Leads
@@ -15,7 +16,7 @@ class LeadsForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(LeadsForm, self).__init__(*args, **kwargs)
         self.fields['sub_product'].queryset = SubProduct.objects.none()
-        self.fields['city'].queryset = City.objects.none()
+        self.fields['city'].queryset = SubProduct.objects.none()
         self.fields['address'].widget.attrs['rows'] = 1
         self.fields['address'].widget.attrs['columns'] = 40
         for field in iter(self.fields):
@@ -29,7 +30,7 @@ class LeadsForm(ModelForm):
                 state_id = int(self.data.get('state'))
                 self.fields['city'].queryset = City.objects.filter(
                     state=state_id)
-            except(ValueError, TypeError):
+            except (ValueError, TypeError):
                 pass
 
         if 'product' in self.data:
@@ -37,7 +38,7 @@ class LeadsForm(ModelForm):
                 product_id = int(self.data.get('product'))
                 self.fields['sub_product'].queryset = SubProduct.objects.filter(
                     product=product_id)
-            except(ValueError, TypeError):
+            except (ValueError, TypeError):
                 pass
 
 
@@ -53,13 +54,14 @@ class AdditionalDetailsForm(ModelForm):
         super(AdditionalDetailsForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
-        self.fields['applicant_type'].widget.attrs.update({'readonly': 'true'})
-        self.fields['is_diff'].widget.attrs.update(
-            {'class': 'form-check-input'})
+            self.fields['applicant_type'].widget.attrs.update(
+                {'readonly': 'true'})
+            self.fields['is_diff'].widget.attrs.update(
+                {'class': 'form-check-input'})
 
     class Meta:
         model = AdditionalDetails
-        exclude = ('lead_id', 'prop_owner')
+        exclude = ('lead_id',)
 
 
 class PropertyDetailsType1Form(ModelForm):
@@ -67,6 +69,7 @@ class PropertyDetailsType1Form(ModelForm):
         super(PropertyDetailsType1Form, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = PropType1
         exclude = ('lead_id',)
@@ -90,6 +93,7 @@ class PropertyType2Form(ModelForm):
         super(PropertyType2Form, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     def clean_data(self):
         cleaned_data = super(PropertyType2Form, self).clean()
         cc_rec = cleaned_data.get('cc_rec')
@@ -104,6 +108,7 @@ class PropertyType2Form(ModelForm):
         if car_parking == True:
             if not cleaned_data.get('car_parking_amt'):
                 raise forms.ValidationError("Please enter car parking amt")
+
     class Meta:
         model = PropType2
         exclude = ('lead_id',)
@@ -130,6 +135,7 @@ class PropType3Form(ModelForm):
         super(PropType3Form, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = PropType3
         exclude = ('lead_id',)
@@ -153,6 +159,7 @@ class PropType4Form(ModelForm):
         super(PropType4Form, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = PropType4
         exclude = ('lead_id',)
@@ -213,6 +220,7 @@ class SalPersonalDetailsForm(ModelForm):
         super(SalPersonalDetailsForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = SalPersonalDetails
         exclude = ('additional_details_id', 'per_det_id',)
@@ -220,11 +228,13 @@ class SalPersonalDetailsForm(ModelForm):
             'dob': widgets.DateInput(attrs={'type': 'date'})
         }
 
+
 class SalCompanyDetailsForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(SalCompanyDetailsForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = SalCompanyDetails
         exclude = ('comp_det_id', 'addi_details_id',)
@@ -235,6 +245,7 @@ class SalResidenceDetailsForm(ModelForm):
         super(SalResidenceDetailsForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = SalResidenceDetails
         exclude = ('sal_res_det_id', 'addi_details_id',)
@@ -245,6 +256,7 @@ class SalExistingLoanDetailsForm(ModelForm):
         super(SalExistingLoanDetailsForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = SalExistingLoanDetails
         exclude = ('existing_loan_det_id', 'addi_details_id',)
@@ -253,11 +265,13 @@ class SalExistingLoanDetailsForm(ModelForm):
             'emi_end_date': widgets.DateInput(attrs={'type': 'date'}),
         }
 
+
 class SalExistingCreditCardForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(SalExistingCreditCardForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = SalExistingCreditCard
         exclude = ('existing_credit_card_id', 'addi_details_id',)
@@ -268,6 +282,7 @@ class SalAdditionalDetailsForm(ModelForm):
         super(SalAdditionalDetailsForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = SalAdditionalDetails
         exclude = ('sal_add_det_id', 'addi_details_id',)

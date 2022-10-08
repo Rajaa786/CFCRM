@@ -45,7 +45,7 @@
                   {% for lead in Leads %}
                     <tr>
                       <td>
-                        <a href={% url 'list_lead_view' id=lead.pk %} title="View Details">
+                        <a href={% url 'account:list_lead_view' id=lead.pk %} title="View Details">
                           <span class="icon text-black-50">
                             <i class="fa fa-eye"></i>
                           </span>
