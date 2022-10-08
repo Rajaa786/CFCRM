@@ -395,9 +395,11 @@ def add_leads(request):
                 if form.is_valid():
                     instance = form.save(commit=False)
                     print(instance)
+                    instance.added_by = request.user.username
+                    instance.save()
                 else:
                     print(form.errors)
-                return redirect("{% url 'account:newLeadview.html' lead.pk %}")
+                return redirect("account:list_leads")
             elif user.role == "Referral Partner":
                 return redirect('base')
         if 'next' in request.POST:
@@ -407,7 +409,7 @@ def add_leads(request):
                 instance.added_by = request.user.username
                 instance.save()
                 # additionaldetails/20
-                return redirect("/account/newLeadview.html")
+                return redirect(f"additionaldetails/{instance.pk}")
     context = {
         'form': LeadsForm()
     }
@@ -586,7 +588,7 @@ def list_leads(request):
     preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(ids)])
     listleads = Leads.objects.filter(pk__in=ids).order_by(preserved)
     # return render(request, 'music/songs.html',  {'song': song})
-    return render(request, 'account/newLeadview.html', {'listleads': listleads})
+    return render(request, 'account/list_lead.html', {'listleads': listleads})
 
 
 # def list_lead_del(request, id):
