@@ -19,8 +19,8 @@
       <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
         <h1 class="text-[#e91e63] text-3xl title-font font-medium mb-4">{{lead.prefix}}.{{lead.name}}</h1>
         <div class="flex mb-4 ">
-          <a class="flex-grow  border-b-2  py-0 border-[#e91e63]  text-[#e91e63] py-0 px-1">Description</a>
-          <a href=href="{% url 'account:lead-update' lead.pk %}" class="flex-grow border-b-2 py-0 border-gray-300  text-[#e91e63]  text-center py-0 px-1">Salaried(Applicant)</a>
+          <a href="#desc" class="flex-grow  border-b-2  py-0 border-[#e91e63]  text-[#e91e63] py-0 px-1" data-target="desc">Description</a>
+          <a href="#docs" class="flex-grow border-b-2 py-0 border-gray-300  text-[#e91e63]  text-center py-0 px-1" data-target="docs">Uploaded Docs</a>
 
         </div>
 
@@ -39,6 +39,19 @@
             </a>
           </div>
         </div>
+
+      <div id="docs" class="list-group">
+      {% for document in loan_documents %}
+        <ul class="list-group">
+          <a href="/media/{{document.document.name}}" target="_blank" class="list-group-item list-group-item-action">{{document.document.name}}</a>
+          <br>
+        </ul>
+      {% endfor %}
+      </div>
+
+
+      <div id="desc">
+
         <div class="flex border-t border-gray-200 py-2">
           <span class="text-gray-500">Age</span>
           <span class="ml-auto px-3 text-gray-900">{{lead.age}}</span>
@@ -108,6 +121,7 @@
           <span class="text-gray-500">Added-By</span>
           <span class="ml-auto text-gray-900">{{lead.added_by}}</span>
         </div>
+      </div>
 
 
 
@@ -207,6 +221,7 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="{% static ' assets/demo/demo.js'%}"></script>
 <script>
+  document.getElementById("docs").style.display = "none";
   $(document).ready(function () {
     $().ready(function () {
       $sidebar = $(".sidebar");
@@ -451,6 +466,19 @@
     // Javascript method's body can be found in assets/js/demos.js
     md.initDashboardPageCharts();
   });
+
+  $('a[href=#desc]').click(function() {
+	$('#docs').hide();
+  var target = '#' + $(this).data('target');
+  $(target).show();
+  })
+
+  $('a[href=#docs]').click(function() {
+	$('#desc').hide();
+  var target = '#' + $(this).data('target');
+  $(target).show();
+  })
+
 </script>
 {% endblock other_js %}
 </td>

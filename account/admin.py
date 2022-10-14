@@ -21,3 +21,7 @@ admin.site.register(PropType1)
 admin.site.register(PropType2)
 admin.site.register(PropType3)
 admin.site.register(PropType4)
+
+#Documents
+admin.site.register(LoanApplication)
+admin.site.register(LoanDocuments)

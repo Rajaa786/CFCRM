@@ -1,8 +1,25 @@
+from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.conf import settings
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+
+# ------------------------- Newly Created Models --------------------------------------------
+class CompanyCat(models.Model):
+    company_cat      = models.CharField(max_length=100)
+    effective_date   = models.DateField(null = True)
+    ineffective_date = models.DateField(blank=True, null = True)
+    def __str__(self): 
+        return self.company_cat
+
+class Tenure(models.Model):
+    tenure           = models.IntegerField()
+    effective_date   = models.DateField(null = True)
+    ineffective_date = models.DateField(blank=True, null = True)
+    def __str__(self): 
+        return self.tenure
+# -------------------------------------------------------------------------------------------
 
 class Prefix(models.Model): 
     prefix           = models.CharField(max_length=5)
@@ -35,7 +52,7 @@ class MaritalStatus(models.Model):
 
 class Qualification(models.Model): 
     qualification    = models.CharField(max_length=25)
-    degree        = models.BooleanField(default=False)
+    degree           = models.BooleanField(default=False)
     effective_date   = models.DateField(null = True)
     ineffective_date = models.DateField(blank=True, null = True)
     def __str__(self): 
@@ -74,36 +91,42 @@ class CustomerType(models.Model):
     ineffective_date = models.DateField(blank=True, null = True)
     def __str__(self): 
         return self.cust_type
+
 class DesignationType(models.Model): 
     desg_type        = models.CharField(max_length=25)
     effective_date   = models.DateField(null = True)
     ineffective_date = models.DateField(blank=True, null = True)
     def __str__(self): 
         return self.desg_type
+
 class CompanyType(models.Model): 
     company_type     = models.CharField(max_length=30)
     effective_date   = models.DateField(null = True)
     ineffective_date = models.DateField(blank=True, null = True)
     def __str__(self): 
         return self.company_type
+
 class SalaryType(models.Model): 
     salary_type      = models.CharField(max_length=25)
     effective_date   = models.DateField(null = True)
     ineffective_date = models.DateField(blank=True, null = True)
     def __str__(self): 
         return self.salary_type
+
 class ResidenceType(models.Model): 
     residence_type   = models.CharField(max_length=25)
     effective_date   = models.DateField(null = True)
     ineffective_date = models.DateField(blank=True, null = True)
     def __str__(self): 
         return self.residence_type
+
 class BankName(models.Model): 
     bank_name        = models.CharField(max_length=25)
     effective_date   = models.DateField(null = True)
     ineffective_date = models.DateField(blank=True, null = True)
     def __str__(self): 
         return self.bank_name
+
 class LeadSource(models.Model): 
     lead_source      = models.CharField(max_length=25)
     effective_date   = models.DateField(null = True)
