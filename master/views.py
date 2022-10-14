@@ -11,6 +11,73 @@ from django.contrib.auth.decorators import login_required
 from stronghold.decorators import public
 
 # Create your views here.
+
+#-------------------------- Newly Created methods -----------------------------------------------
+
+def CompanyName_form(request):
+    if request.method == 'POST':
+        companynameformvalue = request.POST['CompanyName'].strip()
+        effective_date = date.today()
+        ineffective_date = request.POST['CompanyNameIdate']
+        if CompanyName.objects.filter(company_name=companynameformvalue).exists():
+            messages.info(request, 'Company Name already exists')
+            return redirect('Master_details')
+        else :
+            newcompanytype = CompanyName.objects.create(company_name=companynameformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+            newcompanytype.save()
+            return redirect('Master_details')
+
+    return render(request, 'master/master_details.html')
+
+
+def CompanyType_form(request):
+    if request.method == 'POST':
+        companytypeformvalue = request.POST['CompanyType'].strip()
+        effective_date = date.today()
+        ineffective_date = request.POST['CompanyTypeIdate']
+        if CompanyType.objects.filter(company_type=companytypeformvalue).exists():
+            messages.info(request, 'Company Type already exists')
+            return redirect('Master_details')
+        else :
+            newcompanytype = CompanyType.objects.create(company_type=companytypeformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+            newcompanytype.save()
+            return redirect('Master_details')
+
+    return render(request, 'master/master_details.html')
+
+
+def CompanyCat_form(request):
+    if request.method == 'POST':
+        companycatformvalue = request.POST['CompanyCat'].strip()
+        effective_date = date.today()
+        ineffective_date = request.POST['CompanyCatIdate']
+        if CompanyCat.objects.filter(company_cat=companycatformvalue).exists():
+            messages.info(request, 'Company Category already exists')
+            return redirect('Master_details')
+        else :
+            newcompanycat = CompanyCat.objects.create(company_cat=companycatformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+            newcompanycat.save()
+            return redirect('Master_details')
+
+    return render(request, 'master/master_details.html')
+
+
+def Tenure_form(request):
+    if request.method == 'POST':
+        tenureformvalue = request.POST['Tenure'].strip()
+        effective_date = date.today()
+        ineffective_date = request.POST['TenureIdate']
+        if Tenure.objects.filter(tenure=tenureformvalue).exists():
+            messages.info(request, 'Tenure already exists')
+            return redirect('Master_details')
+        else :
+            newtenure = Tenure.objects.create(tenure=tenureformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+            newtenure.save()
+            return redirect('Master_details')
+
+    return render(request, 'master/master_details.html')
+#------------------------------------------------------------------------------------------------
+
 def Agreementtype_form(request):
     if request.method == 'POST':
         agreementtypeformvalue = request.POST['AgreementType'].strip()
@@ -367,6 +434,7 @@ def City_form(request):
 @login_required (redirect_field_name='login', login_url='login')
 def Masterdetails(request):
     # print(SubProduct.objects.all()[0].product.product)
+    print(CompanyCat.objects.all()[0].id)
     context = {
         'qualifications'      : Qualification.objects.all(),
         'professions'         : Profession.objects.all(),
@@ -392,8 +460,63 @@ def Masterdetails(request):
         'agreementtypes'      : AgreementType.objects.all(),
         'stageOfconstructions': StageOfConstruction.objects.all(),
         'rejectiontypes'      : RejectionType.objects.all(),
+        'company_name'        : CompanyName.objects.all(),
+        'company_type'        : CompanyType.objects.all(),
+        'company_cat'         : CompanyCat.objects.all(),
+        'tenure'              : Tenure.objects.all(),
     }
     return render(request, 'master/master_details.html', context=context)
+
+def editcompanyname(request, id):
+    if request.method == 'POST':
+        company_name = CompanyName.objects.filter(id=id)
+        newcompanyname = request.POST['CompanyName']
+        company_name.update(company_name=newcompanyname)
+        return redirect('Master_details')
+    print(CompanyName.objects.filter(id=id)[0])
+    context = {
+        'CompanyName': CompanyName.objects.filter(id=id)[0]
+    }
+    return render(request, 'master/qualification_edit.html', context=context)
+
+
+def editcompanytype(request, id):
+    if request.method == 'POST':
+        company_type = CompanyType.objects.filter(id=id)
+        newcompanytype = request.POST['CompanyType']
+        company_type.update(company_type=newcompanytype)
+        return redirect('Master_details')
+    print(CompanyType.objects.filter(id=id)[0])
+    context = {
+        'CompanyType': CompanyType.objects.filter(id=id)[0]
+    }
+    return render(request, 'master/qualification_edit.html', context=context)
+
+def editcompanycat(request, id):
+    if request.method == 'POST':
+        company_cat = CompanyCat.objects.filter(id=id)
+        newcompanycat = request.POST['CompanyCat']
+        company_cat.update(company_cat=newcompanycat)
+        return redirect('Master_details')
+    print(CompanyCat.objects.filter(id=id)[0])
+    context = {
+        'CompanyCat': CompanyCat.objects.filter(id=id)[0]
+    }
+    return render(request, 'master/qualification_edit.html', context=context)
+
+
+def edittenure(request, id):
+    if request.method == 'POST':
+        tenure = Tenure.objects.filter(id=id)
+        newtenure = request.POST['Tenure']
+        tenure.update(tenure=newtenure)
+        return redirect('Master_details')
+    print(Tenure.objects.filter(id=id)[0])
+    context = {
+        'Tenure': Tenure.objects.filter(id=id)[0]
+    }
+    return render(request, 'master/qualification_edit.html', context=context)
+
 
 def editqualification(request, id):
     if request.method == 'POST':

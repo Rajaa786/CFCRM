@@ -344,7 +344,6 @@ class HlIncomeFoir(models.Model):
 
 class Cibil(models.Model): 
     cibil_id           = models.AutoField(primary_key=True)
-    cibil_loan_type_id = models.ForeignKey(CibilLoanType, on_delete=models.CASCADE, null=True)
     min_amount         = models.BigIntegerField()
     max_amount         = models.BigIntegerField()
     min_cibil          = models.IntegerField()

@@ -31,7 +31,6 @@ from django.utils.datastructures import MultiValueDictKeyError
 #     return BaseUserManager().make_random_password(size)
 from leadgenerator.settings import EMAIL_HOST_USER
 from HomeLoan.models import *
-from stronghold.decorators import public
 
 
 '''
@@ -57,8 +56,14 @@ def view_leads(request):
 
 def lead_detail(request, pk):
     lead = Leads.objects.get(id=pk)
+    loan_applicant = LoanApplication.objects.filter(lead_id=lead)
+    loan_documents = LoanDocuments.objects.filter(loanApplication__in=loan_applicant)
+    for document in loan_documents:
+        print(document.document.name)
     context = {
-        "lead": lead
+        "lead": lead,
+        "loan_appicant": loan_applicant,
+        "loan_documents": loan_documents
     }
 
     return render(request, 'account/lead_detail.html', context)
@@ -588,7 +593,7 @@ def list_leads(request):
     preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(ids)])
     listleads = Leads.objects.filter(pk__in=ids).order_by(preserved)
     # return render(request, 'music/songs.html',  {'song': song})
-    return render(request, 'account/list_lead.html', {'listleads': listleads})
+    return render(request, 'account/new_list_lead.html', {'listleads': listleads})
 
 
 # def list_lead_del(request, id):

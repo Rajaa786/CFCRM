@@ -1,6 +1,10 @@
+from inspect import CO_ASYNC_GENERATOR
 from django.contrib import admin
 from .models import *
 # Register your models here.
+
+admin.site.register(CompanyCat)
+# ----------------------------------
 admin.site.register(Product)
 admin.site.register(SubProduct)
 admin.site.register(Gender)
