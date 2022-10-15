@@ -1,0 +1,375 @@
+{% load static %}
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Creative Finserve => {{s.loan_type}} Loan ~ Salaried</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        {% include 'topbar.html' %}
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-1 text-gray-800">{{s.loan_type}} Loan ~ Salaried</h1>
+                    {% csrf_token %}
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Fade In Utility -->
+            <div class="col">
+              <div class="card position-relative">
+                <div id="print">
+
+                      <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Applicant Details</h6>
+                      </div>
+                      <div class="card-body">
+                          <div class="form-group form-inline">
+                            <label class="col-2" style="color: black"><b>Name:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:300px" value="{{s.name}}" readonly></label>
+                            </div>
+                            <label class="col-2" style="color: black"><b>Mobile No.:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:300px" value="{{s.mobile}}" readonly></label>
+                            </div>
+                          </div>
+                          <div class="form-group form-inline">
+                            <label class="col-2" style="color: black"><b>Email ID:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:300px" name="email" value="{{s.email}}" readonly></label>
+                            </div>
+                            <label class="col-2" style="color: black"><b>Customer Type:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:300px" value="{{s.custo_type}}" readonly></label>
+                            </div>
+                          </div>
+                          <div class="form-group form-inline">
+                            <label class="col-2" style="color: black"><b>Company Name:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:300px" value="{{s.company_name}}" readonly></label>
+                            </div>
+                            <label class="col-2" style="color: black"><b>Category:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:300px" value="{{cat}}" readonly></label>
+                            </div>
+                          </div>
+                          <div class="form-group form-inline">
+                            <label class="col-2" style="color: black"><b>Customer Required loan:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:300px" value="{{s.loan_amt}}" readonly></label>
+                            </div>
+                            <label class="col-2" style="color: black"><b>ELIGIBLE OR NOT:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:300px" value="{{msg}}" readonly></label>
+                            </div>
+                          </div>
+
+                      </div>
+                      <div class="card position-relative">
+                          <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Amount of Loan Allowed</h6>
+                          </div>
+                        <div class="card-body">
+                          <div class="form-group form-inline">
+                            <label class="col-2" style="color: black"><b>MULTIPLIER:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:200px" value="{{alamt}}" readonly></label>
+                            </div>
+                            <label class="col-2" style="color: black"><b>FOIR:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:400px" value="{{elig}}" readonly></label>
+                            </div>
+                          </div>
+                          <div class="form-group form-inline">
+                            <label class="col-2" style="color: black"><b>Customer Required Loan:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:200px" value="{{s.loan_amt}}" readonly></label>
+                            </div>
+                            <label class="col-2" style="color: black"><b>Final Loan Amount:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:400px" value="{{final}}" readonly></label>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="card position-relative">
+                          <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Multiplier Calculation</h6>
+                          </div>{{co}}
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                              <thead>
+                                <tr>
+                                  <th style="color:black">Co-Category Type</th>
+                                  <th style="color:black">Bank Name</th>
+                                  <th style="color:black">Loan Amount</th>
+                                  <th style="color:black">Rate of Interest</th>
+                                  <th style="color:black">Tenure(months)</th>
+                                  <th style="color:black">Processing Fee</th>
+                                  <th style="color:black">Bank Capping</th>
+                                  <th style="color:black">Loan Eligibility</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% for i in cv %}
+                                {% for j in prod %}
+                                  {% if i == j.pp_id %}
+                                    <td style="color:#000005">{{cate}}</td>
+                                    <td style="color:#000005">{{j.bank_names}}</td>
+                                    <td style="color:#000005">{{s.loan_amt}}</td>
+                                    <td style="color:#000005">{{j.roi}}</td>
+                                    <td style="color:#000005">{{s.tenure}}</td>
+                                    <td style="color:#000005">
+                                      <input class="form-control" type="text" style="width:80px" value="{{j.processing_fee}}">
+                                    </td>
+                                    <td style="color:#000005">{{alamt}}</td>
+                                    <td style="color:#000005">{{mul}}</td>
+                                  {% endif %}
+                                {% endfor %}
+                              {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                  {% if alamt1 != 0 %}
+                      <div class="card position-relative">
+                          <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">FOIR Calculation</h6>
+                          </div><br>
+                          <div class="form-group form-inline">
+                            <label class="col-2" style="color: black"><b>Net Salary:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:200px" value="{{s.net_sal}}"></label>
+                            </div>
+                            <label class="col-2" style="color: black"><b>Cutoff Multiplied:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:200px" value="{{cut}}"></label>
+                            </div>
+                          </div>
+                          <div class="form-group form-inline">
+                            <label class="col-2" style="color: black"><b>Obligation:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:200px" value="{{ob}}"></label>
+                            </div>
+                            <label class="col-2" style="color: black"><b>Total EMI:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:200px" value="{{tot}}"></label>
+                            </div>
+                          </div>
+                          <div class="form-group form-inline">
+                            <label class="col-2" style="color: black"><b>EMI:</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:200px" value="{{emi}}"></label>
+                            </div>
+                            <label class="col-2" style="color: black"><b>Loan Amount(FOIR):</b></label>
+                            <div class="mr-3">
+                              <input class="form-control" type="text" style="width:200px" value="{{elig}}"></label>
+                            </div>
+                          </div>
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                              <thead>
+                                <tr>
+                                  <th style="color:black">Co-Category</th>
+                                  <th style="color:black">Bank Name</th>
+                                  <th style="color:black">Loan Amount</th>
+                                  <th style="color:black">Rate of Interest</th>
+                                  <th style="color:black">EMI</th>
+                                  <th style="color:black">Tenure(months)</th>
+                                  <th style="color:black">Processing Fee</th>
+                                  <th style="color:black">Bank Capping</th>
+                                  <th style="color:black">Loan Eligibility</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% for i in cv %}
+                                {% for j in prod %}
+                                  {% if i == j.pp_id %}
+                                    <td style="color:#000005">{{cate}}</td>
+                                    <td style="color:#000005">{{j.bank_names}}</td>
+                                    <td style="color:#000005">{{s.loan_amt}}</td>
+                                    <td style="color:#000005">{{j.roi}}</td>
+                                    <td style="color:#000005">{{tot}}</td>
+                                    <td style="color:#000005">{{s.tenure}}</td>
+                                    <td style="color:#000005">
+                                      <input class="form-control" type="text" style="width:80px" value="{{j.processing_fee}}">
+                                    </td>
+                                    <td style="color:#000005">{{elig}}</td>
+                                    <td style="color:#000005">{{foi}}</td>
+                                  {% endif %}
+                                {% endfor %}
+                              {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                  {% endif %}
+                </div>
+                </div>
+              <div class="card position-relative">
+                      <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">FOIR Calculation</h6>
+                      </div><br>
+                          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+                          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+                          <script type="text/javascript">
+                            function Export() {
+                                html2canvas(document.getElementById('print'), {
+                                    onrendered: function (canvas) {
+                                        var data = canvas.toDataURL();
+                                        var docDefinition = {
+                                            content: [{
+                                                image: data,
+                                                width: 500
+                                            }]
+                                        };
+                                        pdfMake.createPdf(docDefinition).download("{{s.name}}-{{s.loan_type}} Loan ~ Salaried.pdf");
+                                    }
+                                });
+                            }
+                          </script>
+                          <script>
+                            function printDiv(divName) {
+                               var printContents = document.getElementById(divName).innerHTML;
+                               var originalContents = document.body.innerHTML;
+
+                               document.body.innerHTML = printContents;
+
+                               window.print();
+
+                               document.body.innerHTML = originalContents;
+                             }
+                          </script>
+                          <div class="form-group form-inline">
+                            <div class="card-body">
+                              <table align="center">
+                                <tr>
+                                  <td>
+                                    <div style="text-align:center">
+                                      <button class="btn btn-primary mr-3" onclick="printDiv('print')" type="submit">Print</button>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div style="text-align:center">
+                                      <button class="btn btn-primary mr-3" onclick="Export()">Download PDFs</button>
+                                    </div>
+                                  </td>
+                                  <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+<!--                                  <script type="text/javascript">-->
+<!--                                    function sendEmail() {-->
+<!--                                      Email.send({-->
+
+<!--                                        Username: "siddhi3107@gmail.com",-->
+<!--                                        Password: "$idkad1138",-->
+<!--                                        To: siddhi.kadam@sakec.ac.in,-->
+<!--                                        From: "siddhi3107@gmail.com",-->
+<!--                                        Subject: "Siddhi Kadam trials",-->
+<!--                                        Body: "Well that was easy!!",-->
+<!--                                      })-->
+<!--                                        .then(function (message) {-->
+<!--                                          alert("mail sent successfully")-->
+<!--                                        });-->
+<!--                                    }-->
+<!--                                  </script>-->
+                                  <td>
+                                    <div style="text-align:center">
+                                      <form action="/crm_app/mail" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="email" value="{{s.email}}">
+                                        <button class="btn btn-primary mr-3"><a style="color:white" title="Share by Email">Mail</a></button>
+                                      </form>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div style="text-align:center">
+                                      <button class="btn btn-primary mr-3" type="submit"><a href="/crm_app/index_calc" style="color:white">Calculator</a></button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+
+              </div>
+            </div>
+          </div>
+            <!-- /.container-fluid -->
+          </div>
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2019</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  {% include 'logout.html' %}
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+
+</body>
+
+</html>

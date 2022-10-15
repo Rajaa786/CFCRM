@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from stronghold.decorators import public
 
 # Create your views here.
+
+
 def Agreementtype_form(request):
     if request.method == 'POST':
         agreementtypeformvalue = request.POST['AgreementType'].strip()
@@ -19,8 +21,9 @@ def Agreementtype_form(request):
         if AgreementType.objects.filter(agreement_type=agreementtypeformvalue).exists():
             messages.info(request, 'Agreement Type already exists')
             return redirect('Master_details')
-        else :
-            newagreementtype = AgreementType.objects.create(agreement_type=agreementtypeformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newagreementtype = AgreementType.objects.create(
+                agreement_type=agreementtypeformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newagreementtype.save()
             return redirect('Master_details')
 
@@ -35,11 +38,13 @@ def Applicanttype_form(request):
         if ApplicantType.objects.filter(applicant_type=applicanttypeformvalue).exists():
             messages.info(request, 'Applicant Type already exists')
             return redirect('Master_details')
-        else :
-            newapplicanttype = ApplicantType.objects.create(applicant_type=applicanttypeformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newapplicanttype = ApplicantType.objects.create(
+                applicant_type=applicanttypeformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newapplicanttype.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def AYyear_form(request):
     if request.method == 'POST':
@@ -49,11 +54,13 @@ def AYyear_form(request):
         if AYYear.objects.filter(ay_year=ayyearformvalue).exists():
             messages.info(request, 'Ay Year already exists')
             return redirect('Master_details')
-        else :
-            newayyear = AYYear.objects.create(ay_year=ayyearformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newayyear = AYYear.objects.create(
+                ay_year=ayyearformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newayyear.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def NatureOfBusiness_form(request):
     if request.method == 'POST':
@@ -63,11 +70,13 @@ def NatureOfBusiness_form(request):
         if NatureOfBusiness.objects.filter(nature_business=natureofbusinessformvalue).exists():
             messages.info(request, 'Nature of Business already exists')
             return redirect('Master_details')
-        else :
-            newnatureofbusiness = NatureOfBusiness.objects.create(nature_business=natureofbusinessformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newnatureofbusiness = NatureOfBusiness.objects.create(
+                nature_business=natureofbusinessformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newnatureofbusiness.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def PropertyIn_form(request):
     if request.method == 'POST':
@@ -77,11 +86,13 @@ def PropertyIn_form(request):
         if PropertyIn.objects.filter(property_in=propertyinformvalue).exists():
             messages.info(request, 'PropertyIn Business already exists')
             return redirect('Master_details')
-        else :
-            newpropertyin = PropertyIn.objects.create(property_in=propertyinformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newpropertyin = PropertyIn.objects.create(
+                property_in=propertyinformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newpropertyin.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def RejectionType_form(request):
     if request.method == 'POST':
@@ -92,12 +103,14 @@ def RejectionType_form(request):
         if RejectionType.objects.filter(rejection_type=rejectiontypeformvvalue, rejection_reason=rejectiontypereasonformvvalue).exists():
             messages.info(request, 'Rejection type already exists')
             return redirect('Master_details')
-        else :
-            newrejectiontype = RejectionType.objects.create(rejection_type=rejectiontypeformvvalue, rejection_reason=rejectiontypereasonformvvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newrejectiontype = RejectionType.objects.create(
+                rejection_type=rejectiontypeformvvalue, rejection_reason=rejectiontypereasonformvvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newrejectiontype.save()
             return redirect('Master_details')
 
     return render(request, 'master/master_details.html')
+
 
 def StageOfConstruction_form(request):
     if request.method == 'POST':
@@ -107,11 +120,13 @@ def StageOfConstruction_form(request):
         if StageOfConstruction.objects.filter(stage=stageformvalue).exists():
             messages.info(request, 'Stage Of Construction already exists')
             return redirect('Master_details')
-        else :
-            newstage = StageOfConstruction.objects.create(stage=stageformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newstage = StageOfConstruction.objects.create(
+                stage=stageformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newstage.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def Status_form(request):
     if request.method == 'POST':
@@ -121,11 +136,13 @@ def Status_form(request):
         if Status.objects.filter(status=statusformvalue).exists():
             messages.info(request, 'Status already exists')
             return redirect('Master_details')
-        else :
-            newstatus = Status.objects.create(status=statusformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newstatus = Status.objects.create(
+                status=statusformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newstatus.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def CompanyType_form(request):
     if request.method == 'POST':
@@ -135,11 +152,13 @@ def CompanyType_form(request):
         if CompanyType.objects.filter(company_type=companytypeformvalue).exists():
             messages.info(request, 'Company Type already exists')
             return redirect('Master_details')
-        else :
-            newcompanytype = CompanyType.objects.create(company_type=companytypeformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newcompanytype = CompanyType.objects.create(
+                company_type=companytypeformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newcompanytype.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def CustomerType_form(request):
     if request.method == 'POST':
@@ -149,11 +168,13 @@ def CustomerType_form(request):
         if CustomerType.objects.filter(cust_type=customertypeformvalue).exists():
             messages.info(request, 'Customer Type already exists')
             return redirect('Master_details')
-        else :
-            newcustomertype = CustomerType.objects.create(cust_type=customertypeformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newcustomertype = CustomerType.objects.create(
+                cust_type=customertypeformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newcustomertype.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def DesignationType_form(request):
     if request.method == 'POST':
@@ -163,11 +184,13 @@ def DesignationType_form(request):
         if DesignationType.objects.filter(desg_type=designationtypeformvalue).exists():
             messages.info(request, 'Designation Type already exists')
             return redirect('Master_details')
-        else :
-            newdesignationtype = DesignationType.objects.create(desg_type=designationtypeformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newdesignationtype = DesignationType.objects.create(
+                desg_type=designationtypeformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newdesignationtype.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def Product_form(request):
     if request.method == 'POST':
@@ -177,11 +200,13 @@ def Product_form(request):
         if Product.objects.filter(product=productformvalue).exists():
             messages.info(request, 'Product already exists')
             return redirect('Master_details')
-        else :
-            newProduct = Product.objects.create(product=productformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newProduct = Product.objects.create(
+                product=productformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newProduct.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def Profession_form(request):
     if request.method == 'POST':
@@ -191,11 +216,13 @@ def Profession_form(request):
         if Profession.objects.filter(profession=professionformvalue).exists():
             messages.info(request, 'Profession already exists')
             return redirect('Master_details')
-        else :
-            newprofession = Profession.objects.create(profession=professionformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newprofession = Profession.objects.create(
+                profession=professionformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newprofession.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def Qualification_form(request):
     if request.method == 'POST':
@@ -205,11 +232,13 @@ def Qualification_form(request):
         if Qualification.objects.filter(qualification=qualificationformvalue).exists():
             messages.info(request, 'qualification already exists')
             return redirect('Master_details')
-        else :
-            newqualification = Qualification.objects.create(qualification=qualificationformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newqualification = Qualification.objects.create(
+                qualification=qualificationformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newqualification.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def Role_form(request):
     if request.method == 'POST':
@@ -219,11 +248,13 @@ def Role_form(request):
         if Role.objects.filter(role=roleformvalue).exists():
             messages.info(request, 'Role already exists')
             return redirect('Master_details')
-        else :
-            newrole = Role.objects.create(role=roleformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newrole = Role.objects.create(
+                role=roleformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newrole.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def BankName_form(request):
     if request.method == 'POST':
@@ -233,11 +264,13 @@ def BankName_form(request):
         if BankName.objects.filter(bank_name=banknameformvalue).exists():
             messages.info(request, 'Bank Name already exists')
             return redirect('Master_details')
-        else :
-            newbankname = BankName.objects.create(bank_name=banknameformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newbankname = BankName.objects.create(
+                bank_name=banknameformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newbankname.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def Degree_form(request):
     if request.method == 'POST':
@@ -247,11 +280,13 @@ def Degree_form(request):
         if Degree.objects.filter(degree=degreeformvalue).exists():
             messages.info(request, 'Degree already exists')
             return redirect('Master_details')
-        else :
-            newdegree = Degree.objects.create(degree=degreeformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newdegree = Degree.objects.create(
+                degree=degreeformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newdegree.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def LeadSource_form(request):
     if request.method == 'POST':
@@ -261,11 +296,13 @@ def LeadSource_form(request):
         if LeadSource.objects.filter(lead_source=leadsourceformvalue).exists():
             messages.info(request, 'Degree already exists')
             return redirect('Master_details')
-        else :
-            newleadsource = LeadSource.objects.create(lead_source=leadsourceformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newleadsource = LeadSource.objects.create(
+                lead_source=leadsourceformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newleadsource.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def Nationality_form(request):
     if request.method == 'POST':
@@ -275,11 +312,13 @@ def Nationality_form(request):
         if Nationality.objects.filter(nationality=nationalityformvalue).exists():
             messages.info(request, 'Degree already exists')
             return redirect('Master_details')
-        else :
-            newnationality = Nationality.objects.create(nationality=nationalityformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newnationality = Nationality.objects.create(
+                nationality=nationalityformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newnationality.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def ResidenceType_form(request):
     if request.method == 'POST':
@@ -289,11 +328,13 @@ def ResidenceType_form(request):
         if ResidenceType.objects.filter(residence_type=residencetypeformvalue).exists():
             messages.info(request, 'Residence Type already exists')
             return redirect('Master_details')
-        else :
-            newresidencetype = ResidenceType.objects.create(residence_type=residencetypeformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newresidencetype = ResidenceType.objects.create(
+                residence_type=residencetypeformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newresidencetype.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def SalaryType_form(request):
     if request.method == 'POST':
@@ -303,11 +344,13 @@ def SalaryType_form(request):
         if SalaryType.objects.filter(salary_type=salarytypeformvalue).exists():
             messages.info(request, 'Salary Type already exists')
             return redirect('Master_details')
-        else :
-            newsalarytype = SalaryType.objects.create(salary_type=salarytypeformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newsalarytype = SalaryType.objects.create(
+                salary_type=salarytypeformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newsalarytype.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def State_form(request):
     if request.method == 'POST':
@@ -317,11 +360,13 @@ def State_form(request):
         if State.objects.filter(state=stateformvalue).exists():
             messages.info(request, 'State already exists')
             return redirect('Master_details')
-        else :
-            newstate = State.objects.create(state=stateformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newstate = State.objects.create(
+                state=stateformvalue, effective_date=effective_date, ineffective_date=ineffective_date)
             newstate.save()
             return redirect('Master_details')
     return render(request, 'master/master_details.html')
+
 
 def SubProduct_form(request):
     if request.method == 'POST':
@@ -332,16 +377,18 @@ def SubProduct_form(request):
         if SubProduct.objects.filter(sub_product=subproductformvalue, product=product).exists():
             messages.info(request, 'Sub Product already exists')
             return redirect('Master_details')
-        else :
-            newsubproduct = SubProduct.objects.create(sub_product=subproductformvalue, product=product,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newsubproduct = SubProduct.objects.create(
+                sub_product=subproductformvalue, product=product, effective_date=effective_date, ineffective_date=ineffective_date)
             newsubproduct.save()
             return redirect('Master_details')
 
     products = Product.objects.all()
     context = {
-        'products':products,
+        'products': products,
     }
     return render(request, 'master/master_details.html', context=context)
+
 
 def City_form(request):
     if request.method == 'POST':
@@ -352,48 +399,56 @@ def City_form(request):
         if City.objects.filter(city_name=cityformvalue, state=state).exists():
             messages.info(request, 'city already exists')
             return redirect('Master_details')
-        else :
-            newcity = City.objects.create(city_name=cityformvalue, state=state,effective_date = effective_date,ineffective_date=ineffective_date)
+        else:
+            newcity = City.objects.create(city_name=cityformvalue, state=state,
+                                          effective_date=effective_date, ineffective_date=ineffective_date)
             newcity.save()
             return redirect('Master_details')
 
     states = State.objects.all()
     context = {
-        'states':states
+        'states': states
     }
     return render(request, 'master/master_details.html', context=context)
 
 
-@login_required (redirect_field_name='login', login_url='login')
+@login_required(redirect_field_name='login', login_url='login')
 def Masterdetails(request):
     # print(SubProduct.objects.all()[0].product.product)
     context = {
-        'qualifications'      : Qualification.objects.all(),
-        'professions'         : Profession.objects.all(),
-        'roles'               : Role.objects.all(),
-        'products'            : Product.objects.all(),
-        'subproducts'         : SubProduct.objects.all(),
-        'customertypes'       : CustomerType.objects.all(),
-        'designationtypes'    : DesignationType.objects.all(),
-        'companytypes'        : CompanyType.objects.all(),
-        'salarytypes'         : SalaryType.objects.all(),
-        'residencetypes'      : ResidenceType.objects.all(),
-        'banknames'           : BankName.objects.all(),
-        'leadsources'         : LeadSource.objects.all(),
-        'degrees'             : Degree.objects.all(),
-        'nationalitys'        : Nationality.objects.all(),
-        'states'              : State.objects.all(),
-        'citys'               : City.objects.all(),
-        'applicanttypes'      : ApplicantType.objects.all(),
-        'propertyins'         : PropertyIn.objects.all(),
-        'statues'             : Status.objects.all(),
-        'natureofbusinesss'   : NatureOfBusiness.objects.all(),
-        'ayyears'             : AYYear.objects.all(),
-        'agreementtypes'      : AgreementType.objects.all(),
+        'qualifications': Qualification.objects.all(),
+        'professions': Profession.objects.all(),
+        'roles': Role.objects.all(),
+        'products': Product.objects.all(),
+        'subproducts': SubProduct.objects.all(),
+        'customertypes': CustomerType.objects.all(),
+        'designationtypes': DesignationType.objects.all(),
+        'companytypes': CompanyType.objects.all(),
+        'salarytypes': SalaryType.objects.all(),
+        'residencetypes': ResidenceType.objects.all(),
+        'banknames': BankName.objects.all(),
+        'leadsources': LeadSource.objects.all(),
+        'degrees': Degree.objects.all(),
+        'nationalitys': Nationality.objects.all(),
+        'states': State.objects.all(),
+        'citys': City.objects.all(),
+        'applicanttypes': ApplicantType.objects.all(),
+        'propertyins': PropertyIn.objects.all(),
+        'statues': Status.objects.all(),
+        'natureofbusinesss': NatureOfBusiness.objects.all(),
+        'ayyears': AYYear.objects.all(),
+        'agreementtypes': AgreementType.objects.all(),
         'stageOfconstructions': StageOfConstruction.objects.all(),
-        'rejectiontypes'      : RejectionType.objects.all(),
+        'rejectiontypes': RejectionType.objects.all(),
     }
     return render(request, 'master/master_details.html', context=context)
+
+
+def master_product_policy(request):
+    a = prod_policy_master.objects.all()
+    cocat = pp_cocat_type.objects.all()
+    return render(request, 'master_product_policy.html', {'a': a, 'c': cocat})
+
 
 def editqualification(request, id):
     if request.method == 'POST':
@@ -407,6 +462,7 @@ def editqualification(request, id):
     }
     return render(request, 'master/qualification_edit.html', context=context)
 
+
 def editprofession(request, id):
     if request.method == 'POST':
         profession = Profession.objects.filter(id=id)
@@ -418,6 +474,7 @@ def editprofession(request, id):
         'profession': Profession.objects.filter(id=id)[0]
     }
     return render(request, 'master/profession_edit.html', context=context)
+
 
 def editrole(request, id):
     if request.method == 'POST':
@@ -431,9 +488,10 @@ def editrole(request, id):
     }
     return render(request, 'master/role_edit.html', context=context)
 
+
 def editproduct(request, id):
     if request.method == 'POST':
-        product =Product.objects.filter(id=id)
+        product = Product.objects.filter(id=id)
         newproduct = request.POST['Product']
         product.update(product=newproduct)
         return redirect('Master_details')
@@ -442,6 +500,7 @@ def editproduct(request, id):
         'product': Product.objects.filter(id=id)[0]
     }
     return render(request, 'master/product_edit.html', context=context)
+
 
 def editsubproduct(request, id):
     if request.method == 'POST':
@@ -455,6 +514,7 @@ def editsubproduct(request, id):
     }
     return render(request, 'master/subproduct_edit.html', context=context)
 
+
 def editcustomertype(request, id):
     if request.method == 'POST':
         cust_type = CustomerType.objects.filter(id=id)
@@ -466,6 +526,7 @@ def editcustomertype(request, id):
         'cust_type': CustomerType.objects.filter(id=id)[0]
     }
     return render(request, 'master/customertype_edit.html', context=context)
+
 
 def editdesignationtype(request, id):
     if request.method == 'POST':
@@ -479,6 +540,7 @@ def editdesignationtype(request, id):
     }
     return render(request, 'master/designationtype_edit.html', context=context)
 
+
 def editcompanytype(request, id):
     if request.method == 'POST':
         company_type = CompanyType.objects.filter(id=id)
@@ -490,6 +552,7 @@ def editcompanytype(request, id):
         'company_type': CompanyType.objects.filter(id=id)[0]
     }
     return render(request, 'master/companytype_edit.html', context=context)
+
 
 def editsalarytype(request, id):
     if request.method == 'POST':
@@ -503,6 +566,7 @@ def editsalarytype(request, id):
     }
     return render(request, 'master/salarytype_edit.html', context=context)
 
+
 def editresidencetype(request, id):
     if request.method == 'POST':
         residence_type = ResidenceType.objects.filter(id=id)
@@ -514,6 +578,7 @@ def editresidencetype(request, id):
         'residence_type': ResidenceType.objects.filter(id=id)[0]
     }
     return render(request, 'master/residencetype_edit.html', context=context)
+
 
 def editbankname(request, id):
     if request.method == 'POST':
@@ -527,6 +592,7 @@ def editbankname(request, id):
     }
     return render(request, 'master/editbankname.html', context=context)
 
+
 def editleadsource(request, id):
     if request.method == 'POST':
         lead_source = LeadSource.objects.filter(id=id)
@@ -538,6 +604,7 @@ def editleadsource(request, id):
         'lead_source': LeadSource.objects.filter(id=id)[0]
     }
     return render(request, 'master/leadsourceedit.html', context=context)
+
 
 def editdegree(request, id):
     if request.method == 'POST':
@@ -551,6 +618,7 @@ def editdegree(request, id):
     }
     return render(request, 'master/degree_edit.html', context=context)
 
+
 def editnationality(request, id):
     if request.method == 'POST':
         nationality = Nationality.objects.filter(id=id)
@@ -562,6 +630,7 @@ def editnationality(request, id):
         'nationality': Nationality.objects.filter(id=id)[0]
     }
     return render(request, 'master/nationality_edit.html', context=context)
+
 
 def editstate(request, id):
     if request.method == 'POST':
@@ -575,6 +644,7 @@ def editstate(request, id):
     }
     return render(request, 'master/state_edit.html', context=context)
 
+
 def editcity(request, id):
     if request.method == 'POST':
         city_name = City.objects.filter(id=id)
@@ -586,6 +656,7 @@ def editcity(request, id):
         'city_name': City.objects.filter(id=id)[0]
     }
     return render(request, 'master/city_edit.html', context=context)
+
 
 def editapplicanttype(request, id):
     if request.method == 'POST':
@@ -599,6 +670,7 @@ def editapplicanttype(request, id):
     }
     return render(request, 'master/applicant_edit.html', context=context)
 
+
 def editpropertyln(request, id):
     if request.method == 'POST':
         property_in = PropertyIn.objects.filter(id=id)
@@ -610,6 +682,7 @@ def editpropertyln(request, id):
         'property_in': PropertyIn.objects.filter(id=id)[0]
     }
     return render(request, 'master/propertyin_edit.html', context=context)
+
 
 def editstatus(request, id):
     if request.method == 'POST':
@@ -623,6 +696,7 @@ def editstatus(request, id):
     }
     return render(request, 'master/status_edit.html', context=context)
 
+
 def editnatureofbusiness(request, id):
     if request.method == 'POST':
         nature_business = NatureOfBusiness.objects.filter(id=id)
@@ -634,6 +708,7 @@ def editnatureofbusiness(request, id):
         'nature_business': NatureOfBusiness.objects.filter(id=id)[0]
     }
     return render(request, 'master/natureofbusiness_edit.html', context=context)
+
 
 def editayyear(request, id):
     if request.method == 'POST':
@@ -647,6 +722,7 @@ def editayyear(request, id):
     }
     return render(request, 'master/ayyear_edit.html', context=context)
 
+
 def editagreementtype(request, id):
     if request.method == 'POST':
         agreement_type = AgreementType.objects.filter(id=id)
@@ -659,6 +735,7 @@ def editagreementtype(request, id):
     }
     return render(request, 'master/agreement_edit.html', context=context)
 
+
 def editstageofconstruction(request, id):
     if request.method == 'POST':
         stage = StageOfConstruction.objects.filter(id=id)
@@ -670,6 +747,7 @@ def editstageofconstruction(request, id):
         'stage': StageOfConstruction.objects.filter(id=id)[0]
     }
     return render(request, 'master/stageofconstruction_edit.html', context=context)
+
 
 def editrejectiontype(request, id):
     if request.method == 'POST':

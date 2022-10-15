@@ -1,0 +1,682 @@
+{% load static %}
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin 2 - Animation Utilities</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <script src="{% static 'js/cities.js' %}"></script>
+  <style>
+    .box{
+        color: #fff;
+        padding: 20px;
+        display: none;
+        margin-top: 20px;
+    }
+  </style>
+  <style>
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
+
+.button5 {
+  background-color: white;
+  color: black;
+  border: 2px solid #FFFFFF;
+}
+  </style>
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  {% include 'sidebar.html' %}
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      {% include 'topbar.html' %}
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-1 text-gray-800">Add Customer Details</h1>
+        <br><br>
+        <!-- Content Row -->
+        <div class="row">
+
+          <!-- Fade In Utility -->
+          <div class="col">
+
+            <div class="card position-relative">
+              <div class="card-body">
+                <form method="POST" class="user" action="add_customer_table" id="form" onsubmit = "validateform()">
+                  {% csrf_token %}
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Personal Details</h6>
+                  </div><br>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Name:</b></label>
+                    <div class="mr-3">
+                      <input type="text" class="form-control" style="width:300px" name="name">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Mobile No.:</b></label>
+                    <div class="mr-3">
+                      <input type="number" class="form-control" style="width:300px" name="mobile">
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Email:</b></label>
+                    <div class="mr-3">
+                      <input type="text" class="form-control" style="width:300px" name="email">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Loan Type:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="loan_type">
+                        <option selected>Select Loan Type</option>
+                        {% for j in loan_type %}
+                        <option value={{ j.loan_type }}>{{ j.loan_type }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Customer Type:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="custo_type">
+                        <option selected>Select Customer Type</option>
+                        {% for j in custo_type %}
+                        <option value={{ j.type }}>{{ j.type }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <label class="col-2" style="color: black"><b>Tenure(months):</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="ten">
+                        <option value="Select" selected>Select Tenure</option>
+                        {% for j in t %}
+                        <option value={{ j.tenure }}>{{ j.tenure }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Loan Amount:</b></label>
+                    <div class="mr-3">
+                      <input type="number" class="form-control" style="width:300px" name="loan_amt">
+                    </div>
+                    <label class="col-1" style="color: black"><b>Age:</b></label>
+                    <div class="mr-3">
+                      <input type="number" class="form-control" style="width:80px" name="age">
+                    </div>
+                    <label class="col-1" style="color: black"><b>Retirement Age:</b></label>
+                    <div class="mr-3">
+                      <input type="number" class="form-control" style="width:80px" name="retire_age">
+                    </div>
+                  </div>
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Income Details</h6>
+                  </div><br>
+                  <script>
+                        function change(value){
+                        document.getElementById("cibil_score").value= value;
+                        }
+                     </script>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Cibil Score:</b></label>
+                    <div class="mr-3">
+                      <input type="number" class="form-control" style="width:300px" name="cibil_score" id="cibil_score" value="0">
+                    </div>
+                    <input type="button" class="btn btn-primary mr-3" onclick="change(9999)" value="NOT KNOWN">
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Salary Credit [Bank Name]:</b></label>
+                    <div class="mr-3">
+                      <input type="text" class="form-control" style="width:818px" name="bank_name">
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Gross Salary:</b></label>
+                    <div class="mr-3">
+                      <input type="number" class="form-control" style="width:300px" name="gross_sal">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Net Salary:</b></label>
+                    <div class="mr-3">
+                      <input type="number" class="form-control" style="width:300px" name="net_sal">
+                    </div>
+                  </div>
+
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Company Details</h6>
+                  </div><br>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Company Type:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="company_type">
+                        <option selected>Select Company Type</option>
+                        {% for j in com_type %}
+                        <option value={{ j.co_type }}>{{ j.co_type }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <label class="col-2" style="color: black"><b>Company Name:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="company_name">
+                        <option selected>Select Company Name</option>
+                        {% for j in co %}
+                        <option value={{ j.compName }}>{{ j.compName }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Designation:</b></label>
+                    <div class="mr-3">
+                      <input type="text" class="form-control" style="width:300px" name="designation">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Designation Type:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="designation_type">
+                        <option selected>Select Designation Type</option>
+                        {% for i in des %}
+                        <option value={{i.design}}>{{i.design}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Current Experience:</b></label>
+                    <div class="mr-3">
+                      <input type="number" class="form-control" style="width:300px" name="current_exp">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Total Experience:</b></label>
+                    <div class="mr-3">
+                      <input type="number" class="form-control" style="width:300px" name="total_exp">
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Employment Type:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="emp_type">
+                        <option selected>Select Employment Type</option>
+                        <option value="Permanent">Permanent</option>
+                        <option value="Temporary">Temporary</option>
+                        <option value="Contractual">Contractual</option>
+                        <option value="Consulting">Consulting</option>
+                        <option value="Freelancer">Freelancer</option>
+                        <option value="Internship">Internship</option>
+                      </select>
+                    </div>
+                    <label class="col-2" style="color: black"><b>Form 16?</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="form_16">
+                        <option selected>Form 16 taken?</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                  <script>
+                      $(document).ready(function(){
+                          $('input[type="checkbox"]').click(function(){
+                              var inputValue = $(this).attr("value");
+                              $("." + inputValue).toggle();
+                          });
+                      });
+                    </script>
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><label><input type="checkbox" name="colorCheckbox" value="notList"> Company NOT Listed Details</label></h6>
+                  </div><br>
+                  <div class="notList box">
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Paid Up Capital:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" style="width:300px" name="paid_up_cap">
+                      </div>
+                      <label class="col-2" style="color: black"><b>How Old is Company?</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" style="width:300px" name="company_yrs">
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Nature of Business:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" style="width:300px" name="nature_company">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Residence Details</h6>
+                  </div><br>
+                  <div class="form-group form-inline">
+                    <label class="col-1" style="color: black"><b>Current Residence Type:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:280px" name="residence_type">
+                        <option selected>Select Residence Type</option>
+                        {% for i in res %}
+                        <option value={{i.r_type}}>{{i.r_type}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <label class="col-1" style="color: black"><b>Select State:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:280px" onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt"></select>
+                    </div>
+                    <label class="col-1" style="color: black"><b>Select City:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:280px" id ="state" name="sttt"></select>
+                    </div>
+                    <script language="javascript">print_state("sts");</script>
+                  </div>
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><label><input type="checkbox" name="colorCheckbox" value="exloan"> Existing Loan Details</label></h6>
+                  </div><br>
+                  <div>
+                    <div class="exloan box">
+                      <div class="form-group form-inline">
+                        <label class="col-2" style="color: black"><b>Bank Name:</b></label>
+                        <div class="mr-3">
+                          <input type="text" class="form-control" style="width:300px" name="l_bank">
+                        </div>
+                        <label class="col-2" style="color: black"><b>Product/Services:</b></label>
+                        <div class="mr-3">
+                          <select class="custom-select col-10" style="width:300px" name="l_product">
+                            <option selected>Select Company Name</option>
+                            <option>Personal Loan</option>
+                            <option>Business Loan</option>
+                            <option>Home Loan</option>
+                            <option>Loan Against Property</option>
+                            <option>Lease Rental Discount</option>
+                            <option>Car Refinance</option>
+                            <option>Construction Finance</option>
+                            <option>Balance Transfer of Business Loan</option>
+                            <option>Balance Transfer of Home Loan</option>
+                            <option>Balance Transfer of Loan Against Property</option>
+                            <option>Debt Consolidation</option>
+                            <option>Professional Finance</option>
+                            <option>Over Draft</option>
+                            <option>Cash Credit</option>
+                            <option>Equipment Finance</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group form-inline">
+                        <label class="col-2" style="color: black"><b>Loan Amount:</b></label>
+                        <div class="mr-3">
+                          <input type="number" class="form-control" style="width:300px" name="l_loan">
+                        </div>
+                        <label class="col-2" style="color: black"><b>EMI:</b></label>
+                        <div class="mr-3">
+                          <input type="number" class="form-control" style="width:300px" name="l_emi">
+                        </div>
+                      </div>
+                      <div class="form-group form-inline">
+                        <label class="col-2" style="color: black"><b>Rate Of Interest:</b></label>
+                        <div class="mr-3">
+                          <input type="number" class="form-control" style="width:300px" name="l_roi">
+                        </div>
+                        <label class="col-2" style="color: black"><b>EMI Start Date:</b></label>
+                        <div class="mr-3">
+                          <input type="date" class="form-control" style="width:300px" name="l_emi_start">
+                        </div>
+                      </div>
+                      <div class="form-group form-inline">
+                        <label class="col-2" style="color: black"><b>EMI End Date:</b></label>
+                        <div class="mr-3">
+                          <input type="date" class="form-control" style="width:300px" name="l_emi_end">
+                        </div>
+                        <label class="col-2" style="color: black"><b>Any Bounces?</b></label>
+                        <div class="mr-3">
+                          <select class="custom-select col-10" style="width:300px" name="l_bounces">
+                            <option selected>Select</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group form-inline">
+                        <label class="col-2" style="color: black"><b>Moratorium Taken?</b></label>
+                        <div class="mr-3">
+                          <select class="custom-select col-10" style="width:300px" name="l_moratorium">
+                            <option selected>Select</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div style="text-align:center">
+                        <button class="btn btn-primary add_button" id="addLoanButton" type="button" style="color:white">+ Add one more Existing Loan Details</button>
+                      </div>
+                      <br>
+                      <div class="additionalLoanDetail">
+                      </div>
+                    </div><br>
+                  </div>
+
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary"><label><input type="checkbox" name="colorCheckbox" value="credit"> Existing Credit Details</label></h6>
+              </div><br>
+
+              <div class="credit box">
+                <div>
+
+                  <div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Bank Name:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" style="width:300px" name="c_bank">
+                      </div>
+                      <label class="col-2" style="color: black"><b>Credit Limit:</b></label>
+                      <div class="mr-3">
+                        <input type="number" class="form-control" style="width:300px" name="c_credit_limit">
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Limit Utilize:</b></label>
+                      <div class="mr-3">
+                        <input type="number" class="form-control" style="width:300px" name="c_limit_utilize">
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Credit Card Age:</b></label>
+                      <div class="mr-3">
+                        <select class="custom-select col-10" style="width:300px" name="c_card_age">
+                          <option>Select</option>
+                          <option value="less than 1">Less than 1 Yr.</option>
+                          <option value="1 +">1 Year +</option>
+                          <option value="2 +">2 Year +</option>
+                          <option value="3 +">3 Year +</option>
+                        </select>
+                      </div>
+                      <label class="col-2" style="color: black"><b>Any Delayed in Payment:</b></label>
+                      <div class="mr-3">
+                        <select class="custom-select col-10" style="width:300px" name="c_payment_delay">
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Moratorium Taken:</b></label>
+                      <div class="mr-3">
+                        <select class="custom-select col-10" style="width:300px" name="c_moratorium">
+                          <option>Select</option>
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div style="text-align:center">
+                      <button class="btn btn-primary add_button" id="addCreditButton" type="button" style="color:white">+ Add one more Existing Credit Details</button>
+                    </div><br>
+                    <div class="additionalCreditDetail">
+                    </div>
+                    <br>
+                  </div>
+                </div>
+              </div>
+              <br><br>
+              <div style="text-align:center">
+                <button class="btn btn-primary mr-3" type="submit">Submit</button>
+              </div>
+              <br>
+
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<footer>
+  <center><p></br></p></center>
+</footer>
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+{% include 'logout.html' %}
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+    function validate()
+    {
+      var cust_type = document.form.cust_type.value;
+
+      if (cust_type == null)
+      {
+        alert("All Fields Are Mandatory!");
+      }
+    }
+  </script>
+<script type="text/javascript">
+
+  var x=1;
+
+    $("#addLoanButton").click(function(){
+      alert("field added");
+     x++; //Increment field counter
+     $('.additionalLoanDetail').append(`
+     <div class="loanDetails${x}">
+          <div style="text-align:center">
+                  <button class="btn btn-primary mr-3 removeLoanDetails${x}Button" onclick="removeLoanDetail('loanDetails${x}')" >
+                      remove
+                  </button>
+          </div>
+                   <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Bank Name:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" style="width:300px" name="l_bank">
+                      </div>
+                      <label class="col-2" style="color: black"><b>Product/Services:</b></label>
+                        <div class="col-3">
+                          <select class="custom-select col-10" style="width:300px" name="l_product">
+                            <option selected>Select Company Name</option>
+                            <option>Personal Loan</option>
+                            <option>Business Loan</option>
+                            <option>Home Loan</option>
+                            <option>Loan Against Property</option>
+                                                    <option>Lease Rental Discount</option>
+                                                    <option>Car Refinance</option>
+                                                    <option>Construction Finance</option>
+                                                    <option>Balance Transfer of Business Loan</option>
+                                                    <option>Balance Transfer of Home Loan</option>
+                                                    <option>Balance Transfer of Loan Against Property</option>
+                                                    <option>Debt Consolidation</option>
+                                                    <option>Professional Finance</option>
+                                                    <option>Over Draft</option>
+                                                    <option>Cash Credit</option>
+                                                    <option>Equipment Finance</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Loan Amount:</b></label>
+                      <div class="mr-3">
+                        <input type="number" class="form-control" style="width:300px" name="l_loan">
+                      </div>
+                      <label class="col-2" style="color: black"><b>EMI:</b></label>
+                      <div class="col-3">
+                        <input type="number" class="form-control" style="width:300px" name="l_emi">
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Rate Of Interest:</b></label>
+                      <div class="mr-3">
+                        <input type="number" class="form-control" style="width:300px" name="l_roi">
+                      </div>
+                      <label class="col-2" style="color: black"><b>EMI Start Date:</b></label>
+                      <div class="col-3">
+                        <input type="date" class="form-control" style="width:300px" name="l_emi_start">
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>EMI End Date:</b></label>
+                      <div class="mr-3">
+                        <input type="date" class="form-control" style="width:300px" name="l_emi_end">
+                      </div>
+                      <label class="col-2" style="color: black"><b>Any Bounces?</b></label>
+                      <div class="col-3">
+                          <select class="custom-select col-10" style="width:300px" name="l_bounces">
+                            <option selected>Select</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                          </select>
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Moratorium Taken?</b></label>
+                      <div class="mr-3">
+                          <select class="custom-select col-10" style="width:300px" name="l_moratorium">
+                            <option selected>Select</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                          </select>
+                      </div>
+                      `); //Add field html
+        });
+          function removeLoanDetail(parentclass){
+              alert("Do you want to remove field?")
+            $("."+`${parentclass}`).remove();
+          }
+
+
+       </script>
+<script type="text/javascript">
+
+        var x=1;
+
+          $("#addCreditButton").click(function(){
+            alert("field added");
+           x++; //Increment field counter
+           $('.additionalCreditDetail').append(`
+           <div class="creditDetails${x}">
+                <div style="text-align:center">
+                        <button class="btn btn-primary mr-3 removeCreditDetails${x}Button" onclick="removeCreditDetail('creditDetails${x}')" >
+                            remove
+                        </button>
+                </div>
+                <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Bank Name:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" style="width:300px" name="c_bank">
+                      </div>
+                      <label class="col-2" style="color: black"><b>Credit Limit:</b></label>
+                      <div class="mr-3">
+                        <input type="number" class="form-control" style="width:300px" name="c_credit_limit">
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Limit Utilize:</b></label>
+                      <div class="mr-3">
+                        <input type="number" class="form-control" style="width:300px" name="c_limit_utilize">
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Credit Card Age:</b></label>
+                      <div class="mr-3">
+                          <select class="custom-select col-10" style="width:300px" name="c_card_age">
+                            <option>Select</option>
+                            <option value="less than 1">Less than 1 Yr.</option>
+                            <option value="1 +">1 Year +</option>
+                            <option value="2 +">2 Year +</option>
+                            <option value="3 +">3 Year +</option>
+                          </select>
+                      </div>
+                      <label class="col-2" style="color: black"><b>Any Delayed in Payment:</b></label>
+                      <div class="mr-3">
+                          <select class="custom-select col-10" style="width:300px" name="c_payment_delay">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                          </select>
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Moratorium Taken:</b></label>
+                      <div class="mr-3">
+                          <select class="custom-select col-10" style="width:300px" name="c_moratorium">
+                            <option>Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                          </select>
+                      </div>
+                      `); //Add field html
+                });
+
+                  function removeCreditDetail(parentclass){
+                      alert("Do you want to remove field?")
+                    $("."+`${parentclass}`).remove();
+                  }
+
+
+                </script>
+
+</body>
+
+</html>

@@ -27,14 +27,20 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('homeloan/', include('HomeLoan.urls')),
     path('master/', include('master.urls')),
+    path('customer/', include('customer.urls')),
+    path('crm_app/', include('crm_app.urls')),
     path('trial/', TemplateView.as_view(template_name='account/password_reset_form.html')),
 
-    re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
-    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
+    re_path(r'^media/(?P<path>.*)$', serve,
+            {'document_root': settings.MEDIA_ROOT}),
+    re_path(r'^static/(?P<path>.*)$', serve,
+            {'document_root': settings.STATIC_ROOT}),
 ]
 
 handler404 = "home.views.page_not_found_view"
 
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

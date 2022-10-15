@@ -205,7 +205,8 @@ def eligibility(request, id):
     # -> Loan towards valuation
     add_det2 = AdditionalDetails.objects.filter(
         lead_id=id, applicant_type=1).first()
-    app_det = SalPersonalDetails.objects.get(additional_details_id__pk=add_det2.pk)
+    app_det = SalPersonalDetails.objects.get(
+        additional_details_id__pk=add_det2.pk)
     # agreement_value = int(property.property_type.agreement_val)
     # market_value = int(property.property_type.market_val)
     agreement_value = 1120
@@ -268,7 +269,7 @@ def eligibility(request, id):
     #     for app in data.keys():
     #         if 'emi' in data[app][bank.bank_name]:
     #             total_emi[bank.bank_name] += data[app][bank.bank_name]['emi']
-    return render(request, "HomeLoan/eligibility.html", {'remarks': remarks, 'display':{"hello" : "Raja"}, 'loan_approved': loan_approved, 'total_emi': 4545})
+    return render(request, "HomeLoan/eligibility.html", {'remarks': remarks, 'display': {"hello": "Raja"}, 'loan_approved': loan_approved, 'total_emi': 4545})
 
 
 def PPage(request, ppid):
@@ -2148,7 +2149,7 @@ def listproductandpolicy(request):
     context = {
         'ProductsAndPolicy': ProductsAndPolicy.objects.all()
     }
-    return render(request, 'HomeLoan/listproductandpolicy.html', context=context)
+    return render(request, 'templates/master_product_policy', context=context)
 
 
 def submitproductandpolicy(request, id):
@@ -2159,3 +2160,22 @@ def submitproductandpolicy(request, id):
     #     return redirect('listproductandpolicy')
     # else:
     #     ProductsAndPolicy = ProductsAndPolicy[0]
+
+
+#--------------------------------------------------PROD and Policy----------------------------------------------------------#
+
+
+def add_prd_ply(request):
+    cust_type = customer_type.objects.all()
+    l_type = loan_type.objects.all()
+    bank = bank_name.objects.all()
+    s_type = salary_type.objects.all()
+    res_type = residence_type.objects.all()
+    des_type = designation.objects.all()
+    com_type = company_type.objects.all()
+    cocatt_type = cocat_type.objects.all()
+    tenures = tenure.objects.all()
+
+    return render(request, 'add_prd_ply.html',
+                  {'cust_type': cust_type, 'l_type': l_type, 'bank': bank, 's_type': s_type, 'res_type': res_type,
+                   'des_type': des_type, 'com_type': com_type, 'cocatt_type': cocatt_type, 'tenures': tenures})

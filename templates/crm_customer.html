@@ -1,0 +1,235 @@
+{% load static %}
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Customer Tables</title>
+
+  <!-- Custom fonts for this template -->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+      <style>
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
+
+.button5 {
+  background-color: white;
+  color: black;
+  border: 2px solid #FFFFFF;
+}
+  </style>
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include 'sidebar.html' %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        {% include 'topbar.html' %}
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Customer Details</h1>
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <a href="add_customer" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                  <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">Add Customer Details</span>
+              </a>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Lead ID</th>
+                      <th>Check Eligibility</th>
+                      <th>View Details</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                      <th>Name</th>
+                      <th>Mobile No.</th>
+                      <th>Email</th>
+                      <th>Effective Date</th>
+<!--                      <th>Cibil Score</th>-->
+<!--                      <th>Bank Name</th>-->
+<!--                      <th>Gross Salary</th>-->
+<!--                      <th>Net Salary</th>-->
+<!--                      <th>Age</th>-->
+<!--                      <th>>Retirement Age</th>-->
+<!--                      <th>Company Type</th>-->
+<!--                      <th>Company Name</th>-->
+<!--                      <th>Paid Up Capital</th>-->
+<!--                      <th>Company Years</th>-->
+<!--                      <th>Nature Of Company</th>-->
+<!--                      <th>Designation</th>-->
+<!--                      <th>Designation Type</th>-->
+<!--                      <th>Current Experience</th>-->
+<!--                      <th>Total Experience</th>-->
+<!--                      <th>Employment Type</th>-->
+<!--                      <th>Form 16</th>-->
+<!--                      <th>Residence Type</th>-->
+<!--                      <th>State</th>-->
+<!--                      <th>City</th>-->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in alldata %}
+                      <tr>
+                        <td><center>{{ i.id }}.</center></td>
+                        <td>
+                          <a href="checks/{{i.id}}" title="Check Eligibility">
+                                <span class="icon text-black-50">
+                                  <i class="fa fa-check-circle"></i>
+                                </span>
+                          </a>
+                        </td>
+                        <td>
+                          <a href="cust_view/{{i.id}}" title="View Details">
+                            <span class="icon text-black-50">
+                              <i class="fa fa-eye"></i>
+                            </span>
+                          </a>
+                        </td>
+                        <td>
+                          <a href="cust_edit/{{i.id}}" title="Edit Details">
+                            <span class="icon text-black-50">
+                              <i class="fas fa-edit"></i>
+                            </span>
+                          </a>
+                        </td>
+                        <td>
+                          <form action="{% url 'cust_delete' i.id %}" method="POST" onsubmit="return confirm('Are You Sure You Want To Delete ?')">
+                              {% csrf_token %}
+                              <button class="button button5" type="submit" title="Delete Entry">
+                                <span class="icon text-black-50">
+                                  <i class="fa fa-trash"></i>
+                                </span>
+                              </button>
+                          </form>
+                        </td>
+                        <td>{{ i.name }}</td>
+                        <td>{{ i.mobile }}</td>
+                        <td>{{ i.email }}</td>
+                        <td>{{ i.date }}</td>
+<!--                        <td>{{ i.cibil_score }}</td>-->
+<!--                        <td>{{ i.bank_name }}</td>-->
+<!--                        <td>{{ i.gross_sal }}</td>-->
+<!--                        <td>{{ i.net_sal }}</td>-->
+<!--                        <td>{{ i.age }}</td>-->
+<!--                        <td>{{ i.retire_age }}</td>-->
+<!--                        <td>{{ i.company_type }}</td>-->
+<!--                        <td>{{ i.company_name }}</td>-->
+<!--                        <td>{{ i.paid_up_cap }}</td>-->
+<!--                        <td>{{ i.company_yrs }}</td>-->
+<!--                        <td>{{ i.nature_company }}</td>-->
+<!--                        <td>{{ i.designation }}</td>-->
+<!--                        <td>{{ i.designation_type }}</td>-->
+<!--                        <td>{{ i.current_exp }}</td>-->
+<!--                        <td>{{ i.total_exp }}</td>-->
+<!--                        <td>{{ i.emp_type }}</td>-->
+<!--                        <td>{{ i.form_16 }}</td>-->
+<!--                        <td>{{ i.residence_type }}</td>-->
+<!--                        <td>{{ i.stt }}</td>-->
+<!--                        <td>{{ i.sttt }}</td>-->
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2019</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  {% include 'logout.html' %}
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+
+</body>
+
+</html>

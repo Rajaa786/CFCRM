@@ -1,0 +1,1798 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Upload Documents</title>
+    <!-- Icons font CSS-->
+    <link href="{% static 'vendor_upload/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor_upload/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'vendor_upload/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor_upload/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'css_upload2/main.css' %}" rel="stylesheet" media="all">
+
+    <!-- Cities & States JS -->
+    <script src="{% static 'js/cities.js' %}"></script>
+
+    <script type="text/javascript">
+        function addField(n)
+        {
+            var tr = n.parentNode.parentNode.cloneNode(true);
+            document.getElementById('myTable').appendChild(tr);
+        }
+        function addField1(n)
+        {
+            var tr = n.parentNode.parentNode.cloneNode(true);
+            document.getElementById('myTable1').appendChild(tr);
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<style type="text/css">
+		.selectt {
+			color: #858585;
+			padding: 20px;
+			display: none;
+			margin-top: 10px;
+			width: 100%;
+			background: #f2f2f2
+		}
+
+        .selectt1 {
+			color: #858585;
+			padding: 20px;
+			display: none;
+			margin-top: 10px;
+			width: 100%;
+			background: #f2f2f2
+		}
+
+		.selectt2 {
+			color: #858585;
+			padding: 20px;
+			display: none;
+			margin-top: 10px;
+			width: 100%;
+			background: #f2f2f2
+		}
+
+		label {
+			margin-right: 20px;
+		}
+
+		.selecttt {
+			color: #858585;
+			padding: 30px;
+			margin-top: 10px;
+			width: 100%;
+			background: #f2f2f2
+		}
+
+		.buttons {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+	</style>
+    <style>
+#myTable {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 70%;
+}
+
+#myTable td, #myTable th {
+  border: 1px solid #ddd;
+  padding: 4px;
+}
+
+#myTable tr:nth-child(even){background-color: #f2f2f2;}
+
+#myTable tr:hover {background-color: #ddd;}
+
+#myTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF55;
+  color: white;
+}
+#myTable input[type=text],input[type=date] select {
+  width: 70%;
+  padding: 16px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+#myTable0 {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#myTable0 td, #myTable0 th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#myTable0 tr:nth-child(even){background-color: #f2f2f2;}
+
+#myTable0 tr:hover {background-color: #ddd;}
+
+#myTable0 th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF55;
+  color: white;
+}
+#myTable0 input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#myTable2 {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#myTable2 td, #myTable2 th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#myTable2 tr:nth-child(even){background-color: #f2f2f2;}
+
+#myTable2 tr:hover {background-color: #ddd;}
+
+#myTable2 th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF55;
+  color: white;
+}
+#myTable2 input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#myTable1 {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#myTable1 td, #myTable1 th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#myTable1 tr:nth-child(even){background-color: #f2f2f2;}
+
+#myTable1 tr:hover {background-color: #ddd;}
+
+#myTable1 th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF55;
+  color: white;
+}
+#myTable1 input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+
+
+.bg-image {
+  /* The image used */
+  background-image: url("{% static 'img/loan_approve.jpg' %}");
+
+  /* Add the blur effect */
+  filter: blur(8px);
+  -webkit-filter: blur(2px);
+
+  /* Full height */
+  height: 400px;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Position text in the middle of the page/image */
+.bg-text {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 40%;
+  padding: 20px;
+  text-align: center;
+}
+
+
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+        <div class="wrapper wrapper--w680">
+            <div class="card card-4">
+                <div class="card-body">
+                    <div class="bg-image"></div>
+                    <div class="bg-text">
+                        <h1><strong>Loan Application Documents</strong></h1>
+                    </div>
+                    <br><br>
+                    <form method="POST" action="load">
+                        {% csrf_token %}
+                        <h3><strong>Personal Details</strong></h3>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Name</label>
+                                    <input class="input--style-4" type="text" name="name">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Mobile No.</label>
+                                    <input class="input--style-4" type="number" name="mobile">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Email Id</label>
+                                    <input class="input--style-4" type="email" name="email">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Loan Type</label>
+                                    <div class="input-group-icon">
+                                        <select class="box" name="loan_type">
+                                            <option>Select</option>
+                                            {% for j in loan_type %}
+                                            <option value={{ j.loan_type }}>{{ j.loan_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Customer Type</label>
+                                    <div class="input-group-icon">
+                                        <select class="box" name="custo_type">
+                                            <option>Select</option>
+                                            {% for j in custo_type %}
+                                            <option value={{ j.type }}>{{ j.type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Tenure(in months)</label>
+                                    <div class="input-group-icon">
+                                        <select class="box" name="ten">
+                                            <option>Select</option>
+                                            {% for j in t %}
+                                            <option value={{ j.tenure }}>{{ j.tenure }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Loan Amount.</label>
+                                    <input class="input--style-4" type="number" name="loan_amt">
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <!--- Income Details ----->
+
+
+                        <h3><strong>Income Details</strong></h3>
+                        <br>
+
+                        <div class="row row-space">
+                            <div class="col-4">
+                                <div class="input-group">
+                                    <label class="label">Cibil Score</label>
+                                    <div class="input-group">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label>
+                                                        <input type="radio" name="colorRadio" value="k"> Known
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input type="radio" name="colorRadio" value="nk"> Not Known
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nk selectt2">
+                           <div class="row">
+                               <label class="label">Cibil Score</label>
+                               <input class="input--style-4" type="number" value="0" name="cibil_score">
+                            </div>
+                        </div>
+                        <div class="k selectt2">
+                           <div class="row">
+                               <label class="label">Cibil Score</label>
+                               <input class="input--style-4" type="number" name="cibil_score">
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-4">
+                                <div class="input-group">
+                                    <label class="label">Salary Type</label>
+                                    <div class="input-group">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label>
+                                                        <input type="radio" name="colorRadio" value="cash"> Cash
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input type="radio" name="colorRadio" value="check"> Check
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input type="radio" name="colorRadio" value="bank_transfer"> Salary Credit
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cash selectt">
+                            <h3>Salary Type CASH is still in process</h3>
+                        </div>
+                        <div class="check selectt">
+                            <h3>Salary Type CHECK is still in process</h3>
+                        </div>
+                        <div class="bank_transfer selectt">
+                           <div class="row">
+                               <label class="label">Bank Name</label>
+                               <input class="input--style-4" type="text" name="bank_name">
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Gross Salary</label>
+                                    <input class="input--style-4" type="text" name="gross_sal">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Net Salary</label>
+                                    <div class="input-group-icon">
+                                        <input class="input--style-4" type="text" name="net_sal">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Age</label>
+                                    <input class="input--style-4" type="text" name="age">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Retirement Age</label>
+                                    <div class="input-group-icon">
+                                        <input class="input--style-4" type="text" name="retire_age">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--- Income Details Ended ----->
+
+                        <!--- Company Details ------>
+
+                        <h3><strong>Company Details</strong></h3><br>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Company Type</label>
+                                    <div class="input-group-icon">
+                                        <select class="box" name="company_type">
+                                            <option>Select</option>
+                                            {% for j in com_type %}
+                                            <option value={{ j.co_type }}>{{ j.co_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Company Name</label>
+                                    <select class="box" name="company_name">
+                                            <option>Select</option>
+                                            {% for j in com_name %}
+                                            <option value={{ j.co_name }}>{{ j.co_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                <input type="checkbox" name="company_not_listed" value="not_listed" checked><h2 class="label"><strong>Company Name Not Listed</strong></h2>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="not_listed selecttt">
+                            <h5><strong>Refer Following sites to get details of your company to fill remaining part..</strong></h5><br>
+                            <a href="https://www.mca.gov.in/mcafoportal/login.do">https://www.mca.gov.in/mcafoportal/login.do</a><br>
+                            <a href="https://www.zaubacorp.com/">https://www.zaubacorp.com/</a><br><br>
+                            <div class="row row-space">
+                                <div class="col-3-1">
+                                    <div class="input-group">
+                                        <label class="label">Paid Up Capital</label>
+                                        <input class="input--style-4" type="number" name="paid_up_cap">
+                                    </div>
+                                </div>
+                                <div class="col-3-2">
+                                    <div class="input-group">
+                                        <label class="label">How Old is Company?</label>
+                                        <div class="input-group-icon">
+                                            <input class="input--style-4" type="number" name="company_yrs">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3-3">
+                                    <div class="input-group">
+                                        <label class="label">Nature of Business</label>
+                                        <div class="input-group-icon">
+                                            <input class="input--style-4" type="text" name="nature_company">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Designation</label>
+                                    <input class="input--style-4" type="text" name="designation">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Designation Type</label>
+                                    <div class="input-group-icon">
+                                        <select class="box" name="designation_type">
+                                            <option>Select</option>
+                                            {% for i in des %}
+                                            <option value={{i.design}}>{{i.design}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Current Experience</label>
+                                    <input class="input--style-4" type="number" name="current_exp">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Total Experience</label>
+                                    <input class="input--style-4" type="number" name="total_exp">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Employment Type</label>
+                                    <div class="input-group-icon">
+                                        <select class="box" name="emp_type">
+                                            <option>Select</option>
+                                            <option value="Permanent">Permanent</option>
+                                            <option value="Temporary">Temporary</option>
+                                            <option value="Contractual">Contractual</option>
+                                            <option value="Consulting">Consulting</option>
+                                            <option value="Freelancer">Freelancer</option>
+                                            <option value="Internship">Internship</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Form 16?</label>
+                                    <div class="input-group-icon">
+                                        <select class="box" name="form_16">
+                                            <option>Select</option>
+                                            <option value="yes">Yes</option>
+                                            <option value="no">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--- Company Details Ended -->
+
+                        <!--- Residence Details -->
+
+                        <h3><strong>Residence Details</strong></h3><br>
+                        <div class="row row-space">
+                            <div class="col-3-1">
+                                <div class="input-group">
+                                    <label class="label">Current Residence Type</label>
+                                    <div class="input-group-icon">
+                                        <select name="residence_type">
+                                            <option>Select</option>
+                                            {% for i in res %}
+                                            <option value={{i.r_type}}>{{i.r_type}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3-2">
+                                <div class="input-group">
+                                    <label class="label">Select State</label>
+                                    <div class="input-group-icon">
+                                        <select onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt" required></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3-3">
+                                <div class="input-group">
+                                    <label class="label">Select City</label>
+                                    <div class="input-group-icon">
+                                        <select id ="state" name="sttt" required></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script language="javascript">print_state("sts");</script>
+                        <SCRIPT language="javascript">
+                            function addRow(tableID) {
+
+                                var table = document.getElementById(tableID);
+
+                                var rowCount = table.rows.length;
+                                var row = table.insertRow(rowCount);
+
+                                var colCount = table.rows[0].cells.length;
+
+                                for(var i=0; i<colCount; i++) {
+
+                                    var newcell	= row.insertCell(i);
+
+                                    newcell.innerHTML = table.rows[0].cells[i].innerHTML;
+                                    //alert(newcell.childNodes);
+                                    switch(newcell.childNodes[0].type) {
+                                        case "text":
+                                                newcell.childNodes[0].value = "";
+                                                break;
+                                        case "checkbox":
+                                                newcell.childNodes[0].checked = false;
+                                                break;
+                                        case "select-one":
+                                                newcell.childNodes[0].selectedIndex = 0;
+                                                break;
+                                    }
+                                }
+                            }
+                        </SCRIPT>
+
+
+                        <!--- Residence Details Ended -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('input[type="radio"]').click(function() {
+                                    var inputValue = $(this).attr("value");
+                                    var targetBox = $("." + inputValue);
+                                    $(".selectt").not(targetBox).hide();
+                                    $(targetBox).show();
+                                });
+                            });
+                        </script>
+<!--                        <table>-->
+<!--                            <tr>-->
+<!--                                <td>-->
+<!--                                    <label>-->
+<!--                                        <input type="checkbox" name="colorCheckbox" value="spouse" checked><h3><strong>Spouse/Co-Applicant</strong></h3>-->
+<!--                                    </label>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                        <div class="spouse selecttt">-->
+<!--                            <div class="row row-space">-->
+<!--                                <div class="col-2">-->
+<!--                                    <div class="input-group">-->
+<!--                                        <table>-->
+<!--                                            <tr>-->
+<!--                                                <td>-->
+<!--                                                    <label>-->
+<!--                                                        <input type="radio" name="colorRadio" value="salary_spouse"> Salaried-->
+<!--                                                    </label>-->
+<!--                                                </td>-->
+<!--                                                <td>-->
+<!--                                                    <label>-->
+<!--                                                        <input type="radio" name="colorRadio" value="self_spouse"> Self Employed-->
+<!--                                                    </label>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                        </table>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="salary_spouse selectt1">-->
+<!--                                <h4><strong>Income Details</strong></h4><br>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Age</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Retirement Age</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>58</option>-->
+<!--                                                    <option>60</option>-->
+<!--                                                    <option>65</option>-->
+<!--                                                    <option>70</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Salary Bank Account</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                 <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Rental Income</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                 <input class="input&#45;&#45;style-4" type="text" placeholder="Rs.">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Gross Salary</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text" placeholder="Rs.">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Net Salary</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text" placeholder="Rs.">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Incentive</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Monthly</option>-->
+<!--                                                    <option>Quaterly</option>-->
+<!--                                                    <option>Half Yearly</option>-->
+<!--                                                    <option>Yearly</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Incentive Amount</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text" placeholder="Rs.">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Annual Bonus</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Yes</option>-->
+<!--                                                    <option>No</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Annual Bonus Amount</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text" placeholder="Rs.">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Other Income</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                 <input class="input&#45;&#45;style-4" type="text" placeholder="Rs.">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Other Income Type</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                 <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <h4><strong>Company Details</strong></h4><br>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Designation</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                 <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Company Name</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                 <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Company Type</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Proprietorship Firm</option>-->
+<!--                                                    <option>Partnership Firm</option>-->
+<!--                                                    <option>Partnership LLP</option>-->
+<!--                                                    <option>PVT LTD</option>-->
+<!--                                                    <option>LTD Listed</option>-->
+<!--                                                    <option>Dim Limited</option>-->
+<!--                                                    <option>Multinational (MNC)</option>-->
+<!--                                                    <option>Government</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">No. of Employees</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                 <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Current Experience</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                 <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Total Experience</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                 <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Form 16?</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Yes</option>-->
+<!--                                                    <option>No</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">No. of Employees</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Rented</option>-->
+<!--                                                    <option>Owned</option>-->
+<!--                                                    <option>Parented Owned</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="input-group">-->
+<!--                                        <label class="label">Own Residence if Any</label>-->
+<!--                                        <div class="input-group-icon">-->
+<!--                                            <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="self_spouse selectt1">-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="input-group">-->
+<!--                                        <div class="input-group-icon">-->
+<!--                                            <table border="1" cellpadding="5" cellspacing="5" align="center" id="myTable2">-->
+<!--                                                <thead>-->
+<!--                                                  <tr>-->
+<!--                                                    <th>Assessment Year</th>-->
+<!--                                                    <th>Net Profit</th>-->
+<!--                                                    <th>Turnover</th>-->
+<!--                                                    <th>Depreciation</th>-->
+<!--                                                    <th>Gross Profit</th>-->
+<!--                                                    <th>Interest On Loan</th>-->
+<!--                                                    <th>Director / Partner Remuneration</th>-->
+<!--                                                    </tr>-->
+<!--                                                </thead>-->
+<!--                                                <tbody class="table-hover">-->
+<!--                                                    <tr>-->
+<!--                                                        <td class="text-left"><label>AY 17-18</label></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                    </tr>-->
+<!--                                                    <tr>-->
+<!--                                                        <td class="text-left"><label>AY 18-19</label></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                    </tr>-->
+<!--                                                    <tr>-->
+<!--                                                        <td class="text-left"><label>AY 19-20</label></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                        <td class="text-left"><input type="text"></td>-->
+<!--                                                    </tr>-->
+<!--                                                </tbody>-->
+<!--                                            </table>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Nature of Business</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Type of Business</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Manufacturer</option>-->
+<!--                                                    <option>Traders</option>-->
+<!--                                                    <option>Retailer</option>-->
+<!--                                                    <option>Service Provider</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Residence Location</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Residence</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Owned</option>-->
+<!--                                                    <option>Rented</option>-->
+<!--                                                    <option>Parental Owned</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Residence Own if Any</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Office</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Owned</option>-->
+<!--                                                    <option>Rented</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Office Location</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Company</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Proprietorship Firm</option>-->
+<!--                                                    <option>Partnership Firm</option>-->
+<!--                                                    <option>Partnership LLP</option>-->
+<!--                                                    <option>PVT LTD</option>-->
+<!--                                                    <option>Limited Listed</option>-->
+<!--                                                    <option>Dim Limited</option>-->
+<!--                                                    <option>Multinational(MNC)</option>-->
+<!--                                                    <option>Government</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Gst Applicable?</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Yes</option>-->
+<!--                                                    <option>No</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-3">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <table cellspacing="20">-->
+<!--                                                <tr>-->
+<!--                                                    <td>-->
+<!--                                                        <label class="label">Gst Paid Till Month</label>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <div class="input-group-icon">-->
+<!--                                                            <select class="box">-->
+<!--                                                                <option>Select Month</option>-->
+<!--                                                                <option>January</option>-->
+<!--                                                                <option>February</option>-->
+<!--                                                                <option>March</option>-->
+<!--                                                                <option>April</option>-->
+<!--                                                                <option>May</option>-->
+<!--                                                                <option>June</option>-->
+<!--                                                                <option>July</option>-->
+<!--                                                                <option>August</option>-->
+<!--                                                                <option>September</option>-->
+<!--                                                                <option>October</option>-->
+<!--                                                                <option>November</option>-->
+<!--                                                                <option>December</option>-->
+<!--                                                            </select>-->
+<!--                                                        </div>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <div class="input-group-icon">-->
+<!--                                                            <select class="box">-->
+<!--                                                                <option>Select Year</option>-->
+<!--                                                                <option>2020</option>-->
+<!--                                                                <option>2021</option>-->
+<!--                                                                <option>2022</option>-->
+<!--                                                                <option>2023</option>-->
+<!--                                                                <option>2024</option>-->
+<!--                                                                <option>2025</option>-->
+<!--                                                                <option>2026</option>-->
+<!--                                                                <option>2027</option>-->
+<!--                                                                <option>2028</option>-->
+<!--                                                                <option>2029</option>-->
+<!--                                                                <option>2030</option>-->
+<!--                                                            </select>-->
+<!--                                                        </div>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                            </table>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Swipe Machine?</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <select class="box">-->
+<!--                                                    <option>Select</option>-->
+<!--                                                    <option>Owned</option>-->
+<!--                                                    <option>Rented</option>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Monthly Swipe</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="row row-space">-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">Swipe Machine from Which Bank</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <label class="label">In which bank Swipe Amount gets Credited</label>-->
+<!--                                            <div class="input-group-icon">-->
+<!--                                                <input class="input&#45;&#45;style-4" type="text">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('input[type="checkbox"]').click(function() {
+                                    var inputValue = $(this).attr("value");
+                                    $("." + inputValue).toggle();
+
+                                });
+                            });
+                        </script>
+                        <br><br>
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="colorCheckbox" value="loan" checked><h3><strong>Existing Loan Details</strong></h3>
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!--
+                        <div class="loan selecttt">
+                            <div class="row row-space">
+                                <div class="input-group">
+                                    <div class="input-group-icon">
+                                        <table border="1" cellpadding="5" cellspacing="5" align="center" id="myTable">
+                                            <thead>
+                                              <tr>
+                                                <th>Bank Name</th>
+                                                <th>Product/Services</th>
+                                                <th>Loan Amount</th>
+                                                <th>EMI</th>
+                                                <th>Rate of Interest</th>
+                                                <th>EMI Start Date</th>
+                                                <th>EMI End Date</th>
+                                                <th>Any Bounces?</th>
+                                                <th>Moratorium Taken?</th>
+                                                <th>Loan Belong To</th>
+                                                <th>Add Loan Row</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody class="table-hover">
+                                                <tr>
+                                                    <td class="text-left"><input type="text"></td>
+                                                    <td class="text-left">
+                                                        <div class="input-group">
+                                                            <div class="input-group-icon">
+                                                                <select class="box">
+                                                                    <option>Select</option>
+                                                                    <option>Personal Loan</option>
+                                                                    <option>Business Loan</option>
+                                                                    <option>Home Loan</option>
+                                                                    <option>Loan Against Property</option>
+                                                                    <option>Lease Rental Discount</option>
+                                                                    <option>Car Refinance</option>
+                                                                    <option>Construction Finance</option>
+                                                                    <option>Balance Transfer of Business Loan</option>
+                                                                    <option>Balance Transfer of Home Loan</option>
+                                                                    <option>Balance Transfer of Loan Against Property</option>
+                                                                    <option>Debt Consolidation</option>
+                                                                    <option>Professional Finance</option>
+                                                                    <option>Over Draft</option>
+                                                                    <option>Cash Credit</option>
+                                                                    <option>Equipment Finance</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-left"><input type="text"></td>
+                                                    <td class="text-left"><input type="text"></td>
+                                                    <td class="text-left"><input type="text"></td>
+                                                    <td class="text-left"><input type="date"></td>
+                                                    <td class="text-left"><input type="date"></td>
+                                                    <td class="text-left">
+                                                        <div class="input-group">
+                                                            <div class="input-group-icon">
+                                                                <select class="box">
+                                                                    <option>Yes</option>
+                                                                    <option>No</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <div class="input-group">
+                                                            <div class="input-group-icon">
+                                                                <select class="box">
+                                                                    <option>Yes</option>
+                                                                    <option>No</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-left"><input type="text">
+                                                        <div class="input-group">
+                                                            <div class="input-group-icon">
+                                                                <select class="box">
+                                                                    <option>Applicant</option>
+                                                                    <option>Co-Applicant</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-left"><input class="buttons button1" onclick="addField(this);" value="Add"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-space">
+                                <div class="col-2">
+                                    <div class="input-group">
+                                        <label class="label">Remark</label>
+                                        <div class="input-group-icon">
+                                            <input class="input--style-4" type="text" placeholder="EMI Bounce/ Moratorium Details">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                        <div class ="loan selecttt">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card position-relative">
+                                        <div class="form-group">
+                                            <div class ="row">
+                                                <div class ="col">
+                                                    <label for="exampleFormControlInput1"><b>Bank Name</b></label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" class="input--style-4" id="bank_name" placeholder="Bank Name" name="l_bank">
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+
+                                              <label for="exampleFormControlInput1"><b>Product/Services</b></label>
+                                            </div>
+                                            <div>
+                                                <select class="browser-default custom-select" name="l_product">
+                                                    <option selected>Select</option>
+                                                    <option>Personal Loan</option>
+                                                    <option>Business Loan</option>
+                                                    <option>Home Loan</option>
+                                                    <option>Loan Against Property</option>
+                                                    <option>Lease Rental Discount</option>
+                                                    <option>Car Refinance</option>
+                                                    <option>Construction Finance</option>
+                                                    <option>Balance Transfer of Business Loan</option>
+                                                    <option>Balance Transfer of Home Loan</option>
+                                                    <option>Balance Transfer of Loan Against Property</option>
+                                                    <option>Debt Consolidation</option>
+                                                    <option>Professional Finance</option>
+                                                    <option>Over Draft</option>
+                                                    <option>Cash Credit</option>
+                                                    <option>Equipment Finance</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                   <label for="exampleFormControlInput1"><b>Loan Amount</b></label>
+                                                </div>
+                                                <div class="col">
+                                                   <input type="text" name="l_loan" class="input--style-4" id="loan_amount" placeholder="Loan Amount">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="exampleFormControlInput1"><b>EMI</b></label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" name="l_emi" class="input--style-4" id="emi" placeholder="EMI">
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="exampleFormControlInput1"><b>Rate Of Interest</b></label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" name="l_roi" class="input--style-4" id="rate_of_intersest" placeholder="Rate Of Interest">
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label class="col-2" style="color: black"><b>EMI Start Date</b></label>
+
+                                                </div>
+                                                <div class="col">
+                                                    <input class="form-control" name="l_emi_start" type="date">
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label class="col-2" style="color: black"><b>EMI End Date</b></label>
+                                                </div>
+                                                <div class="col">
+                                                    <input class="form-control" name="l_emi_end" type="date">
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="exampleFormControlInput1"><b>Any Bounces?</b></label>
+                                            </div>
+                                            <div class="col">
+                                                <select class="browser-default custom-select" name="l_bounces">
+                                                    <option selected>Select</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="2">No</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="exampleFormControlInput1"><b>Moratorium Taken?</b></label>
+                                            </div>
+                                            <div class="col">
+                                                <select class="browser-default custom-select" name="l_moratorium">
+                                                    <option selected>Select</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="2">No</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="exampleFormControlInput1"><b>Loan Belong To</b></label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" name="l_loan_belong" class="input--style-4" id="loan_belong_to" placeholder="Loan Belong To">
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <button class="btn btn-primary add_button" id="addLoanButton" type="button" style="color:black">+ Add one more Existing Loan Details</button>
+                                        </div>
+                                        <div class="additionalLoanDetail">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="colorCheckbox" value="credit" checked><h3><strong>Existing Credit Details</strong></h3>
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="credit selecttt">
+                            <div class="row row-space">
+                                <div class="input-group">
+                                    <div class="input-group-icon">
+                                        <table border="1" cellpadding="5" cellspacing="5" align="center" id="myTable1">
+                                            <thead>
+                                              <tr>
+                                                <th>Bank Name</th>
+                                                <th>Credit Limit</th>
+                                                <th>Limit Utilize</th>
+                                                <th>Credit Card Age</th>
+                                                <th>Any Delayed in Payment</th>
+                                                <th>Moratorium Taken?</th>
+                                                <th>Cards Belong To</th>
+                                                <th>Add credit row</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody class="table-hover">
+                                                <tr>
+                                                    <td class="text-left"><input type="text" name="c_bank"></td>
+                                                    <td class="text-left"><input type="text" name="c_credit_limit"></td>
+                                                    <td class="text-left"><input type="text" name="c_limit_utilize"></td>
+                                                    <td class="text-left">
+                                                        <div class="input-group">
+                                                            <div class="input-group-icon">
+                                                                <select class="box" name="c_card_age">
+                                                                    <option>Select</option>
+                                                                    <option value="less than 1">Less than 1 Yr.</option>
+                                                                    <option value="1 +">1 Year +</option>
+                                                                    <option value="2 +">2 Year +</option>
+                                                                    <option value="3 +">3 Year +</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <div class="input-group">
+                                                            <div class="input-group-icon">
+                                                                <select class="box" name="c_payment_delay">
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <div class="input-group">
+                                                            <div class="input-group-icon">
+                                                                <select class="box" name="c_moratorium">
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <div class="input-group">
+                                                            <div class="input-group-icon">
+                                                                <select class="box" name="c_card_belong">
+                                                                    <option value="Applicant">Applicant</option>
+                                                                    <option value="Co-Applicant">Co-Applicant</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-left"><input class="buttons button1" onclick="addField1(this);" value="Add"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-space">
+                                <div class="col-2">
+                                    <div class="input-group">
+                                        <label class="label">Remark</label>
+                                        <div class="input-group-icon">
+                                            <input class="input--style-4" type="text" placeholder="Credit Card delayed Payment">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-t-15">
+                            <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('input[type="radio"]').click(function() {
+                var inputValue = $(this).attr("value");
+                var targetBox = $("." + inputValue);
+                $(".selectt1").not(targetBox).hide();
+                $(targetBox).show();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+
+        var x=1;
+
+          $("#addLoanButton").click(function(){
+            alert("button clicked");
+           x++; //Increment field counter
+           $('.additionalLoanDetail').append(`
+           <div class="loanDetails${x}">
+                <div>
+                        <button class="removeLoanDetails${x}Button" onclick="removeLoanDetail('loanDetails${x}')" >
+                            remove
+                        </button>
+                </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card position-relative">
+                                        <div class="form-group">
+                                            <div class ="row">
+                                                <div class ="col">
+                                                    <label for="exampleFormControlInput1"><b>Bank Name</b></label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" name="l_bank" class="shadow-lg p-3 mb-5 bg-white rounded" id="bank_name" placeholder="Bank Name">
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+
+                                              <label for="exampleFormControlInput1"><b>Product/Services</b></label>
+                                            </div>
+                                            <div>
+                                                <select class="browser-default custom-select" name="l_product" >
+                                                    <option selected>Select</option>
+                                                    <option>Personal Loan</option>
+                                                    <option>Business Loan</option>
+                                                    <option>Home Loan</option>
+                                                    <option>Loan Against Property</option>
+                                                    <option>Lease Rental Discount</option>
+                                                    <option>Car Refinance</option>
+                                                    <option>Construction Finance</option>
+                                                    <option>Balance Transfer of Business Loan</option>
+                                                    <option>Balance Transfer of Home Loan</option>
+                                                    <option>Balance Transfer of Loan Against Property</option>
+                                                    <option>Debt Consolidation</option>
+                                                    <option>Professional Finance</option>
+                                                    <option>Over Draft</option>
+                                                    <option>Cash Credit</option>
+                                                    <option>Equipment Finance</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                   <label for="exampleFormControlInput1"><b>Loan Amount</b></label>
+                                                </div>
+                                                <div class="col">
+                                                   <input type="text" name="l_loan" class="shadow-lg p-3 mb-5 bg-white rounded" id="loan_amount" placeholder="Loan Amount">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="exampleFormControlInput1"><b>EMI</b></label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" name="l_emi" class="shadow-lg p-3 mb-5 bg-white rounded" id="emi" placeholder="EMI">
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="exampleFormControlInput1"><b>Rate Of Interest</b></label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" name="l_roi" class="shadow-lg p-3 mb-5 bg-white rounded" id="rate_of_intersest" placeholder="Rate Of Interest">
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label class="col-2" style="color: black"><b>EMI Start Date</b></label>
+
+                                                </div>
+                                                <div class="col">
+                                                    <input class="form-control" name="l_emi_start" type="date" name="emi_start_date">
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label class="col-2" style="color: black"><b>EMI End Date</b></label>
+                                                </div>
+                                                <div class="col">
+                                                    <input class="form-control" name="l_emi_end" type="date" name="emi_end_date">
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="exampleFormControlInput1"><b>Any Bounces?</b></label>
+                                            </div>
+                                            <div class="col">
+                                                <select class="browser-default custom-select" name="l_bounces" >
+                                                    <option selected>Select</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="2">No</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="exampleFormControlInput1"><b>Moratorium Taken?</b></label>
+                                            </div>
+                                            <div class="col">
+                                                <select class="browser-default custom-select" name="l_moratorium" >
+                                                    <option selected>Select</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="2">No</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="exampleFormControlInput1"><b>Loan Belong To</b></label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" name="l_loan_belong" class="shadow-lg p-3 mb-5 bg-white rounded" id="loan_belong_to" placeholder="Loan Belong To">
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <button class="btn btn-primary add_button" id="addLoanButton" type="button">+ Add one more Existing Loan Details</button>
+                                        </div>
+                                        <div class="additionalLoanDetail">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+            `); //Add field html
+        });
+
+          function removeLoanDetail(parentclass){
+              alert("removed")
+            $("."+`${parentclass}`).remove();
+          }
+
+
+        </script>
+    <!-- Jquery JS-->
+    <script src="{% static 'vendor_upload/jquery/jquery.min.js' %}"></script>
+    <!-- Vendor JS-->
+    <script src="{% static 'vendor_upload/select2/select2.min.js' %}"></script>
+    <script src="{% static 'vendor_upload/datepicker/moment.min.js' %}"></script>
+    <script src="{% static 'vendor_upload/datepicker/daterangepicker.js' %}"></script>
+
+    <!-- Main JS-->
+    <script src="{% static 'js_upload/global.js' %}"></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+// <!-- end document-->

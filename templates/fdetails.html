@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>details</title>
+</head>
+<body>
+            <div id="print">
+                    <h1>Creative finserve </h1>
+                    <p>
+                        Amount : {{amt}}<br>
+                        Rate of intrest : {{intr}}<br>
+                        For Years : {{years}} &ensp;
+                        Months : {{months}} &ensp;
+                        Days : {{days}}&ensp; &ensp;Per {{typ}}<br>
+                        Emi is : {{emi}}<br>
+                        Total intrest : {{totalint}}<br>
+                        Total Amount : {{totalamt}}<br>
+            </div>
+                    
+        
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+                        <script>
+                            function myFunction(){
+                                var doc = new jsPDF()
+                                var p = document.querySelector('#print')
+                                doc.fromHTML(p,20,20)
+                                doc.save('output.pdf')
+                                }
+                        </script>
+                            <script>
+                                function printDiv(divName) {
+                                var printContents = document.getElementById(divName).innerHTML;
+                                var originalContents = document.body.innerHTML;
+                            
+                                document.body.innerHTML = printContents;
+                            
+                                window.print();
+                            
+                                document.body.innerHTML = originalContents;
+                                }
+                                </script>   
+            <input type="button" onclick="printDiv('print')" value="print" />     
+            <button onclick="myFunction()">Download</button>
+            <a href="mailto:krupalvora789@gmail.com?subject=Me&body= <p>
+                Amount : {{amt}}<br>
+                Rate of intrest : {{intr}}<br>
+                For Years : {{years}} &ensp;
+                Months : {{months}} &ensp;
+                Days : {{days}}<br>
+                Emi is : {{emi}}&ensp; &ensp;Per {{typ}}<br>
+                Total intrest : {{totalint}}<br>
+                Total Amount : {{totalamt}}<br>
+            </p>  
+            ">Mail me</a>
+        
+
+</body>
+</html>

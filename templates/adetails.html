@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>details</title>
+    <style>
+        table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    
+    }
+
+    td, tr {
+    border: 1px solid blue;
+    padding: 8px;
+    }
+
+    tr:nth-child(even) {
+    background-color:yellow;
+    }
+</style>
+</head>
+<body>
+    <div id="print">
+            <h1>Creative finserve </h1>
+            <p>
+                Amount : {{amt}}<br>
+                Rate of intrest : {{intr}}<br>
+                For Years : {{years}} &ensp;
+                Months : {{months}} &ensp;
+                Days : {{days}}&ensp;&ensp;Per {{typ}}<br>
+                Emi is : {{emi}}<br>
+                Total intrest : {{totalint}}<br>
+                Total Amount : {{totalamt}}<br>
+                No of installment in advance : {{no}}<br>
+                
+            </p>
+            <p id="show"></p>
+
+            <script>
+                var Forclosure  = JSON.parse('{{fc}}');
+                var  remain= JSON.parse('{{p}}');
+                var  c = JSON.parse('{{c}}');
+                var charges =JSON.parse('{{Bcharges}}');
+                var Gst = JSON.parse('{{gst}}');
+                var installment = JSON.parse('{{Install_no}}');
+                if (Forclosure > 0)
+                {
+                    document.getElementById("show").innerHTML ='<b>Forclosure Details</b> <br> Installment no : '+installment + '<br> Bank charges : '+charges + '&ensp; Gst : '+Gst+'<br> Remaining balance :'+remain+'&ensp;&ensp;Forclosure charges :'+c+ '<br>Total payment : ' + Forclosure 
+                }
+            </script>
+            <table>
+                <tr>
+                    <td id="c1">installment</td>
+                    <td id="c2">intrest</td>
+                    <td id="c3">payment</td>
+                    <td id="c4">Emi</td>
+                    <td id="c5">balance</td>
+                </tr>
+            </table>
+            <script>
+            var months =JSON.parse('{{l1}}');
+            var intrest =JSON.parse('{{l4}}');
+            var pri_pay=JSON.parse('{{l5}}');
+            var remain =JSON.parse('{{l6}}');
+            var emi=JSON.parse('{{emi}}')
+            var text = "";
+            
+            for (var i = 0; i < months.length; i++) 
+            {
+            
+                text +='<tr>';
+
+                text += '<td id="c1">' +months[i] +'</td>';
+                text +='<td id="c2">' +intrest[i]    +'</td>';
+                text += '<td id="c3">'+pri_pay[i] +'</td>' ;
+                text +='<td id="c4">' + emi + '</td>';
+                text +='<td id="c5">'+ remain[i] +'</td>' ;
+                
+                text +='</tr>';
+            }
+            document.write('<table>' + text + '</table>')
+
+            </script> 
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script type="text/javascript">
+        function Export() {
+            html2canvas(document.getElementById('print'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("Table.pdf");
+                }
+            });
+        }
+    </script>
+                      <script>
+                        function printDiv(divName) {
+                           var printContents = document.getElementById(divName).innerHTML;
+                           var originalContents = document.body.innerHTML;
+                      
+                           document.body.innerHTML = printContents;
+                      
+                           window.print();
+                      
+                           document.body.innerHTML = originalContents;
+                         }
+                        </script>   
+    <input type="button" onclick="printDiv('print')" value="print" />    <button onclick="Export()">Download</button>
+    <a href="mailto:krupalvora789@gmail.com?subject=Me&body= <p>
+        Amount : {{amt}}<br>
+        Rate of intrest : {{intr}}<br>
+        For Years : {{years}} &ensp;
+        Months : {{months}} &ensp;
+        Days : {{days}}<br>
+        Emi is : {{emi}}&ensp; &ensp;Per {{typ}}<br>
+        Total intrest : {{totalint}}<br>
+        Total Amount : {{totalamt}}<br>
+        No of installment in advance : {{no}}<br>
+        <b>Forclosure Details</b> <br> Installment no : {{Install_no}}
+        <br> Bank charges : {{Bcharges}}
+        <br> Gst : {{gst}}
+         <br> Remaining balance :{{p}}
+         <br>Forclosure charges :{{c}}
+         <br>Total payment :  {{fc}}
+
+    </p>  
+    ">Mail me</a>
+</body>
+</html>

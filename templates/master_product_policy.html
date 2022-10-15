@@ -1,0 +1,145 @@
+{% extends 'base/base.html' %} {% load static %} {% block other_body %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Master-Product & Policy</title>
+
+ 
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Product & Policy Master</h1>
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <a href="add_prd_ply" class="btn btn-primary btn-icon-split">
+                  <span class="icon text-white-50">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  <span class="text">Add Product & Policy</span>
+                </a>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Edit</th>
+                        <th>ID</th>
+                        <th>Product & Policy ID</th>
+                        <th>Bank Name</th>
+                        <th>Product Name</th>
+                        <th>Customer Type</th>
+                        <th>Co-Categories</th>
+                        <th>Effective Date</th>
+                        <th>In-Effective Date</th>
+                        <th>Turn to ineffective</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in a %}
+                      <tr>
+                        <td>{{item.id}}</td>
+                        <td>
+                          <a href="pp_edit/{{item.id}}">
+                            <span class="icon text-black-50">
+                              <i class="fas fa-edit"></i>
+                            </span>
+                          </a>
+                        </td>
+                        <td>{{item.pp_id}}</td>
+                        <td>
+                          {{ item.bank_names|slice:":4" }}{{
+                          item.prod_name|slice:":3"|upper }}{{
+                          item.type_of_cust|slice:":3"|upper }}
+                        </td>
+                        <td>{{item.bank_names}}</td>
+                        <td>{{item.prod_name}}</td>
+                        <td>{{item.type_of_cust}}</td>
+                        <td>
+                          {% for k in c %} {% if item.id == k.ppid6_id %} {{
+                          k.cocat_types }}, {% endif %} {% endfor %}
+                        </td>
+                        <td>{{item.eff_date}}</td>
+                        <td>
+                          {% if item.ineff_date == '' %} NULL {% else %}
+                          {{item.ineff_date}} {% endif %}
+                        </td>
+                        <td>
+                          <a href="ineff/{{item.id}}">
+                            <span class="icon text-black-50">
+                              <i class="far fa-calendar-alt"></i>
+                            </span>
+                          </a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Your Website 2019</span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    {% include 'logout.html' %}
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+  </body>
+</html>
+
+{% endblock other_body%}

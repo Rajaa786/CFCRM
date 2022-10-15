@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Flat calculator</title>
+    <style>
+      input[type="number"]::placeholder {  
+          
+       text-align: right; 
+       } 
+    </style>
+</head>
+   <body >
+            <form action = "/" method = "post">{% csrf_token %}
+                  <h1 >EMI CALCULATOR</h1>
+                  <input type="radio" id="male" name="type" value=1>
+                  <label>flat rate</label>
+                  <input type="radio" id="female" name="type" value=2 checked>
+                  <label >reducing rate</label>
+                  <a href='/advance'>advance emi</a><br>
+                  <label>Enter Amount:<input  placeholder="Amount" type = "number" name = "amount" value="{{amt}}" min='1'  oninvalid="alert('You must fill amount!');" required /></label><br>
+                  <label>Enter intrest:<input id="inp3"  placeholder="Intrest"type = "number" name = "intrest" value="{{intr}}"  step="0.01" min="0" max="100" required/></label><br>
+                  <label>Enter Peroid:<input id="inp4" placeholder="years"type = "number" name = "years" value="{{years}}" /><sub>Years</sub><br>
+                  <input id="inp1" type = "number" placeholder="Months" name = "months" value="{{months}}" /><sub>Months</sub><br>
+                  <input  id="inp2" type = "number" name = "days"  placeholder="Days"value="{{days}}" /><sub>Days</sub></label><br>
+                  <label>Select Tenure :
+                     <select  name="options">
+                        <option  name="options" id="option1" value=1>Half yearly</option>
+                        <option   name="options" id="option2" value=2>Quaterly</option>
+                        <option  name="options" id="option3" value=3 selected>Monthly</option>
+                        <option  name="options" id="option4" value=4>Fourthly nightly</option>
+                        <option  name="options" id="option5" value=5>Weekly</option>
+                        <option   name="options" id="option6" value=6>Daily</option>
+                      </select>
+                  </label><br>
+                  
+                     <label><input   id='but' type = "submit" value = "submit" /></label><br>
+                     <label >Emi is : {{emi}} </label>&ensp;Per {{typ}}<br>
+                     <label>Intrest is : {{totalint}}</label><br>
+                     <label>Total payment : {{totalamt}}</label><br>
+                     <a href='/fdetails'>generate report </a><br>
+                  <div id="piechart"></div>
+
+                  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                  
+                  <script type="text/javascript">
+                  google.charts.load('current', {'packages':['corechart']});
+                  google.charts.setOnLoadCallback(drawChart);
+                  
+                  function drawChart() {
+                    var a=JSON.parse('{{amt}}');
+                    var i=JSON.parse('{{totalint}}');
+                    var data = google.visualization.arrayToDataTable([
+                    ['Task', 'Hours per Day'],
+                    ['Amount', a],
+                    ['Intrest', i],
+           
+                  ]);
+                  
+                    var options = {'title':'Pie chart', 'width':550, 'height':400};
+                  
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    chart.draw(data, options);
+                  }
+                  </script>
+            </form>
+   </body>
+</html>

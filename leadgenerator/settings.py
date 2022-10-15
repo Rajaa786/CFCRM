@@ -54,7 +54,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'stronghold',
-    'mathfilters'
+    'mathfilters',
+    'customer',
+    'import_export',
+    'crm_app'
 ]
 
 MIDDLEWARE = [

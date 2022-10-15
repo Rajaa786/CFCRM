@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>calculator</title>
+    <style>
+     input[type="number"]::placeholder {  
+         
+      text-align: right; 
+      } 
+   </style>
+</head>
+   <body>
+    <div id="container">  
+        <form action = "index_calc" method = "post">{% csrf_token %}
+              <h1 >EMI CALCULATOR</h1>
+              <input type="radio" id="male" name="type" value=1>
+              <label >flat rate</label>
+              <input type="radio" id="female" name="type" value=2 checked>
+              <label >reducing rate</label>
+              <a href='advance'>advance emi</a><br>
+              <label>Enter Amount:<input  placeholder="Amount" type = "number" name = "amount" min='1000'  oninvalid="alert('You must fill amount!');" required /></label><br>
+              <label>Enter intrest:<input id="inp3"  placeholder="Intrest"type = "number" name = "intrest"  step="0.01" min="0" max="100" required/></label><br>
+              <label>Enter Peroid:<input id="inp4" placeholder="years"type = "number" name = "years" /><sub>Years</sub><br>
+              <input id="inp1" type = "number" placeholder="Months" name = "months" /><sub>Months</sub><br>
+              <input  id="inp2" type = "number" name = "days"  placeholder="Days" /></label><sub>Days</sub><br>
+              <label>Select Tenure :
+                 <select  name="options" >
+                    <option  name="options" id="option1" value=1>Half yearly</option>
+                    <option   name="options" id="option2" value=2>Quaterly</option>
+                    <option  name="options" id="option3" value=3 selected>Monthly</option>
+                    <option  name="options" id="option4" value=4>Fourthly nightly</option>
+                    <option  name="options" id="option5" value=5>Weekly</option>
+                    <option   name="options" id="option6" value=6>Daily</option>
+                  </select>
+              </label><br>
+              <h2>Enter for forclosure </h2>
+              <label>Install_no:<input id="inp4"  placeholder="Install_no"type = "number" name = "Install_no"   min="0" /></label><br>
+              <label>Bank charges:<input id="inp5"  placeholder="Bank charges"type = "number" name = "Bank charges"  step="0.01" min="0" max="100" /></label><br>
+              <label>GST:<input id="inp6"  placeholder="GST"type = "number" name = "GST"  step="0.01" min="0" max="100" value="18" /></label><br>
+
+
+              <div id="center">          
+                <label><input   id='but' type = "submit" value = "submit" /></label><br>
+           
+             </div>
+ 
+        </form>
+     </div>
+   </body>
+</html>

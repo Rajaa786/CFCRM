@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reducing calculator</title>
+    <style>
+      input[type="number"]::placeholder {  
+          
+       text-align: right; 
+       } 
+    </style>
+</head>
+   <body >
+            <form action = "/" method = "post">{% csrf_token %}
+                  <h1 >EMI CALCULATOR</h1>
+                  <input type="radio" id="male" name="type" value=1>
+                  <label>flat rate</label>
+                  <input type="radio" id="female" name="type" value=2 checked>
+                  <label >reducing rate</label>
+                  <a href='/advance'>advance emi</a><br>
+                  <label>Enter Amount:<input  placeholder="Amount" type = "number" name = "amount" value="{{amt}}" min='1'  oninvalid="alert('You must fill amount!');" required /></label><br>
+                  <label>Enter intrest:<input id="inp3"  placeholder="Intrest"type = "number" name = "intrest" value="{{intr}}"  step="0.01" min="0" max="100" required/></label><br>
+                  <label>Enter Peroid:<input id="inp4" placeholder="years"type = "number" name = "years" value="{{years}}" /><sub>Years</sub><br>
+                  <input id="inp1" type = "number" placeholder="Months" name = "months" value="{{months}}" /><sub>Months</sub><br>
+                  <input  id="inp2" type = "number" name = "days"  placeholder="Days"value="{{days}}" /><sub>Days</sub></label><br>
+                  <label>Select Tenure :
+                     <select  name="options">
+                        <option  name="options" id="option1" value=1>Half yearly</option>
+                        <option   name="options" id="option2" value=2>Quaterly</option>
+                        <option  name="options" id="option3" value=3 selected>Monthly</option>
+                        <option  name="options" id="option4" value=4>Fourthly nightly</option>
+                        <option  name="options" id="option5" value=5>Weekly</option>
+                        <option   name="options" id="option6" value=6>Daily</option>
+                      </select>
+                  </label><br>
+                     
+                     <br><label >Emi is : {{emi}} &ensp;Per {{typ}}</label><br>
+                     <label>Intrest is : {{totalint}}</label><br>
+                     <label>Total payment : {{totalamt}}</label><br>
+                  <b>For Forclosure ...</b><br>
+                  <label>Install_no:<input id="inp4"  placeholder="Install_no"type = "number" name = "Install_no"   min="0" value="{{Install_no}}" /></label><br>
+                  <label>Bank charges:<input id="inp5"  placeholder="Bank charges"type = "number" name = "Bank charges"  step="0.01" min="0" max="100" value="{{Bcharges}}" /></label><br>
+                  <label>GST:<input id="inp6"  placeholder="GST" type = "number" name = "GST"  step="0.01" min="0" max="100" value="{{gst}}" /></label><br>
+                  <label>Remaining balance : {{p }} </label><br>
+                  <label>Forclosure charges : {{c }} </label><br>
+                  <label>Total payment charges : {{fc }} </label><br>
+                  <label><input   id='but' type = "submit" value = "submit" /></label><br>
+
+                  <a href='/details'>generate report</a><br>
+                  
+                  <div id="piechart"></div>
+
+                  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                  
+                  <script type="text/javascript">
+                  google.charts.load('current', {'packages':['corechart']});
+                  google.charts.setOnLoadCallback(drawChart);
+                  
+                  function drawChart() {
+                    var a=JSON.parse('{{amt}}');
+                    var i=JSON.parse('{{totalint}}');
+                    var data = google.visualization.arrayToDataTable([
+                    ['Task', 'Hours per Day'],
+                    ['Amount', a],
+                    ['Intrest', i],
+           
+                  ]);
+                  
+                    var options = {'title':'Pie chart', 'width':550, 'height':400};
+                  
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    chart.draw(data, options);
+                  }
+                  </script>
+                  <h2 ><p><ul>Amortization sheet</ul></p></h2>
+                  <table>
+                           <tr>
+                                 <td id="c1">installment</td>
+                                 <td id="c2">intrest</td>
+                                 <td id="c3">payment</td>
+                                 <td id="c4">Emi</td>
+                                 <td id="c5">balance</td>
+                           </tr>
+                  </table>
+                  <script>
+                        var months =JSON.parse('{{l1}}');
+                        var intrest =JSON.parse('{{l4}}');
+                        var pri_pay=JSON.parse('{{l5}}');
+                        var remain =JSON.parse('{{l6}}');
+                        var emi=JSON.parse('{{emi}}')
+                        var text = "";
+                        
+                        for (var i = 0; i < months.length; i++) 
+                        {
+                        
+                           text +='<tr>';
+
+                           text += '<td id="c1">' +months[i] +'</td>';
+                           text +='<td id="c2">' +intrest[i]    +'</td>';
+                           text += '<td id="c3">'+pri_pay[i] +'</td>' ;
+                           text +='<td id="c4">' + emi + '</td>';
+                           text +='<td id="c5">'+ remain[i] +'</td>' ;
+                           
+                           text +='</tr>';
+                        }
+                        document.write('<table>' + text + '</table>')
+                  
+                  </script> 
+            </form>
+   </body>
+</html>

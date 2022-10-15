@@ -1,0 +1,490 @@
+{% load static %}
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin 2 - Animation Utilities</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <style>
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 2px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
+
+.button5 {
+  background-color: white;
+  color: black;
+  border: 2px solid #FFFFFF;
+}
+  </style>
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  {% include 'sidebar.html' %}
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      {% include 'topbar.html' %}
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-1 text-gray-800">Edit Customer Details</h1>
+        <br><br>
+        <!-- Content Row -->
+        <div class="row">
+
+          <!-- Fade In Utility -->
+          <div class="col">
+
+            <div class="card position-relative">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Customer Details</h6>
+              </div>
+              <div class="card-body">
+                <form method="POST" class="user" action="cust_edit_table" id="form" onsubmit = "validateform()" data-company-url="{% url 'ajax_load_company' %}" data-cocat-url="{% url 'ajax_load_cocat' %}">
+                  {% csrf_token %}
+
+                  <input type="hidden" value={{prd.id}} name="id">
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Name:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.name}}" type="text" style="width:300px" name = "name" readonly>
+                    </div>
+                    <label class="col-2" style="color: black"><b>Mobile No.:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.mobile}}" type="text" style="width:300px" name = "mobile" readonly>
+                    </div>
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Email:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.email}}" type="text" style="width:300px" name = "email" readonly>
+                    </div>
+                    <label class="col-2" style="color: black"><b>Cibil Score:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.cibil_score}}" type="text" style="width:300px" name = "cibil_score">
+                    </div>
+                  </div>
+
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Bank Name:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.bank_name}}" type="text" style="width:300px" name = "bank_name">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Gross Salary:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.gross_sal}}" type="text" style="width:300px" name = "gross_sal">
+                    </div>
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Net Salary:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.net_sal}}" type="text" style="width:300px" name = "net_sal">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Age:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.age}}" type="text" style="width:300px" name = "age">
+                    </div>
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Retirement Age:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.retire_age}}" type="text" style="width:300px" name = "retire_age">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Company Type:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="company_type">
+                        <option selected>{{prd.company_type}} </option>
+                        {% for j in com_type %}
+                        <option style="background:lightgoldenrodyellow" value={{ j.co_type }}>{{ j.co_type }}</option>
+                        {% endfor %}
+                      </select>
+
+                      <!-- <input class="form-control" value="{{prd.company_type}}" type="text" style="width:300px" name = "company_type"> -->
+                    </div>
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Loan Amount:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.loan_amt}}" type="text" style="width:300px" name = "loan_amt">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Company Name:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="company_name">
+                        <option selected>{{prd.company_name}} </option>
+                        {% for j in com %}
+                        <option style="background:lightgoldenrodyellow" value={{ j.compName }}>{{ j.compName }}</option>
+                        {% endfor %}
+                      </select>
+
+                      <!-- <input class="form-control" value="{{prd.company_type}}" type="text" style="width:300px" name = "company_type"> -->
+                    </div>
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Designation:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.designation}}" type="text" style="width:300px" name = "designation">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Designation Type:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="designation_type">
+                        <option selected> {{prd.designation_type}} </option>
+                        {% for i in des %}
+                        <option style="background:lightgoldenrodyellow"  value={{i.design}}>{{i.design}}</option>
+                        {% endfor %}
+                      </select>
+
+                      <!-- <input class="form-control" value="{{prd.designation_type}}" type="text" style="width:300px" name = "designation_type"> -->
+                    </div>
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Current Experience:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.current_exp}}" type="text" style="width:300px" name = "current_exp">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Total Experience:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.total_exp}}" type="text" style="width:300px" name = "total_exp">
+                    </div>
+                  </div>
+
+
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Employment Type:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="emp_type">
+                        <option selected> {{prd.emp_type}} </option>
+                        <option style="background:lightgoldenrodyellow" value="Permanent">Permanent</option>
+                        <option style="background:lightgoldenrodyellow" value="Temporary">Temporary</option>
+                        <option style="background:lightgoldenrodyellow" value="Contractual">Contractual</option>
+                        <option  style="background:lightgoldenrodyellow"value="Consulting">Consulting</option>
+                        <option style="background:lightgoldenrodyellow" value="Freelancer">Freelancer</option>
+                        <option style="background:lightgoldenrodyellow" value="Internship">Internship</option>
+                      </select>
+
+                      <!-- <input class="form-control" value="{{prd.emp_type}}" type="text" style="width:300px" name = "emp_type"> -->
+                    </div>
+                    <label class="col-2" style="color: black"><b>Form 16:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="form_16">
+                        <option selected>{{prd.form_16}}</option>
+                        <option style="background:lightgoldenrodyellow" value="yes">Yes</option>
+                        <option  style="background:lightgoldenrodyellow" value="no">No</option>
+                      </select>
+
+                      <!--  <input class="form-control" value="{{prd.form_16}}" type="text" style="width:300px" name = "form_16"> -->
+                    </div>
+                  </div>
+
+
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Residence Type:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.residence_type}}" type="text" style="width:300px" name = "residence_type">
+                    </div>
+                    <label class="col-2" style="color: black"><b>State:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.stt}}" type="text" style="width:300px" name = "stt">
+                    </div>
+                  </div>
+
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>City:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.sttt}}" type="text" style="width:300px" name = "sttt">
+                    </div>
+                    <label class="col-2" style="color: black"><b>Tenure:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="ten">
+
+                        <option selected value={{prd.tenure}}> {{prd.tenure}} </option>
+                        {% for j in t %}
+                        <option style="background:lightgoldenrodyellow" value={{ j.tenure }}>{{ j.tenure }}</option>
+                        {% endfor %}
+                      </select>
+                      <!--  <input class="form-control" value="{{prd.tenure}}" type="text" style="width:300px" name = "tenure"> -->
+                    </div>
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <label class="col-2" style="color: black"><b>Customer Type:</b></label>
+                    <div class="mr-3">
+                      <select class="custom-select col-10" style="width:300px" name="custo_type">
+                        <option selected> {{prd.custo_type}} </option>
+                        {% for j in custo_type %}
+                        <option style="background:lightgoldenrodyellow"  value={{ j.type }}>{{ j.type }}</option>
+                        {% endfor %}
+                      </select>
+
+                      <!--<input class="form-control" value="{{prd.custo_type}}" type="text" style="width:300px" name = "custo_type"> -->
+                    </div>
+                    <label class="col-2" style="color: black"><b>Loan Type:</b></label>
+                    <div class="mr-3">
+                      <input class="form-control" value="{{prd.loan_type}}" type="text" style="width:300px" name = "loan_type">
+                    </div>
+                  </div>
+                  <div style="text-align:center">
+                    <button class="btn btn-primary mr-3" type="submit">Update</button>
+                  </div>
+                </form>
+              {% if loancal == 1 %}
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Loan Details</h6>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                      <thead>
+                      <tr>
+                        <th>Bank Name</th>
+                        <th>Product Name</th>
+                        <th>Loan</th>
+                        <th>EMI</th>
+                        <th>Rate of Interest</th>
+                        <th>EMI Start Date</th>
+                        <th>EMI End Date</th>
+                        <th>Bounces</th>
+                        <th>Moratorium</th>
+                        <th>Edit</th>
+
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for k in loan %}
+                      {% if k.uid_id == prd.id %}
+                      <form method="POST" class="user" action="/crm_app/loan_edit" onsubmit="return confirm('Are You Sure You Want To Edit ?')">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{k.id}}" name="id">
+                        <input type="hidden" value="{{prd.id}}" name="custid">
+                        <tr>
+                          <td>{{k.bank}}</td>
+                          <td>{{k.product}}</td>
+                          <td>{{k.loan}}</td>
+                          <td>{{k.emi}}</td>
+                          <td>{{k.roi}}</td>
+                          <td>{{k.emi_start}}</td>
+                          <td>{{k.emi_end}}</td>
+                          <td>{{k.bounces}}</td>
+                          <td>{{k.moratorium}}</td>
+                          <td>
+                            <button type="submit" class="button button5">
+                                            <span class="icon text-black-50">
+                                              <i class="fa fa-edit"></i>
+                                            </span>
+                            </button>
+                          </td>
+                        </tr>
+                      </form>
+                      {% endif %}
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              {% endif %}
+              {% if creditcal == 1 %}
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Credit Details</h6>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                      <thead>
+                      <tr>
+                        <th>Bank Name</th>
+                        <th>Credit Limit</th>
+                        <th>Limit Utilize</th>
+                        <th>Card Age</th>
+                        <th>Payment Delay</th>
+                        <th>Moratorium</th>
+                        <th>Edit</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for k in credit %}
+                      {% if k.uid_id == prd.id %}
+                      <form method="POST" class="user" action="/crm_app/credit_edit" onsubmit="return confirm('Are You Sure You Want To Edit ?')">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{k.id}}" name="id">
+                        <input type="hidden" value="{{prd.id}}" name="custid">
+                        <tr>
+                          <td>{{k.bank}}</td>
+                          <td>{{k.credit_limit}}</td>
+                          <td>{{k.limit_utilize}}</td>
+                          <td>{{k.card_age}}</td>
+                          <td>{{k.payment_delay}}</td>
+                          <td>{{k.moratorium}}</td>
+                          <td>
+                            <button type="submit" class="button button5">
+                                            <span class="icon text-black-50">
+                                              <i class="fa fa-edit"></i>
+                                            </span>
+                            </button>
+                          </td>
+                        </tr>
+                      </form>
+                      {% endif %}
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              {% endif %}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<footer>
+  <center><p></br></p></center>
+</footer>
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+{% include 'logout.html' %}
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+    $("#bank_name").on('change', function() {
+      var url = $("#form").attr("data-company-url");
+      var bankname = $(this).val();
+
+
+      $.ajax({
+        url : url,
+        data: {
+          'bank': bankname
+        },
+        success: function(data){
+          $("#company_name").html(data);
+        }
+      });
+    });
+  </script>
+
+<script>
+    $("#company_name").on('change', function() {
+      var url = $("#form").attr("data-cocat-url");
+      var companyname = $(this).val();
+
+
+      $.ajax({
+        url : url,
+        data: {
+          'company': companyname
+        },
+        success: function(data){
+          $("#cocat_type").html(data);
+        }
+      });
+    });
+  </script>
+
+<script type="text/javascript">
+    function validate()
+    {
+      var cust_type = document.form.cust_type.value;
+      var loan_type = document.form.loan_type.value;
+      var bank_name = document.form.bank_name.value;
+      var cocat_type = document.form.cocat_type.value;
+      var salary_type = document.form.salary_type.value;
+      var designation = document.form.designation.value;
+      var min_age = document.form.min_age.value;
+      var max_age = document.form.max_age.value;
+      var current_exp = document.form.current_exp.value;
+      var total_exp = document.form.total_exp.value;
+      var cibil_score = document.form.cibil_score.value;
+      var tenure = document.form.tenure.value;
+
+      if (cust_type == null || loan_type == null || bank_name == null || cocat_type == null ||
+      salary_type == null || designation == null || min_age == null || max_age == null || current_exp == null ||
+      total_exp == null || cibil_score == null || tenure == null)
+      {
+        alert("All Fields Are Mandatory!");
+      }
+    }
+  </script>
+
+
+</body>
+
+</html>

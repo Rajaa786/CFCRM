@@ -1,0 +1,621 @@
+{% load static %}
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin 2 - Animation Utilities</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <style>
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
+
+.button5 {
+  background-color: white;
+  color: black;
+  border: 2px solid #FFFFFF;
+}
+  </style>
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include 'sidebar.html' %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        {% include 'topbar.html' %}
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-1 text-gray-800">Edit Product Policy Master</h1>
+          <br><br>
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Fade In Utility -->
+            <div class="col">
+
+              <div class="card position-relative">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Product Policy Master</h6>
+                </div>
+                <div class="card-body">
+                  <form method="POST" class="user" action="pp_edit_table" id="form" onsubmit = "validateform()">
+                    {% csrf_token %}
+
+                    <input type="hidden" value={{prd.id}} name="id">
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Product Policy ID:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="pp_id" style="width:300px" value="{{prd.pp_id}}" readonly>
+                      </div>
+                      <label class="col-2" style="color: black"><b>Product Name:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="prod_name" style="width:300px" value="{{prd.prod_name}}" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Bank Name:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="bank_names" style="width:300px" value="{{prd.bank_names}}" readonly>
+                      </div>
+                      <label class="col-2" style="color: black"><b>Customer Type:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="type_of_cust" style="width:300px" value="{{prd.type_of_cust}}" >
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Salaried Account:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="salary_acc" style="width:300px" value="{{prd.salary_acc}}">
+                      </div>
+                      <label class="col-2" style="color: black"><b>Designation:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="designs" style="width:300px" value="{{prd.designs}}">
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Minimum Age:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="min_age" style="width:300px" value="{{prd.min_age}}">
+                      </div>
+                      <label class="col-2" style="color: black"><b>Maximum Age:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="max_age" style="width:300px" value="{{prd.max_age}}">
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Current Experience:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="current_exp" style="width:300px" value="{{prd.current_exp}}">
+                      </div>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-2" style="color: black"><b>Effective Date:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="eff_date" style="width:300px" value="{{prd.eff_date}}" readonly>
+                      </div>
+                      <label class="col-2" style="color: black"><b>Ineffective Date:</b></label>
+                      <div class="mr-3">
+                        <input type="text" class="form-control" name="ineff_date" style="width:300px" value="
+                          {% if prd.ineff_date == '' %}
+                            NULL
+                          {% else %}
+                            {{prd.ineff_date}}
+                          {% endif %}
+                        " readonly>
+                      </div>
+                    </div>
+                    <div style="text-align:center">
+                    <button class="btn btn-primary mr-3" type="submit">Update</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <br>
+              <div class="card position-relative">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">FOIR</h6>
+                </div>
+                <div class="card-header py-3">
+                  <a href="/crm_app/add_foir" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">Add FOIR</span>
+                  </a>
+                </div>
+
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable7" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Product Policy</th>
+                          <th>Net Salary Range</th>
+                          <th>Foir Percent</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in foir %}
+                          {% if i.ppid7_id == prd.id %}
+                            <tr>
+                              <td>{{ i.id }}</td>
+                              <td>{{ i.ppid7 }}</td>
+                              <td>{{ i.min_amt }} - {{ i.max_amt }}</td>
+                              <td>{{ i.cutoff }}%</td>
+                              <td>
+                                  <a href="/crm_app/foir_edit/{{i.id}}">
+                                    <span class="icon text-black-50">
+                                      <i class="fas fa-edit"></i>
+                                    </span>
+                                  </a>
+                              </td>
+                              <td>
+                                <form action="{% url 'foir_delete' i.id %}" method="POST" onsubmit="return confirm('Are You Sure You Want To Delete ?')">
+                                  {% csrf_token %}
+                                  <button class="button button5" type="submit">
+                                    <span class="icon text-black-50">
+                                      <i class="fa fa-trash"></i>
+                                    </span>
+                                  </button>
+                                 </form>
+                              </td>
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="card position-relative">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Minimum Cibil</h6>
+                </div>
+                <div class="card-header py-3">
+                  <a href="/crm_app/add_cibil" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">Add Cibil Score</span>
+                  </a>
+                </div>
+
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>Cibil ID</th>
+                          <th>Product Policy</th>
+                          <th>Minimum Cibil Score</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in cibil %}
+                          {% if i.ppid4_id == prd.id %}
+                              <tr>
+                                <td>{{ i.id }}</td>
+                                <td>{{ i.ppid4 }}</td>
+                                <td>{{ i.cibil_type }}</td>
+                              <td>
+                                  <form action="{% url 'cibil_edit' i.id %}" method="POST" onsubmit="return confirm('Are You Sure You Want to Edit ?')">
+                                    {%csrf_token %}
+                                    <button class="button button5" type="submit">
+                                       <span class="icon text-black-50">
+                                          <i class="fas fa-edit"></i>
+                                       </span>
+                                    </button>
+                                  </form>
+                              </td>
+                              <td>
+                                 <form action="{% url 'cibil_delete' i.id %}" method="POST" onsubmit="return confirm('Are You Sure You Want To Delete ?')">
+                                  {% csrf_token %}
+                                  <button class="button button5" type="submit">
+                                    <span class="icon text-black-50">
+                                      <i class="fa fa-trash"></i>
+                                    </span>
+                                  </button>
+                                 </form>
+                              </td>
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="card position-relative">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Tenure</h6>
+                </div>
+                <div class="card-header py-3">
+                  <a href="/crm_app/add_tenure" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">Add Tenure</span>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>Tenure ID</th>
+                          <th>Product Policy</th>
+                          <th>Tenure</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in tenure %}
+                          {% if i.ppid5_id == prd.id %}
+                            <tr>
+                                <td>{{ i.id }}</td>
+                                <td>{{ i.ppid5 }}</td>
+                                <td>{{ i.ten_type }}</td>
+                              <td>
+                                  <a href="/crm_app/tenure_edit/{{i.id}}">
+                                    <span class="icon text-black-50">
+                                      <i class="fas fa-edit"></i>
+                                    </span>
+                                  </a>
+                              </td>
+                              <td>
+                                 <form action="{% url 'tenure_delete' i.id %}" method="POST" onsubmit="return confirm('Are You Sure You Want To Delete ?')">
+                                  {% csrf_token %}
+                                  <button class="button button5" type="submit">
+                                    <span class="icon text-black-50">
+                                      <i class="fa fa-trash"></i>
+                                    </span>
+                                  </button>
+                                 </form>
+                              </td>
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="card position-relative">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Co-Category Type</h6>
+                </div>
+                <div class="card-header py-3">
+                  <a href="/crm_app/add_cocat_type" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">Add Co-Category Type</span>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Product Policy</th>
+                          <th>Co-Category Type</th>
+                          <th>Multiplier</th>
+                          <th>ROI</th>
+                          <th>Loan Amount</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in cocat %}
+                          {% if i.ppid6_id == prd.id %}
+                            <tr>
+                              <td>{{ i.id }}</td>
+                              <td>{{ i.ppid6 }}</td>
+                              <td>{{ i.cocat_types }}</td>
+                              <td>{{ i.cocat_no }}</td>
+                              <td>{{i.roi}}</td>
+                              <td>{{ i.min_loan_amt }}-{{ i.max_loan_amt }}</td>
+
+                              <td>
+                                  <a href="/crm_app/cocat_type_edit/{{i.id}}">
+                                    <span class="icon text-black-50">
+                                      <i class="fas fa-edit"></i>
+                                    </span>
+                                  </a>
+                              </td>
+                              <td>
+                                 <form action="{% url 'cocat_type_delete' i.id %}" method="POST" onsubmit="return confirm('Are You Sure You Want To Delete ?')">
+                                  {% csrf_token %}
+                                  <button class="button button5" type="submit">
+                                    <span class="icon text-black-50">
+                                      <i class="fa fa-trash"></i>
+                                    </span>
+                                  </button>
+                                 </form>
+                              </td>
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="card position-relative">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Company Type</h6>
+                </div>
+                <div class="card-header py-3">
+                  <a href="/crm_app/add_company_type" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">Add Company Type</span>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable3" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>Company Type ID</th>
+                          <th>Product Policy</th>
+                          <th>Company Type</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in company %}
+                          {% if i.ppid_id == prd.id %}
+                            <tr>
+                                <td>{{ i.id }}</td>
+                                <td>{{ i.ppid }}</td>
+                                <td>{{ i.comp_type }}</td>
+                              <td>
+                                  <a href="/crm_app/company_type_edit/{{i.id}}">
+                                    <span class="icon text-black-50">
+                                      <i class="fas fa-edit"></i>
+                                    </span>
+                                  </a>
+                              </td>
+                              <td>
+                                 <form action="{% url 'company_type_delete' i.id %}" method="POST" onsubmit="return confirm('Are You Sure You Want To Delete ?')">
+                                  {% csrf_token %}
+                                  <button class="button button5" type="submit">
+                                    <span class="icon text-black-50">
+                                      <i class="fa fa-trash"></i>
+                                    </span>
+                                  </button>
+                                 </form>
+                              </td>
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="card position-relative">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Salary Type</h6>
+                </div>
+                <div class="card-header py-3">
+                  <a href="/crm_app/add_salary_type" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">Add Salary Type</span>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable4" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Product policy</th>
+                          <th>Salary type</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in salary %}
+                          {% if i.ppid1_id == prd.id %}
+                            <tr>
+                              <td>{{ i.id }}</td>
+                              <td>{{ i.ppid1 }}</td>
+                              <td>{{ i.sal_type }}</td>
+                              <td>
+                                  <a href="/crm_app/salary_type_edit/{{i.id}}">
+                                    <span class="icon text-black-50">
+                                      <i class="fas fa-edit"></i>
+                                    </span>
+                                  </a>
+                              </td>
+                              <td>
+                                 <form action="{% url 'salary_type_delete' i.id %}" method="POST" onsubmit="return confirm('Are You Sure You Want To Delete ?')">
+                                  {% csrf_token %}
+                                  <button class="button button5" type="submit">
+                                    <span class="icon text-black-50">
+                                      <i class="fa fa-trash"></i>
+                                    </span>
+                                  </button>
+                                 </form>
+                              </td>
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="card position-relative">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Residence Type</h6>
+                </div>
+                <div class="card-header py-3">
+                  <a href="/crm_app/add_residence_type" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">Add Residence Type</span>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable5" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Product Policy</th>
+                          <th>Residence Type</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in res %}
+                          {% if i.ppid2_id == prd.id %}
+                            <tr>
+                              <td>{{ i.id }}</td>
+                              <td>{{ i.ppid2 }}</td>
+                              <td>{{ i.res_type }}</td>
+                              <td>
+                                  <a href="/crm_app/residence_type_edit/{{i.id}}">
+                                    <span class="icon text-black-50">
+                                      <i class="fas fa-edit"></i>
+                                    </span>
+                                  </a>
+                              </td>
+                              <td>
+                                <form action="{% url 'residence_type_delete' i.id %}" method="POST" onsubmit="return confirm('Are You Sure You Want To Delete ?')">
+                                  {% csrf_token %}
+                                  <button class="button button5" type="submit">
+                                    <span class="icon text-black-50">
+                                      <i class="fa fa-trash"></i>
+                                    </span>
+                                  </button>
+                                 </form>
+                              </td>
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <footer>
+  <center><p></br></p></center>
+  </footer>
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  {% include 'logout.html' %}
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  <script type="text/javascript">
+    function validate()
+    {
+      var cust_type = document.form.cust_type.value;
+
+      if (cust_type == null)
+      {
+        alert("All Fields Are Mandatory!");
+      }
+    }
+  </script>
+
+
+</body>
+
+</html>

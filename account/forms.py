@@ -7,7 +7,6 @@ from django.forms.widgets import EmailInput, NumberInput, TextInput
 from .models import *
 from django.db.models import Q
 
-
 class LeadsForm(ModelForm):
     class Meta:
         model = Leads
