@@ -12,6 +12,71 @@ from stronghold.decorators import public
 
 # Create your views here.
 
+#-------------------------- Newly Created methods -----------------------------------------------
+
+def CompanyName_form(request):
+    if request.method == 'POST':
+        companynameformvalue = request.POST['CompanyName'].strip()
+        effective_date = date.today()
+        ineffective_date = request.POST['CompanyNameIdate']
+        if CompanyName.objects.filter(company_name=companynameformvalue).exists():
+            messages.info(request, 'Company Name already exists')
+            return redirect('Master_details')
+        else :
+            newcompanytype = CompanyName.objects.create(company_name=companynameformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+            newcompanytype.save()
+            return redirect('Master_details')
+
+    return render(request, 'master/master_details.html')
+
+
+def CompanyType_form(request):
+    if request.method == 'POST':
+        companytypeformvalue = request.POST['CompanyType'].strip()
+        effective_date = date.today()
+        ineffective_date = request.POST['CompanyTypeIdate']
+        if CompanyType.objects.filter(company_type=companytypeformvalue).exists():
+            messages.info(request, 'Company Type already exists')
+            return redirect('Master_details')
+        else :
+            newcompanytype = CompanyType.objects.create(company_type=companytypeformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+            newcompanytype.save()
+            return redirect('Master_details')
+
+    return render(request, 'master/master_details.html')
+
+
+def CompanyCat_form(request):
+    if request.method == 'POST':
+        companycatformvalue = request.POST['CompanyCat'].strip()
+        effective_date = date.today()
+        ineffective_date = request.POST['CompanyCatIdate']
+        if CompanyCat.objects.filter(company_cat=companycatformvalue).exists():
+            messages.info(request, 'Company Category already exists')
+            return redirect('Master_details')
+        else :
+            newcompanycat = CompanyCat.objects.create(company_cat=companycatformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+            newcompanycat.save()
+            return redirect('Master_details')
+
+    return render(request, 'master/master_details.html')
+
+
+def Tenure_form(request):
+    if request.method == 'POST':
+        tenureformvalue = request.POST['Tenure'].strip()
+        effective_date = date.today()
+        ineffective_date = request.POST['TenureIdate']
+        if Tenure.objects.filter(tenure=tenureformvalue).exists():
+            messages.info(request, 'Tenure already exists')
+            return redirect('Master_details')
+        else :
+            newtenure = Tenure.objects.create(tenure=tenureformvalue,effective_date = effective_date,ineffective_date=ineffective_date)
+            newtenure.save()
+            return redirect('Master_details')
+
+    return render(request, 'master/master_details.html')
+#------------------------------------------------------------------------------------------------
 
 def Agreementtype_form(request):
     if request.method == 'POST':
@@ -415,6 +480,7 @@ def City_form(request):
 @login_required(redirect_field_name='login', login_url='login')
 def Masterdetails(request):
     # print(SubProduct.objects.all()[0].product.product)
+    print(CompanyCat.objects.all()[0].id)
     context = {
         'qualifications': Qualification.objects.all(),
         'professions': Profession.objects.all(),
@@ -439,16 +505,9 @@ def Masterdetails(request):
         'ayyears': AYYear.objects.all(),
         'agreementtypes': AgreementType.objects.all(),
         'stageOfconstructions': StageOfConstruction.objects.all(),
-        'rejectiontypes': RejectionType.objects.all(),
+        'rejectiontypes'      : RejectionType.objects.all(),
     }
     return render(request, 'master/master_details.html', context=context)
-
-
-def master_product_policy(request):
-    a = prod_policy_master.objects.all()
-    cocat = pp_cocat_type.objects.all()
-    return render(request, 'master_product_policy.html', {'a': a, 'c': cocat})
-
 
 def editqualification(request, id):
     if request.method == 'POST':
